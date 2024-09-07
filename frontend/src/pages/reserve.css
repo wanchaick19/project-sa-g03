@@ -1,0 +1,50 @@
+.lock-button {
+    
+  }
+  
+  .lock-button:hover {
+      transform: scale(1.05);  /* Slightly increase the size */
+    }
+    
+
+.reserve-button {
+    padding: 10px 30px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease-in-out; /* เพิ่ม transition */
+  }
+  
+  .reserve-button:hover {
+    transform: translateY(-5px); /* ขยับขึ้นเล็กน้อยเมื่อ hover */
+  }
+  
+
+.popup-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease-in-out; /* เพิ่ม transition */
+    flex: 1; /* ใช้ flex-grow เพื่อให้ปุ่มขยายเต็มพื้นที่ */
+  }
+  
+  .popup-button:hover {
+    transform: translateY(-5px); /* ขยับขึ้นเล็กน้อยเมื่อ hover */
+  }
+  
+  .popup-button.cancel {
+    background-color: transparent;
+    color: red;
+    border: 2px solid red;
+  }
+  
+  .popup-button.confirm {
+    background-color: red;
+    color: white;
+  }
+  

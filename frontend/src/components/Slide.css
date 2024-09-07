@@ -1,0 +1,19 @@
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items at the top */
+    height: 100vh; /* Full height of the viewport */
+    padding-top: 20px; /* Add some padding at the top */
+  }
+  
+  .carousel {
+    width: 70%; /* Adjust width as needed */
+    max-width: 800px; /* Maximum width */
+  }
+  
+  #pic {
+    width: 100%; /* Ensure images fit the carousel width */
+    height: auto; /* Maintain aspect ratio */
+  }
+  
