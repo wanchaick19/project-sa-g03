@@ -192,7 +192,7 @@ const Reserve: React.FC = () => {
           <ul style={{ listStyleType: 'none', padding: '0' }}>
             {selectedLocks.map((lock) => (
               <li key={lock.id} style={{ marginBottom: '5px', fontSize: '18px' }}>
-                ล็อค: {lock.id} กว้าง {lock.size} เมตร -{'>'} ราคา {lock.price} บาท 
+                ล็อค: {lock.id} กว้าง {lock.size} เมตร - ราคา {lock.price} บาท 
               </li>
             ))}
           </ul>

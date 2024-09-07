@@ -1,6 +1,6 @@
 export interface LocksInterface {
-    ID?: string;
-    Date?: string;
+    Id?: string;
+    Status?: string;
     Price?: number;
     Size?: string;
   }

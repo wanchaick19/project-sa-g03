@@ -1,24 +1,27 @@
 package main
 
+
 import (
 	"net/http"
-
+	"example.com/project-sa-g03/entity"
+	"example.com/project-sa-g03/controller"
 	"github.com/gin-gonic/gin"
-	"github.com/tanapon395/sa-67-example/config"
-	"github.com/tanapon395/sa-67-example/controller"
+  "gorm.io/gorm"
+  "gorm.io/driver/sqlite"
 )
 
 const PORT = "8000"
 
 func main() {
+  db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+  if err != nil {
+    panic("failed to connect database")
+  }
 
-	// open connection database
-	config.ConnectionDB()
+  // Migrate the schema
+  db.AutoMigrate(&entity.Lock{})
 
-	// Generate databases
-	config.SetupDatabase()
-
-	r := gin.Default()
+  r := gin.Default()
 
 	r.Use(CORSMiddleware())
 
@@ -26,13 +29,12 @@ func main() {
 	{
 
 		// User Routes
-		router.GET("/users", controller.ListUsers)
-		router.GET("/user/:id", controller.GetUser)
-		router.POST("/users", controller.CreateUser)
-		router.PATCH("/users", controller.UpdateUser)
-		router.DELETE("/users/:id", controller.DeleteUser)
-		// Gender Routes
-		router.GET("/genders", controller.ListGenders)
+		router.GET("/locks", controller.ListLocks)
+		router.GET("/lock/:id", controller.GetLock)
+		router.POST("/locks", controller.CreateLock)
+		router.PATCH("/locks", controller.UpdateLock)
+		router.DELETE("/lock/:id", controller.DeleteLock)
+
 	}
 
 	r.GET("/", func(c *gin.Context) {
@@ -44,7 +46,6 @@ func main() {
 	r.Run("localhost:" + PORT)
 
 }
-
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
