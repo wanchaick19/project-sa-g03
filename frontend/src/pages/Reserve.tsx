@@ -4,6 +4,9 @@ import { ConfirmationPopup } from '../components/ConfirmationPopup';
 import { CheckOutlined, ClockCircleOutlined ,DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons'; // Import the required icons from Ant Design
 import './reserve.css';
 import { Tooltip } from 'antd';
+import { GetLocks } from '../services/https/lock';
+
+import { LocksInterface } from '../interfaces/ILock';
 
 
 
@@ -13,40 +16,6 @@ type Lock = {
   Price: number;
   Size: string;
 };
-
-const lockdata: Lock[] = [
-  { Id: "A00", Status: "ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A01", Status: "ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A02", Status: "ไม่ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A03", Status: "ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A04", Status: "ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A05", Status: "ไม่ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "A06", Status: "ว่าง", Price: 200, Size: "2x2" },
-  { Id: "A07", Status: "ว่าง", Price: 200, Size: "2x2" },
-	{ Id: "B00", Status: "ไม่ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B01", Status: "ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B02", Status: "ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B03", Status: "ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B04", Status: "ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B05", Status: "ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "B06", Status: "ไม่ว่าง", Price: 250, Size: "2x2" },
-	{ Id: "C00", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C01", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C02", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C03", Status: "ไม่ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C04", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C05", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C06", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "C07", Status: "ไม่พร้อมใช้งาน", Price: 300, Size: "2x2" },
-  { Id: "D00", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D01", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D02", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D03", Status: "ไม่ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D04", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D05", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D06", Status: "ว่าง", Price: 300, Size: "2x2" },
-	{ Id: "D07", Status: "ไม่พร้อมใช้งาน", Price: 300, Size: "2x2" },
-];
 
 
 const Reserve: React.FC = () => {
@@ -64,12 +33,20 @@ const Reserve: React.FC = () => {
   }, []);
 
 
-  const [locks, setLocks] = useState<Lock[]>(lockdata);
+  const [locks, setLocks] = useState<Lock[]>([]);
   const [selectedLocks, setSelectedLocks] = useState<Lock[]>([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  const getLocks = async () => {
+    let res = await GetLocks();
+    if (res) {
+      setLocks(res);
+    }
+  };
+
+  
   // Update the current time every second
   useEffect(() => {
     const interval = setInterval(() => {
@@ -104,8 +81,8 @@ const Reserve: React.FC = () => {
 
   const tomorrowOption = getFormattedDate(tomorrow);
 
-  const handleLockClick = (lockId: string, status: string) => {
-    if (status !== 'ว่าง') return; // Only proceed if the lock is available
+  const handleLockClick = (lockId: string, Status: string) => {
+    if (Status !== 'ว่าง') return; // Only proceed if the lock is available
   
     const selectedLock = locks.find((lock) => lock.Id === lockId);
     if (!selectedLock) return;
@@ -145,6 +122,10 @@ const Reserve: React.FC = () => {
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
   };
+
+  useEffect(() => {
+    getLocks();
+  }, []);
 
   // Calculate total price
   const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);

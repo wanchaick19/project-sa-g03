@@ -79,6 +79,7 @@ func SetupDatabase() {
 		Password:  hashedPassword,
 		Tel : "000000000",
 		Profile : "https://avatars.githubusercontent.com/u/175175489?v=4",
+		GenderID : 1,
 	}
 	db.FirstOrCreate(User, &entity.Users{
 		Email: "Nuay@gmail.com",

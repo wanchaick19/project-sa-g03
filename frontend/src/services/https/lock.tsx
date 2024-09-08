@@ -24,7 +24,7 @@ async function GetLocks() {
 
 
 
-async function DeleteLockByID(id: Number | undefined) {
+async function DeleteLockByID(id: string | undefined) {
   const requestOptions = {
     method: "DELETE"
   };
@@ -41,7 +41,7 @@ async function DeleteLockByID(id: Number | undefined) {
   return res;
 }
 
-async function GetLockById(id: Number | undefined) {
+async function GetLockById(id: string | undefined) {
   const requestOptions = {
     method: "GET"
   };

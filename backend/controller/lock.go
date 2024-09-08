@@ -41,20 +41,10 @@ func CreateLock(c *gin.Context) {
 
 // GET /user/:id
 func GetLocks(c *gin.Context) {
-	ID := c.Param("Id")
-	var lock entity.Locks
-
-	db := config.DB()
-	results := db.Preload("Id").First(&lock, ID)
-	if results.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
-		return
-	}
-	if lock.Id == "A00" {
-		c.JSON(http.StatusNoContent, gin.H{})
-		return
-	}
-	c.JSON(http.StatusOK, lock)
+		var locks []entity.Locks
+		db := config.DB()
+		db.Find(&locks)
+		c.JSON(http.StatusOK, &locks)
 }
 
 // GET /users

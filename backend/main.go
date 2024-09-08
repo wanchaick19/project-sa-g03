@@ -1,22 +1,18 @@
 package main
 
-
 import (
+	"net/http"
 
-   "net/http"
+	"github.com/gin-gonic/gin"
 
+	"example.com/project-sa-g03/config"
+	"example.com/project-sa-g03/controller"
 
-   "github.com/gin-gonic/gin"
+	"example.com/project-sa-g03/controller/gender"
 
+	"example.com/project-sa-g03/controller/users"
 
-   "example.com/project-sa-g03/config"
-
-   "example.com/project-sa-g03/controller/gender"
-
-   "example.com/project-sa-g03/controller/users"
-
-   "example.com/project-sa-g03/middlewares"
-
+	"example.com/project-sa-g03/middlewares"
 )
 
 
@@ -71,6 +67,8 @@ func main() {
 
 
    r.GET("/genders", genders.GetAll)
+
+   r.GET("/locks",controller.GetLocks)
 
 
    r.GET("/", func(c *gin.Context) {

@@ -1,6 +1,6 @@
 export interface LocksInterface {
     Id?: string;
     Status?: string;
-    Price?: number;
+    Price?: Float32Array;
     Size?: string;
   }
