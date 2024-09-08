@@ -1,0 +1,28 @@
+/* SignInPages.css */
+
+.login {
+    height: 100vh;
+    background-color: #f0f2f5; /* Light background color for the whole page */
+  }
+  
+  .card-login {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .images-logo {
+    max-width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto; /* Center the logo */
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .login-form-button {
+    width: 100%;
+  }
+  

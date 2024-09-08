@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from
 import Topbar from './components/Topbar';
 import Home from './pages/Home';
 import Reserve from './pages/Reserve';
+import SignInPage  from './pages/authentication/Login/index';
+import SignUpPage from './pages/Register/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoadingComponent from './components/LoadingComponent'; // Import the loading component
 
@@ -28,6 +30,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/reserve" element={<Reserve />} />
+          <Route path="/login" element={<SignInPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
         </Routes>
       )}
     </>

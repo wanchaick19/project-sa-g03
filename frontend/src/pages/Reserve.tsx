@@ -8,41 +8,64 @@ import { Tooltip } from 'antd';
 
 
 type Lock = {
-  id: string;
-  status: string;
-  price: number;
-  size: string;
+  Id: string;
+  Status: string;
+  Price: number;
+  Size: string;
 };
 
 const lockdata: Lock[] = [
-  { id: 'A00', status: 'ว่าง', price: 200, size: '2x2' },
-  { id: 'A01', status: 'ว่าง', price: 200, size: '2x2' },
-  { id: 'A02', status: 'ไม่ว่าง', price: 200, size: '2x2' },
-  { id: 'A03', status: 'ว่าง', price: 200, size: '2x2' },
-  { id: 'A04', status: 'ว่าง', price: 200, size: '2x2' },
-  { id: 'A05', status: 'ไม่ว่าง', price: 200, size: '2x2' },
-  { id: 'A06', status: 'ว่าง', price: 200, size: '2x2' },
-  { id: 'B00', status: 'ไม่ว่าง', price: 250, size: '2x2' },
-  { id: 'B01', status: 'ว่าง', price: 250, size: '2x2' },
-  { id: 'B02', status: 'ว่าง', price: 250, size: '2x2' },
-  { id: 'B03', status: 'ว่าง', price: 250, size: '2x2' },
-  { id: 'B04', status: 'ว่าง', price: 250, size: '2x2' },
-  { id: 'B05', status: 'ว่าง', price: 250, size: '2x2' },
-  { id: 'B06', status: 'ไม่ว่าง', price: 250, size: '2x2' },
-  { id: 'C00', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'C01', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'C02', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'C03', status: 'ไม่ว่าง', price: 300, size: '2x2' },
-  { id: 'C04', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'C05', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'C06', status: 'ว่าง', price: 300, size: '2x2' },
-  { id: 'D16', status: 'ไม่พร้อมใช้งาน', price: 300, size: '2x2' },
+  { Id: "A00", Status: "ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A01", Status: "ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A02", Status: "ไม่ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A03", Status: "ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A04", Status: "ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A05", Status: "ไม่ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "A06", Status: "ว่าง", Price: 200, Size: "2x2" },
+  { Id: "A07", Status: "ว่าง", Price: 200, Size: "2x2" },
+	{ Id: "B00", Status: "ไม่ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B01", Status: "ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B02", Status: "ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B03", Status: "ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B04", Status: "ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B05", Status: "ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "B06", Status: "ไม่ว่าง", Price: 250, Size: "2x2" },
+	{ Id: "C00", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C01", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C02", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C03", Status: "ไม่ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C04", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C05", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C06", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "C07", Status: "ไม่พร้อมใช้งาน", Price: 300, Size: "2x2" },
+  { Id: "D00", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D01", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D02", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D03", Status: "ไม่ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D04", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D05", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D06", Status: "ว่าง", Price: 300, Size: "2x2" },
+	{ Id: "D07", Status: "ไม่พร้อมใช้งาน", Price: 300, Size: "2x2" },
 ];
 
 
 const Reserve: React.FC = () => {
-  const [selectedLocks, setSelectedLocks] = useState<Lock[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check login status from localStorage
+    const loginStatus = localStorage.getItem('isLogin') === 'true';
+    setIsLoggedIn(loginStatus);
+
+    // Redirect to login if not logged in
+    if (!loginStatus) {
+      window.location.href = '/login';
+    }
+  }, []);
+
+
   const [locks, setLocks] = useState<Lock[]>(lockdata);
+  const [selectedLocks, setSelectedLocks] = useState<Lock[]>([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -84,11 +107,11 @@ const Reserve: React.FC = () => {
   const handleLockClick = (lockId: string, status: string) => {
     if (status !== 'ว่าง') return; // Only proceed if the lock is available
   
-    const selectedLock = locks.find((lock) => lock.id === lockId);
+    const selectedLock = locks.find((lock) => lock.Id === lockId);
     if (!selectedLock) return;
   
     if (selectedLocks.includes(selectedLock)) {
-      setSelectedLocks(selectedLocks.filter((lock) => lock.id !== lockId));
+      setSelectedLocks(selectedLocks.filter((lock) => lock.Id !== lockId));
     } else {
       setSelectedLocks([...selectedLocks, selectedLock]);
     }
@@ -109,13 +132,14 @@ const Reserve: React.FC = () => {
 
   const handleConfirmBooking = () => {
     const updatedLocks = locks.map((lock) =>
-      selectedLocks.includes(lock) ? { ...lock, status: 'ไม่ว่าง' } : lock
+      selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
     );
     setLocks(updatedLocks);
     setSelectedLocks([]);
     setShowPopup(false);
     setShowConfirmation(true);
   };
+
   
 
   const handleCloseConfirmation = () => {
@@ -123,7 +147,7 @@ const Reserve: React.FC = () => {
   };
 
   // Calculate total price
-  const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.price, 0);
+  const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', textAlign: 'center', position: 'relative', minHeight: '100vh' }}>
@@ -140,11 +164,11 @@ const Reserve: React.FC = () => {
           </h1>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px' }}>
             {['A', 'B', 'C', 'D'].map((row, index) => (
-              <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                {locks.filter((lock) => lock.id.startsWith(row)).map((lock) => (
+              <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '5px' }}>
+                {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
   <Tooltip
-    key={lock.id}
-    title={`ล็อค: ${lock.id} | ขนาด: ${lock.size} เมตร | ราคา: ${lock.price} บาท | สถานะ: ${lock.status}`}
+    key={lock.Id}
+    title={`ล็อค: ${lock.Id} | ขนาด: ${lock.Size} เมตร | ราคา: ${lock.Price} บาท | สถานะ: ${lock.Status}`}
     placement="top"
     overlayInnerStyle={{
       backgroundColor: 'white', // Set background color to white
@@ -155,16 +179,16 @@ const Reserve: React.FC = () => {
     }}
   >
     <button
-      onClick={() => handleLockClick(lock.id, lock.status)}
+      onClick={() => handleLockClick(lock.Id, lock.Status)}
       style={{
         margin: '5px',
-        width: '120px',
-        height: '90px',
+        width: '110px',
+        height: '80px',
         maxWidth: '120px',
         maxHeight: '90px',
-        backgroundColor: lock.status === 'ว่าง' ? '#32cd32' : lock.status === 'ไม่ว่าง' ? 'red' : 'gray',
+        backgroundColor: lock.Status === 'ว่าง' ? '#32cd32' : lock.Status === 'ไม่ว่าง' ? 'red' : 'gray',
         color: 'white',
-        cursor: lock.status === 'ว่าง' ? 'pointer' : 'not-allowed',
+        cursor: lock.Status === 'ว่าง' ? 'pointer' : 'not-allowed',
         borderRadius: '15px',
         fontSize: '25px',
         transition: 'transform 0.2s',
@@ -174,7 +198,7 @@ const Reserve: React.FC = () => {
       }}
       className="lock-button"
     >
-      {selectedLocks.includes(lock) ? <CheckOutlined /> : lock.id}
+      {selectedLocks.includes(lock) ? <CheckOutlined /> : lock.Id}
     </button>
   </Tooltip>
 ))}
@@ -191,8 +215,8 @@ const Reserve: React.FC = () => {
         {selectedLocks.length > 0 ? (
           <ul style={{ listStyleType: 'none', padding: '0' }}>
             {selectedLocks.map((lock) => (
-              <li key={lock.id} style={{ marginBottom: '5px', fontSize: '18px' }}>
-                ล็อค: {lock.id} กว้าง {lock.size} เมตร - ราคา {lock.price} บาท 
+              <li key={lock.Id} style={{ marginBottom: '5px', fontSize: '18px' }}>
+                ล็อค: {lock.Id} กว้าง {lock.Size} เมตร - ราคา {lock.Price} บาท 
               </li>
             ))}
           </ul>

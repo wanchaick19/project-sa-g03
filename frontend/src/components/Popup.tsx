@@ -1,15 +1,16 @@
 import React from 'react';
 
-type Lock = {
-  id: string;
-  status: string;
-  price: number;
+type Locks = {
+  Id: string;
+  Status: string;
+  Price: number;
+  Size: string;
 };
 
 export 
 
-const Popup: React.FC<{ selectedLocks: Lock[], dateOption: string, onClose: () => void, onConfirm: () => void }> = ({ selectedLocks, dateOption, onClose, onConfirm }) => {
-  const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.price, 0);
+const Popup: React.FC<{ selectedLocks: Locks[], dateOption: string, onClose: () => void, onConfirm: () => void }> = ({ selectedLocks, dateOption, onClose, onConfirm }) => {
+  const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);
 
   return (
     <div style={{
@@ -34,9 +35,9 @@ const Popup: React.FC<{ selectedLocks: Lock[], dateOption: string, onClose: () =
         <p>วันที่: {dateOption}</p>
         <ul style={{ listStyleType: 'none', padding: 0 }}>
           {selectedLocks.map(lock => (
-            <li key={lock.id} style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px', textAlign: 'center' }}>
-              <span style={{ marginRight: '10px' }}>{lock.id}</span>
-              <span>ราคา {lock.price} บาท</span>
+            <li key={lock.Id} style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px', textAlign: 'center' }}>
+              <span style={{ marginRight: '10px' }}>{lock.Id}</span>
+              <span>ราคา {lock.Price} บาท</span>
             </li>
           ))}
         </ul>

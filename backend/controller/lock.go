@@ -10,7 +10,7 @@ import (
 
 // POST /users
 func CreateLock(c *gin.Context) {
-	var lock entity.Lock
+	var lock entity.Locks
 
 	// bind เข้าตัวแปร Lock
 	if err := c.ShouldBindJSON(&lock); err != nil {
@@ -22,7 +22,7 @@ func CreateLock(c *gin.Context) {
 
 
 	// สร้าง Lock
-	u := entity.Lock{
+	u := entity.Locks{
 		Id: lock.Id, 
 		Status: lock.Status, 
 		Price: lock.Price,    
@@ -40,12 +40,12 @@ func CreateLock(c *gin.Context) {
 }
 
 // GET /user/:id
-func GetLock(c *gin.Context) {
-	ID := c.Param("id")
-	var lock entity.Lock
+func GetLocks(c *gin.Context) {
+	ID := c.Param("Id")
+	var lock entity.Locks
 
 	db := config.DB()
-	results := db.Preload("Gender").First(&lock, ID)
+	results := db.Preload("Id").First(&lock, ID)
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
@@ -60,7 +60,7 @@ func GetLock(c *gin.Context) {
 // GET /users
 func ListLocks(c *gin.Context) {
 
-	var locks []entity.Lock
+	var locks []entity.Locks
 
 	db := config.DB()
 	results := db.Preload("Id").Find(&locks)
@@ -86,7 +86,7 @@ func DeleteLock(c *gin.Context) {
 
 // PATCH /locks
 func UpdateLock(c *gin.Context) {
-	var lock entity.Lock
+	var lock entity.Locks
 
 	LockID := c.Param("id")
 
