@@ -3,10 +3,14 @@ import "gorm.io/gorm"
 type Shop struct {
 	gorm.Model
 	NationalID string
-	Categories string
+
+	CategoryID uint
+	Categories Categories `gorm:"foreignKey:CategoryID"`
+
 	ShopName string
-	Describe string
-	
+	Description string
+	ShopImg string
+
 	UserID uint
 	Reserve []Reserve `gorm:"foreignKey:ShopID"`
 }

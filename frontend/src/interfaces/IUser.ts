@@ -3,8 +3,8 @@ export interface UsersInterface {
     Email?: string;
     Password?: string;
     FirstName?: string;
-    Lastname?: string;
+    LastName?: string;
     Tel?: number;
-    Roles?: string;
     Profile?: string;
+    GenderID?: number;
   }

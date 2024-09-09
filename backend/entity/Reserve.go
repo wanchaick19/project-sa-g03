@@ -9,6 +9,8 @@ type Reserve struct {
 	
 	ShopID *uint
 	Shop Shop `gorm:"foreignKey:ShopID"`
+
+	TotalPrice float32
 	
 	ReserveDetails []ReserveDetails `gorm:"foreignKey:ReserveID"`
 }

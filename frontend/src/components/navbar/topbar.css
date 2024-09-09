@@ -1,0 +1,11 @@
+.login-button {
+    color: white;
+    border-color: white;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login-button:hover {
+    background-color: white;
+    color: black;
+    border-color: white;
+}

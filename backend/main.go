@@ -58,9 +58,11 @@ func main() {
 
        router.GET("/users", users.GetAll)
 
-       router.GET("/user/:id", users.Get)
+       router.GET("/user/:id", users.GetUser)
 
        router.DELETE("/user/:id", users.Delete)
+
+       router.GET("/shopbyuser/:id", controller.GetShopbyUser)
 
 
    }

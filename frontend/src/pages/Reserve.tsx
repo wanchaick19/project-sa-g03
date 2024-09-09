@@ -5,8 +5,11 @@ import { CheckOutlined, ClockCircleOutlined ,DoubleRightOutlined, NotificationOu
 import './reserve.css';
 import { Tooltip } from 'antd';
 import { GetLocks } from '../services/https/lock';
+import { CreateReserve } from '../services/https/reserve';
 
 import { LocksInterface } from '../interfaces/ILock';
+import { ShopsInterface } from '../interfaces/IShop';
+import { GetShopByUserId } from '../services/https/shop';
 
 
 
@@ -107,6 +110,8 @@ const Reserve: React.FC = () => {
     setShowPopup(false);
   };
 
+
+
   const handleConfirmBooking = () => {
     const updatedLocks = locks.map((lock) =>
       selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
@@ -134,7 +139,7 @@ const Reserve: React.FC = () => {
     <div style={{ display: 'flex', flexDirection: 'row', textAlign: 'center', position: 'relative', minHeight: '100vh' }}>
       <div style={{ flex: 1, padding: '20px', marginRight: '20px' }}>
         <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '20px', color: 'black' }}>
-        <NotificationOutlined /> จองสำหรับวันที่: {getFormattedDate(new Date())} (พรุ่งนี้)
+        <NotificationOutlined /> จองสำหรับวันที่: {tomorrowOption} (พรุ่งนี้)
         </div>
         <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'black' }}>
           <ClockCircleOutlined /> ขณะนี้: {getFormattedDateTime(currentTime)}

@@ -76,6 +76,23 @@ async function GetShopById(id: Number | undefined) {
   return res;
 }
 
+async function GetShopByUserId(id: string | undefined) {
+  const requestOptions = {
+    method: "GET"
+  };
+
+  let res = await fetch(`${apiUrl}/shopbyuser/${id}`, requestOptions)
+    .then((res) => {
+      if (res.status == 200) {
+        return res.json();
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 
 async function CreateShop(data: ShopsInterface) {
   const requestOptions = {
@@ -121,5 +138,6 @@ export {
   GetCategories,
   DeleteShopByID,
   GetShopById,
-  UpdateShop
+  UpdateShop,
+  GetShopByUserId,
 };

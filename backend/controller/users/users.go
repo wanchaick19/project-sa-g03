@@ -10,9 +10,10 @@ import (
 
 
    "example.com/project-sa-g03/config"
-
+    
    "example.com/project-sa-g03/entity"
-
+    "gorm.io/gorm"
+    "errors"
 )
 
 
@@ -40,37 +41,25 @@ func GetAll(c *gin.Context) {
 }
 
 
-func Get(c *gin.Context) {
+func GetUser(c *gin.Context) {
+	ID := c.Param("id")
+	var user entity.Users
+
+	db := config.DB()
 
 
-   ID := c.Param("id")
+	// Query the user by ID
+	results := db.Where("id = ?", ID).First(&user)
+	if results.Error != nil {
+		if errors.Is(results.Error, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
+		}
+		return
+	}
 
-   var user entity.Users
-
-
-   db := config.DB()
-
-   results := db.Preload("Gender").First(&user, ID)
-
-   if results.Error != nil {
-
-       c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
-
-       return
-
-   }
-
-   if user.ID == 0 {
-
-       c.JSON(http.StatusNoContent, gin.H{})
-
-       return
-
-   }
-
-   c.JSON(http.StatusOK, user)
-
-
+	c.JSON(http.StatusOK, user)
 }
 
 
