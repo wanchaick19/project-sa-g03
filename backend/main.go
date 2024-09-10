@@ -44,6 +44,10 @@ func main() {
 
    r.POST("/signin", users.SignIn)
 
+   r.POST("/createreserve", controller.CreateReserve)
+
+   r.POST("/createdetails", controller.CreateReserveDetails)
+
 
    router := r.Group("/")
 
@@ -63,6 +67,8 @@ func main() {
        router.DELETE("/user/:id", users.Delete)
 
        router.GET("/shopbyuser/:id", controller.GetShopbyUser)
+
+       router.GET("/reserves", controller.GetReserves)
 
 
    }

@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"example.com/project-sa-g03/config"
 	"example.com/project-sa-g03/entity"
+
 )
 
 // POST /users
@@ -51,7 +52,7 @@ func ListReserves(c *gin.Context) {
 	var reserve []entity.Reserve
 
 	db := config.DB()
-	results := db.Preload("Id").Find(&reserve)
+	results := db.Preload("Shop").Find(&reserve)
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
@@ -98,3 +99,23 @@ func UpdateReserve(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
 }
+
+// func GetReservebyShop(c *gin.Context) {
+// 	ID := c.Param("id")
+// 	var reserve entity.Reserve
+
+// 	db := config.DB()
+
+// 	// Query the reserve by shop_id, sorted by date in descending order and limit to 1
+// 	results := db.Where("shop_id = ?", ID).Order("date DESC").Limit(1).First(&reserve)
+// 	if results.Error != nil {
+// 		if errors.Is(results.Error, gorm.ErrRecordNotFound) {
+// 			c.JSON(http.StatusNotFound, gin.H{"error": "Reserve not found"})
+// 		} else {
+// 			c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
+// 		}
+// 		return
+// 	}
+
+// 	c.JSON(http.StatusOK, reserve)
+// }

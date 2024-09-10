@@ -1,0 +1,40 @@
+.user-edit-container {
+    padding: 20px;
+  }
+  
+  .avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 20px;
+  }
+  
+  .avatar-section .ant-upload {
+    margin-bottom: 20px;
+  }
+  
+  .row {
+    display: flex;
+    width: 100%;
+  }
+  
+  .full-width {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .info-label {
+    font-weight: bold;
+  }
+  
+  .info-value {
+    padding-top: 4px;
+  }
+  
+  .align-right {
+    float: right;
+    margin-top: 10px;
+  }
+  

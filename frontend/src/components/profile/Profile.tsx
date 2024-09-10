@@ -4,8 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './profile.css';
 import { Avatar } from 'antd';
-import { ShopsInterface } from '../../interfaces/IShop';
-import { GetShopByUserId } from '../../services/https/shop';
 import { useNavigate } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons'; // Import the EditOutlined icon
 
@@ -27,21 +25,6 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
         }
     }, [userId]);
 
-    const [shop, setShop] = useState<ShopsInterface>();
-
-    const getShop = async (userId: string) => {
-        let res = await GetShopByUserId(userId);
-        if (res) {
-            setShop(res.data);
-        }
-    };
-
-    useEffect(() => {
-        if (userId) {
-            getShop(userId);
-        }
-    }, [userId]);
-
     // Function to handle navigation to the Edit Profile page and close the modal
     const handleEditProfile = () => {
         handleClose(); // Close the modal
@@ -51,7 +34,7 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
     return (
         <Modal show={show} onHide={handleClose} dialogClassName="modal-dialog">
             <Modal.Header closeButton>
-                <Modal.Title>ข้อมูลผู้ใช้</Modal.Title>
+                <Modal.Title>ข้อมูลผู้ใช้งาน</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {user ? (
@@ -62,17 +45,42 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
                                 src={user.Profile}
                             />
                         </div>
-                        
-                        <div>ชื่อ: {user.FirstName}</div>
-                        <div>นามสกุล: {user.LastName}</div>
-                        <div>อีเมล: {user.Email}</div>
-                        <div>เบอร์โทรศัพท์: {user.Tel}</div>
-                        <div>เพศ: {user.GenderID}</div>
+
+                        {/* First Name and Last Name on the same row */}
+                        <div className="row">
+                            <div className="info-section">
+                                <div className="info-label">ชื่อจริง</div>
+                                <div className="info-value">{user.FirstName}</div>
+                            </div>
+                            <div className="info-section">
+                                <div className="info-label">นามสกุล</div>
+                                <div className="info-value">{user.LastName}</div>
+                            </div>
+                        </div>
+
+                        {/* Email and Phone Number on the same row */}
+                        <div className="row">
+                            <div className="info-section">
+                                <div className="info-label">อีเมล</div>
+                                <div className="info-value">{user.Email}</div>
+                            </div>
+                            <div className="info-section">
+                                <div className="info-label">เบอร์โทรศัพท์</div>
+                                <div className="info-value">{user.Tel}</div>
+                            </div>
+                        </div>
+
+                        {/* Gender */}
+                        <div className="row">
+                            <div className="info-section">
+                                <div className="info-label">เพศ</div>
+                                <div className="info-value">{(user.GenderID === 1) ? "ชาย" : "หญิง"}</div>
+                            </div>
+                        </div>
                     </div>
                 ) : (
                     <div>Loading user data...</div>
                 )}
-                {/* Button aligned to the right */}
                 <button 
                     className="popup-button confirm align-right"
                     onClick={handleEditProfile}

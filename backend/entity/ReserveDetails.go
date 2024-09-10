@@ -8,7 +8,7 @@ type ReserveDetails struct {
 	ReserveID *uint
 	Reserve Reserve `gorm:"foreignKey:ReserveID"`
 
-	LockID *uint
+	LockID *string
 	Locks Locks `gorm:"foreignKey:LockID"`
 
 	Price float32

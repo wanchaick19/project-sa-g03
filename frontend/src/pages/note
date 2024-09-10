@@ -1,0 +1,75 @@
+  const userId = localStorage.getItem("id");
+  const [shop, setShop] = useState<ShopsInterface>();
+
+  const getShop = async (userId: string) => {
+    let res = await GetShopByUserId(userId);
+    if (res) {
+      setShop(res.data);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      getLocks();
+      getShop(userId);
+    }
+  }, [userId]);
+
+  // Updated handleConfirmBooking function
+  // Updated handleConfirmBooking function
+const handleConfirmBooking = async (date: Date) => {
+  const values: ReservesInterface = {
+    Date: date.toISOString(),
+    ShopID: shop?.ID,
+    TotalPrice: totalPrice,
+    // คุณอาจเพิ่มหรืออัปเดตข้อมูลที่ต้องส่งไปใน reserve ตามความต้องการของ API
+  };
+
+  try {
+    let res = await CreateReserve(values);
+    if (res.status === 201) {
+      messageApi.open({
+        type: "success",
+        content: res.data.message,
+      });
+
+      // อัปเดตสถานะล็อคหลังจากทำการจองสำเร็จ
+      const updatedLocks = locks.map((lock) =>
+        selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
+      );
+      setLocks(updatedLocks); // อัปเดตล็อคที่มีการเปลี่ยนสถานะใน state
+      setSelectedLocks([]); // รีเซ็ตล็อคที่ถูกเลือกหลังจากการจองเสร็จสิ้น
+
+      setTimeout(() => {
+        navigate("/reserve");
+      }, 2000);
+
+      setShowPopup(false);
+      setShowConfirmation(true); // แสดงการยืนยันการจอง
+
+    } else {
+      messageApi.open({
+        type: "error",
+        content: res.data.error,
+      });
+    }
+  } catch (error) {
+    messageApi.open({
+      type: "error",
+      content: "เกิดข้อผิดพลาดในการจอง",
+    });
+  }
+};
+
+
+
+await Promise.all(
+          selectedLocks.map(async (lock) => {
+            const reserveDetail = {
+              //ReserveID: '18',
+              lockID: lock.Id,
+              Price: lock.Price,
+            };
+            await CreateReserveDetails(reserveDetail);
+          })
+        );

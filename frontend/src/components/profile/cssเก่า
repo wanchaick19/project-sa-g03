@@ -1,17 +1,16 @@
 .dataAboutME {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Keep the center alignment for the whole data section */
+    align-items: center;
     gap: 10px;
     width: 100%;
 }
 
 .avatar-container {
     display: flex;
-    justify-content: flex-start; /* Align avatar to the left */
+    justify-content: center;
     margin-bottom: 20px;
-    width: 100%; /* Ensure it uses the full width */
-    padding-left: 10px; /* Add padding if needed to adjust the left spacing */
+    
 }
 
 .row {
@@ -40,6 +39,7 @@
 
 .info-value {
     padding-top: 4px;
+
 }
 
 .align-right {

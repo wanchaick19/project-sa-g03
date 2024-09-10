@@ -1,4 +1,5 @@
 import React from 'react';
+import { LocksInterface } from '../interfaces/ILock';
 
 type Locks = {
   Id: string;
