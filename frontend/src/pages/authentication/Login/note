@@ -39,7 +39,7 @@
   }
   
   .register-link {
-    color: rgb(91, 96, 252); /* Text color */
+    color: rgb(252, 249, 91); /* Text color */
     text-decoration: underline; /* Underline the text */
     font-weight: bold; /* Highlight effect by making it bold */
     cursor: pointer; /* Pointer cursor to indicate it's clickable */

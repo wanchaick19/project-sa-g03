@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { Space, Table, Button, Col, Row, Divider, message, Modal } from "antd";
 import { PlusOutlined, ZoomInOutlined, DollarOutlined , HistoryOutlined ,ContainerOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { GetReservesByShopId } from "../services/https/index";
-import { ReservesInterface } from "../interfaces/IReserve";
+import { GetReservesByShopId } from "../../services/https/index";
+import { ReservesInterface } from "../../interfaces/IReserve";
 import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { ShopsInterface } from "../interfaces/IShop";
-import { GetShopByUserId } from "../services/https/index";
-import { ReserveDetailsInterface } from "../interfaces/IReserveDetails";
-import { GetReservesDetailsByReserveId } from "../services/https/index";
+import { ShopsInterface } from "../../interfaces/IShop";
+import { GetShopByUserId } from "../../services/https/index";
+import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
+import { GetReservesDetailsByReserveId } from "../../services/https/index";
 
 function ReserveDashboard() {
   const navigate = useNavigate();
@@ -194,7 +194,7 @@ function ReserveDashboard() {
             columns={columns}
             dataSource={reserves}
             style={{ width: "100%" }}
-            pagination={{ pageSize: 20 }}
+            pagination={{ pageSize: 4 }}
           />
         </div>
       </div>

@@ -6,7 +6,7 @@ import { SignIn } from "../../../services/https/index";
 
 import { SignInInterface } from "../../../interfaces/SignIn";
 
-import logo from "../../../assets/logo.png";
+import logo from "../../../assets/4.png";
 
 import './index.css'
 
@@ -60,9 +60,9 @@ function SignInPages() {
 
       <Flex justify="center" align="center" className="login">
 
-        <Card className="card-login" style={{ width: 500 }}>
+        <Card className="card-login" style={{ width: 600 }}>
 
-          <Row align={"middle"} justify={"center"} style={{ height: "400px" }}>
+          <Row align={"middle"} justify={"center"} style={{ height: "490px" }}>
 
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
 
@@ -150,7 +150,7 @@ function SignInPages() {
 
                   </Button>
 
-                  หรือ <a onClick={() => navigate("/signup")}> สมัครบัญชีผู้ใช้ คลิ๊กฉันเลยสาว!!!</a>
+                  หรือ <a className= "register-link" onClick={() => navigate("/signup")}> สมัครบัญชีผู้ใช้ คลิ๊กฉันเลยสาว!!!</a>
 
                 </Form.Item>
 
@@ -163,6 +163,8 @@ function SignInPages() {
         </Card>
 
       </Flex>
+      
+      
 
     </>
 

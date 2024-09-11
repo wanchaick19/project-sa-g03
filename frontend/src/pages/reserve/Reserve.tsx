@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from '../components/Popup';
-import ConfirmationPopup from '../components/ConfirmationPopup';
+import ConfirmationPopup from '../../components/reservePopup/ConfirmationPopup';
 import { CheckOutlined, ClockCircleOutlined, DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
-import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId } from '../services/https/index';
+import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId } from '../../services/https/index';
 import { useNavigate } from "react-router-dom";
-import { ShopsInterface } from '../interfaces/IShop';
-import { ReservesInterface } from '../interfaces/IReserve';
+import { ShopsInterface } from '../../interfaces/IShop';
+import { ReservesInterface } from '../../interfaces/IReserve';
 
 type Lock = {
   Id: string;

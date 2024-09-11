@@ -14,7 +14,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { CreateUser } from "../../services/https/index";
 import { UsersInterface } from "../../interfaces/IUser";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/4.png";
 import "./index.css";
 
 function SignUpPages() {
@@ -58,7 +58,7 @@ function SignUpPages() {
     reader.onload = () => {
       setProfileImageUrl(reader.result as string);
     };
-  reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
     // Return false to prevent default upload behavior
     return false;
@@ -181,7 +181,7 @@ function SignUpPages() {
                         ลงทะเบียน
                       </Button>
                       หรือ{" "}
-                      <a onClick={() => navigate("/login")}>มีบัญชีอยู่แล้ว? !</a>
+                      <a className= "register-link" onClick={() => navigate("/login")}>มีบัญชีอยู่แล้ว? !</a>
                     </Form.Item>
                   </Col>
                 </Row>

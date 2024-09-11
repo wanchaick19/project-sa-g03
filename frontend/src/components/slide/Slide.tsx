@@ -1,7 +1,6 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import './Slide.css'; // Import the CSS file
-import Logo from '../assets/logo.png'
 
 function Slide() {
   return (

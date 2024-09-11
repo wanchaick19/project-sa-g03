@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
-import Logo from '../../assets/logo.png';
+import Logo from '../../assets/5.png';
 import UserInfo from '../profile/Profile'; // นำเข้า UserInfo component
 import { UsersInterface } from '../../interfaces/IUser';
 import { GetUsersById } from "../../services/https/index";
@@ -53,7 +53,7 @@ function Topbar() {
         <>
             <Navbar expand="lg" style={{ backgroundColor: 'black' }}>
                 <Container>
-                    <img id="pic" src={Logo} style={{ width: '4%' }} alt="Logo" />
+                    <img id="pic" src={Logo} style={{ width: '5%' }} alt="Logo" />
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
