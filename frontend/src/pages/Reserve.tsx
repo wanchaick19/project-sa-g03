@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from '../components/Popup';
-import { ConfirmationPopup } from '../components/ConfirmationPopup';
-import { CheckOutlined, ClockCircleOutlined ,DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons';
+import ConfirmationPopup from '../components/ConfirmationPopup';
+import { CheckOutlined, ClockCircleOutlined, DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
-import { GetLocks } from '../services/https/index';
-import { CreateReserve } from '../services/https/index';
+import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId } from '../services/https/index';
 import { useNavigate } from "react-router-dom";
 import { ShopsInterface } from '../interfaces/IShop';
-import { GetShopByUserId } from '../services/https/index';
 import { ReservesInterface } from '../interfaces/IReserve';
-import { CreateReserveDetails } from '../services/https/index';
-
 
 type Lock = {
   Id: string;
@@ -22,26 +18,30 @@ type Lock = {
 
 const Reserve: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const loginStatus = localStorage.getItem('isLogin') === 'true';
-    setIsLoggedIn(loginStatus);
-
-    if (!loginStatus) {
-      window.location.href = '/login';
-    }
-  }, []);
-
   const [locks, setLocks] = useState<Lock[]>([]);
   const [selectedLocks, setSelectedLocks] = useState<Lock[]>([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [shop, setShop] = useState<ShopsInterface>();
+  const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("id");
+
+  useEffect(() => {
+    const loginStatus = localStorage.getItem('isLogin') === 'true';
+    setIsLoggedIn(loginStatus);
+    if (!loginStatus) {
+      window.location.href = '/login';
+    }
+  }, []);
 
   const getLocks = async () => {
-    let res = await GetLocks();
-    if (res) {
+    try {
+      const res = await GetLocks();
       setLocks(res);
+    } catch (error) {
+      messageApi.error('Error fetching locks');
     }
   };
 
@@ -73,49 +73,44 @@ const Reserve: React.FC = () => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-
   const tomorrowOption = getFormattedDate(tomorrow);
 
-  const handleLockClick = (lockId: string, Status: string) => {
-    if (Status !== 'ว่าง') return;
+  const handleLockClick = (lockId: string, status: string) => {
+    if (status !== 'ว่าง') return;
 
     const selectedLock = locks.find((lock) => lock.Id === lockId);
     if (!selectedLock) return;
 
-    if (selectedLocks.includes(selectedLock)) {
-      setSelectedLocks(selectedLocks.filter((lock) => lock.Id !== lockId));
-    } else {
-      setSelectedLocks([...selectedLocks, selectedLock]);
-    }
+    setSelectedLocks((prev) =>
+      prev.includes(selectedLock)
+        ? prev.filter((lock) => lock.Id !== lockId)
+        : [...prev, selectedLock]
+    );
   };
-
-  const userId = localStorage.getItem("id");
-  const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
 
   const handleProceed = () => {
     if (!shop || !shop.ID) {
       message.info('ไม่มีข้อมูลร้านค้าของท่าน โปรดทำการลงทะเบียนร้านค้าก่อนทำการจอง!!');
       return;
     }
-  
+
     if (selectedLocks.length > 0) {
       setShowPopup(true);
     } else {
       message.info('กรุณาเลือกล็อคก่อนทำการจอง!!');
     }
   };
-  
+
   const handleClosePopup = () => {
     setShowPopup(false);
   };
 
-  const [shop, setShop] = useState<ShopsInterface>();
-
   const getShop = async (userId: string) => {
-    let res = await GetShopByUserId(userId);
-    if (res) {
+    try {
+      const res = await GetShopByUserId(userId);
       setShop(res.data);
+    } catch (error) {
+      messageApi.error('Error fetching shop data');
     }
   };
 
@@ -124,63 +119,50 @@ const Reserve: React.FC = () => {
       getShop(userId);
     }
   }, [userId]);
-  
 
-  // Updated handleConfirmBooking function
   const handleConfirmBooking = async (date: Date) => {
     const values: ReservesInterface = {
       Date: date.toISOString(),
       ShopID: shop?.ID,
       TotalPrice: totalPrice,
     };
-  
+
     try {
-      let res = await CreateReserve(values);
-        const createdReserve = res.data; // ดึงข้อมูล reserve ที่เพิ่งสร้างจาก response
-  
-        messageApi.open({
-          type: "success",
-          content: "จองสำเร็จ!",
-        });
-  
-        // ทำการสร้างรายละเอียดการจองสำหรับล็อคที่เลือก
-        await Promise.all(
-          selectedLocks.map(async (lock) => {
-            const reserveDetail = {
-              ReserveID: createdReserve.ID, // ใช้ ID ของการจองที่เพิ่งสร้างขึ้น
-              LockID: lock.Id,
-              Price: lock.Price,
-            };
-            await CreateReserveDetails(reserveDetail);
-          })
-        );
-  
-        // อัปเดตสถานะล็อคหลังจากทำการจองสำเร็จ
-        const updatedLocks = locks.map((lock) =>
-          selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
-        );
-        setLocks(updatedLocks); // อัปเดตล็อคใน state
-        setSelectedLocks([]); // รีเซ็ตล็อคที่ถูกเลือกหลังจากการจองเสร็จสิ้น
-  
-        setTimeout(() => {
-          navigate("/reserve");
-        }, 2000);
-  
-        setShowPopup(false);
-        setShowConfirmation(true); // แสดงการยืนยันการจอง
+      const res = await CreateReserve(values);
+      const createdReserve = res.data;
+
+      messageApi.success("จองสำเร็จ!");
+
+      // Create reserve details for selected locks
+      await Promise.all(
+        selectedLocks.map(async (lock) => {
+          const reserveDetail = {
+            ReserveID: createdReserve.ID,
+            LockID: lock.Id,
+            Price: lock.Price,
+          };
+          await CreateReserveDetails(reserveDetail);
+        })
+      );
+
+      // Update lock status after successful booking
+      const updatedLocks = locks.map((lock) =>
+        selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
+      );
+      setLocks(updatedLocks); // Update locks in state
+      setSelectedLocks([]); // Reset selected locks after booking
+
+      setShowPopup(false);
+      setShowConfirmation(true); // Show confirmation popup
     } catch (error) {
-      messageApi.open({
-        type: "error",
-        content: "เกิดข้อผิดพลาดในการจอง",
-      });
+      messageApi.error("เกิดข้อผิดพลาดในการจอง");
     }
   };
-  
-  
-  
 
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
+    // Navigate or perform any other action here if needed
+    navigate("/nextpage"); // Redirect to another page if required
   };
 
   useEffect(() => {

@@ -61,11 +61,12 @@ func ListReserve(c *gin.Context) {
 	// Get the database connection
 	db := config.DB()
 
-	// Query to join reserves and shops tables and select the required fields
+	// Query to join reserves and shops tables, select the required fields, and order by date in descending order
 	results := db.Table("reserves").
 		Select("reserves.date, shops.shop_name, reserves.total_price").
 		Joins("left join shops on reserves.shop_id = shops.id").
 		Where("shops.id = ?", ID). // Filter by shop ID matching the parameter received
+		Order("reserves.date DESC"). // Order by Date in descending order
 		Scan(&reserves) // Scan the results into the reserves struct
 
 	// Check for errors in the query
@@ -77,6 +78,7 @@ func ListReserve(c *gin.Context) {
 	// Return the results as JSON
 	c.JSON(http.StatusOK, reserves)
 }
+
 
 
 

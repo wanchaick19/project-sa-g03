@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Space, Table, Button, Col, Row, Divider, message } from "antd";
+import { Space, Table, Button, Col, Row, Divider, message, Modal } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { GetReservesById } from "../services/https/index";
@@ -14,6 +14,8 @@ function ReserveDashboard() {
   const [reserves, setReserves] = useState<ReservesInterface[]>([]);
   const [shop, setShop] = useState<ShopsInterface>();
   const [messageApi, contextHolder] = message.useMessage();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedReserve, setSelectedReserve] = useState<ReservesInterface | null>(null);
   const userId = localStorage.getItem("id");
 
   const columns: ColumnsType<ReservesInterface> = [
@@ -24,7 +26,6 @@ function ReserveDashboard() {
       align: "center",
       responsive: ["sm"],
       ellipsis: true,
-      // Set flex and minWidth for balanced spacing
       onCell: () => ({ style: { flex: 1, minWidth: 80 } }),
     },
     {
@@ -56,13 +57,14 @@ function ReserveDashboard() {
       onCell: () => ({ style: { flex: 1, minWidth: 100 } }),
     },
     {
-      title: "",
+      title: "รายละเอียดการจอง",
       key: "action",
+      align: "center",
       render: (record) => (
         <Button
           type="primary"
           icon={<EyeOutlined />}
-          onClick={() => navigate(`/reservedetails/${record.ID}`)}
+          onClick={() => showModal(record)}
         >
           ดูรายละเอียด
         </Button>
@@ -72,6 +74,19 @@ function ReserveDashboard() {
       onCell: () => ({ style: { flex: 1, minWidth: 150 } }),
     },
   ];
+
+  const showModal = (record: ReservesInterface) => {
+    setSelectedReserve(record);
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const getShop = async (userId: string) => {
     let res = await GetShopByUserId(userId);
@@ -87,7 +102,7 @@ function ReserveDashboard() {
   }, [userId]);
 
   const getReserves = async (shopId: number) => {
-    if (!shopId) return; // Prevent fetching if shopId is undefined
+    if (!shopId) return;
 
     try {
       const res = await GetReservesById(shopId);
@@ -143,9 +158,30 @@ function ReserveDashboard() {
           dataSource={reserves}
           style={{ width: "100%" }}
           pagination={{ pageSize: 10 }}
-          
         />
       </div>
+
+      {/* Modal for showing reserve details */}
+      <Modal
+        title="รายละเอียดการจอง"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="submit" type="primary" onClick={handleOk}>
+            ชำระเงิน
+          </Button>,
+        ]}
+      >
+        {selectedReserve && (
+          <div>
+            <p><strong>วันที่จอง:</strong> {dayjs(selectedReserve.date).format("DD/MM/YYYY")}</p>
+            <p><strong>ร้านค้า:</strong> {selectedReserve.shop_name}</p>
+            <p><strong>ราคา:</strong> {selectedReserve.total_price}</p>
+            {/* Add more details as needed */}
+          </div>
+        )}
+      </Modal>
     </>
   );
 }

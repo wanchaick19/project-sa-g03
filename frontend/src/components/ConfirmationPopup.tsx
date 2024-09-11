@@ -1,8 +1,24 @@
 import React from 'react';
 import { CheckCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
-export
-const ConfirmationPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface ConfirmationPopupProps {
+  onClose: () => void; // Optional onClose handler for additional actions
+}
+
+const ConfirmationPopup: React.FC<ConfirmationPopupProps> = ({ onClose }) => {
+  const navigate = useNavigate();
+
+  const handleNext = () => {
+    // Close the popup if there's any cleanup needed
+    if (onClose) {
+      onClose();
+    }
+
+    // Navigate to the desired page, e.g., "/nextpage"
+    navigate('/reserve_dashboard'); // Replace '/nextpage' with your target path
+  };
+
   return (
     <div style={{
       position: 'fixed',
@@ -24,9 +40,13 @@ const ConfirmationPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       }}>
         <h3>บันทึกการจองสำเร็จ</h3>
         <CheckCircleOutlined style={{ color: 'green', fontSize: '48px' }} />
-        <p/>
+        <p />
         <p>กดปุ่ม "ต่อไป" เพื่อทำรายการต่อ</p>
-        <button onClick={onClose} className="popup-button confirm" style={{ marginTop: '20px' }}>
+        <button
+          onClick={handleNext}
+          className="popup-button confirm"
+          style={{ marginTop: '20px' }}
+        >
           ต่อไป
         </button>
       </div>
@@ -34,4 +54,4 @@ const ConfirmationPopup: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   );
 };
 
-
+export default ConfirmationPopup;
