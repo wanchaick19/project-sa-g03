@@ -48,15 +48,34 @@ func GetReserveDetails(c *gin.Context) {
 // GET /users
 func ListReservesDetails(c *gin.Context) {
 
-	var reserveDetails []entity.ReserveDetails
+	// Get the ID parameter from the URL
+	ID := c.Param("id")
 
+	// Define a struct to hold the result set
+	var reservesdetails []struct {
+		LockID   string    `json:"lock_id"`   // ShopName from the shops table
+		Price float32   `json:"price"` // TotalPrice from the reserves table
+	}
+
+	// Get the database connection
 	db := config.DB()
-	results := db.Preload("Id").Find(&reserveDetails)
+
+	// Query to join reserves and shops tables, select the required fields, and order by date in descending order
+	results := db.Table("reserve_details").
+		Select("reserve_details.lock_id, reserve_details.price").
+		Joins("left join reserves on reserve_details.reserve_id = reserves.id").
+		Where("reserves.id = ?", ID). // Filter by shop ID matching the parameter received
+		Order("reserve_details.lock_id DESC"). // Order by Date in descending order
+		Scan(&reservesdetails) // Scan the results into the reserves struct
+
+	// Check for errors in the query
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, reserveDetails)
+
+	// Return the results as JSON
+	c.JSON(http.StatusOK, reservesdetails)
 }
 
 // DELETE /users/:id

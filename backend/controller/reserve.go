@@ -55,7 +55,8 @@ func ListReserve(c *gin.Context) {
 	var reserves []struct {
 		Date       time.Time `json:"date"`        // Date from the reserves table
 		ShopName   string    `json:"shop_name"`   // ShopName from the shops table
-		TotalPrice string    `json:"total_price"` // TotalPrice from the reserves table
+		TotalPrice float32    `json:"total_price"` // TotalPrice from the reserves table
+		ID uint    `json:"id"` // TotalPrice from the reserves table
 	}
 
 	// Get the database connection
@@ -63,7 +64,7 @@ func ListReserve(c *gin.Context) {
 
 	// Query to join reserves and shops tables, select the required fields, and order by date in descending order
 	results := db.Table("reserves").
-		Select("reserves.date, shops.shop_name, reserves.total_price").
+		Select("reserves.date, shops.shop_name, reserves.total_price, reserves.id").
 		Joins("left join shops on reserves.shop_id = shops.id").
 		Where("shops.id = ?", ID). // Filter by shop ID matching the parameter received
 		Order("reserves.date DESC"). // Order by Date in descending order

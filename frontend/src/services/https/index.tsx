@@ -88,11 +88,23 @@ async function GetUsersById(id: string) {
 
 }
 
-async function GetReservesById(id: number) {
+async function GetReservesByShopId(id: number) {
 
   return await axios
 
     .get(`${apiUrl}/reserves/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetReservesDetailsByReserveId(id: number) {
+
+  return await axios
+
+    .get(`${apiUrl}/reservesdetails/${id}`, requestOptions)
 
     .then((res) => res)
 
@@ -196,6 +208,8 @@ export {
 
   GetLocks,
 
-  GetReservesById,
+  GetReservesByShopId,
+
+  GetReservesDetailsByReserveId,
 
 };

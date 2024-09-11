@@ -70,6 +70,8 @@ func main() {
 
        router.GET("/reserves/:id", controller.ListReserve)
 
+       router.GET("/reservesdetails/:id", controller.ListReservesDetails)
+
 
    }
 
