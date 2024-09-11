@@ -54,17 +54,6 @@ async function GetUsers() {
 
 }
 
-async function GetReserves() {
-
-  return await axios
-
-    .get(`${apiUrl}/reserves`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
 
 async function GetLocks() {
   const requestOptions = {
@@ -92,6 +81,18 @@ async function GetUsersById(id: string) {
   return await axios
 
     .get(`${apiUrl}/user/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetReservesById(id: number) {
+
+  return await axios
+
+    .get(`${apiUrl}/reserves/${id}`, requestOptions)
 
     .then((res) => res)
 
@@ -195,6 +196,6 @@ export {
 
   GetLocks,
 
-  GetReserves,
+  GetReservesById,
 
 };

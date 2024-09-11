@@ -2,48 +2,58 @@ import { useState, useEffect } from "react";
 import { Space, Table, Button, Col, Row, Divider, message } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { GetReserves } from "../services/https/index"; // Ensure you are using the correct service for reserves
+import { GetReservesById } from "../services/https/index";
 import { ReservesInterface } from "../interfaces/IReserve";
 import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { ShopsInterface } from "../interfaces/IShop";
+import { GetShopByUserId } from "../services/https/index";
 
 function ReserveDashboard() {
   const navigate = useNavigate();
   const [reserves, setReserves] = useState<ReservesInterface[]>([]);
+  const [shop, setShop] = useState<ShopsInterface>();
   const [messageApi, contextHolder] = message.useMessage();
+  const userId = localStorage.getItem("id");
 
   const columns: ColumnsType<ReservesInterface> = [
     {
       title: "ลำดับ",
       key: "index",
       render: (text, record, index) => <>{index + 1}</>,
-      width: 80,
       align: "center",
+      responsive: ["sm"],
+      ellipsis: true,
+      // Set flex and minWidth for balanced spacing
+      onCell: () => ({ style: { flex: 1, minWidth: 80 } }),
     },
     {
       title: "วันที่จอง",
-      dataIndex: "date", // Ensure this matches the correct field in your API response
+      dataIndex: "date",
       key: "date",
-      render: (date) => <>{dayjs(date).format("DD/MM/YYYY")}</>, // Format date correctly
-      width: 150,
-      ellipsis: true,
+      render: (date) => <>{dayjs(date).format("DD/MM/YYYY")}</>,
+      align: "center",
       responsive: ["sm"],
+      ellipsis: true,
+      onCell: () => ({ style: { flex: 1, minWidth: 150 } }),
     },
     {
       title: "ร้านค้า",
-      key: "shop",
-      render: (record) => <>{record?.shop?.shop_name || record?.shop?.shop_id}</>, // Adjust based on actual API structure
-      width: 150,
-      ellipsis: true,
+      dataIndex: "shop_name",
+      align: "center",
+      key: "shop_name",
       responsive: ["sm"],
+      ellipsis: true,
+      onCell: () => ({ style: { flex: 1, minWidth: 150 } }),
     },
     {
       title: "ราคา",
-      dataIndex: "total_price", // Ensure this matches the correct field in your API response
+      dataIndex: "total_price",
       key: "total_price",
-      width: 100,
-      ellipsis: true,
       align: "right",
+      responsive: ["sm"],
+      ellipsis: true,
+      onCell: () => ({ style: { flex: 1, minWidth: 100 } }),
     },
     {
       title: "",
@@ -57,16 +67,32 @@ function ReserveDashboard() {
           ดูรายละเอียด
         </Button>
       ),
-      width: 150,
+      responsive: ["sm"],
+      ellipsis: true,
+      onCell: () => ({ style: { flex: 1, minWidth: 150 } }),
     },
   ];
 
-  const getReserves = async () => {
-    try {
-      const res = await GetReserves();
+  const getShop = async (userId: string) => {
+    let res = await GetShopByUserId(userId);
+    if (res) {
+      setShop(res.data);
+    }
+  };
 
+  useEffect(() => {
+    if (userId) {
+      getShop(userId);
+    }
+  }, [userId]);
+
+  const getReserves = async (shopId: number) => {
+    if (!shopId) return; // Prevent fetching if shopId is undefined
+
+    try {
+      const res = await GetReservesById(shopId);
       if (res.status === 200) {
-        setReserves(res.data); // Ensure the response data format matches your ReservesInterface
+        setReserves(res.data);
       } else {
         setReserves([]);
         messageApi.open({
@@ -84,8 +110,10 @@ function ReserveDashboard() {
   };
 
   useEffect(() => {
-    getReserves();
-  }, []);
+    if (shop?.ID) {
+      getReserves(shop?.ID);
+    }
+  }, [shop]);
 
   return (
     <>
@@ -110,12 +138,12 @@ function ReserveDashboard() {
 
       <div style={{ marginTop: 20 }}>
         <Table
-          rowKey="ID" // Ensure this matches a unique identifier field in your data
+          rowKey="ID"
           columns={columns}
           dataSource={reserves}
           style={{ width: "100%" }}
-          pagination={{ pageSize: 10 }} // Adjusts pagination size as needed
-          scroll={{ x: "max-content" }} // Allows table to scroll horizontally based on content
+          pagination={{ pageSize: 10 }}
+          
         />
       </div>
     </>

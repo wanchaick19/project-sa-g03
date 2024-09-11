@@ -68,7 +68,7 @@ func main() {
 
        router.GET("/shopbyuser/:id", controller.GetShopbyUser)
 
-       router.GET("/reserves", controller.GetReserves)
+       router.GET("/reserves/:id", controller.ListReserve)
 
 
    }

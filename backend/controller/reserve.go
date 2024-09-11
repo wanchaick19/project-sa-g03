@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"example.com/project-sa-g03/config"
 	"example.com/project-sa-g03/entity"
-
+	"time"
 )
 
 // POST /users
@@ -47,18 +47,38 @@ func GetReserves(c *gin.Context) {
 }
 
 // GET /users
-func ListReserves(c *gin.Context) {
+func ListReserve(c *gin.Context) {
+	// Get the ID parameter from the URL
+	ID := c.Param("id")
 
-	var reserve []entity.Reserve
+	// Define a struct to hold the result set
+	var reserves []struct {
+		Date       time.Time `json:"date"`        // Date from the reserves table
+		ShopName   string    `json:"shop_name"`   // ShopName from the shops table
+		TotalPrice string    `json:"total_price"` // TotalPrice from the reserves table
+	}
 
+	// Get the database connection
 	db := config.DB()
-	results := db.Preload("Shop").Find(&reserve)
+
+	// Query to join reserves and shops tables and select the required fields
+	results := db.Table("reserves").
+		Select("reserves.date, shops.shop_name, reserves.total_price").
+		Joins("left join shops on reserves.shop_id = shops.id").
+		Where("shops.id = ?", ID). // Filter by shop ID matching the parameter received
+		Scan(&reserves) // Scan the results into the reserves struct
+
+	// Check for errors in the query
 	if results.Error != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, reserve)
+
+	// Return the results as JSON
+	c.JSON(http.StatusOK, reserves)
 }
+
+
 
 // DELETE /users/:id
 func DeleteReserve(c *gin.Context) {
