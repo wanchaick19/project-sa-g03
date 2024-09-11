@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Popup } from '../components/Popup';
+import { Popup } from '../../components/reservePopup/Popup';
 import ConfirmationPopup from '../../components/reservePopup/ConfirmationPopup';
 import { CheckOutlined, ClockCircleOutlined, DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons';
 import './reserve.css';
