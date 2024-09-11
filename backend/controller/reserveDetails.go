@@ -65,7 +65,7 @@ func ListReservesDetails(c *gin.Context) {
 		Select("reserve_details.lock_id, reserve_details.price").
 		Joins("left join reserves on reserve_details.reserve_id = reserves.id").
 		Where("reserves.id = ?", ID). // Filter by shop ID matching the parameter received
-		Order("reserve_details.lock_id DESC"). // Order by Date in descending order
+		Order("reserve_details.lock_id "). // Order by Date in descending order
 		Scan(&reservesdetails) // Scan the results into the reserves struct
 
 	// Check for errors in the query

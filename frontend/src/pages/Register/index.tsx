@@ -58,7 +58,7 @@ function SignUpPages() {
     reader.onload = () => {
       setProfileImageUrl(reader.result as string);
     };
-    reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
 
     // Return false to prevent default upload behavior
     return false;

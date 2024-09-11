@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Space, Table, Button, Col, Row, Divider, message, Modal } from "antd";
-import { PlusOutlined, EyeOutlined, DollarOutlined } from "@ant-design/icons";
+import { PlusOutlined, ZoomInOutlined, DollarOutlined , HistoryOutlined ,ContainerOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { GetReservesByShopId } from "../services/https/index";
 import { ReservesInterface } from "../interfaces/IReserve";
@@ -69,7 +69,7 @@ function ReserveDashboard() {
           style={{ marginTop: '20px' }}
           onClick={() => showModal(record)}
         >
-          <EyeOutlined /> ดูรายละเอียด
+          <ZoomInOutlined /> ดูรายละเอียด
         </button>
       ),
       responsive: ["sm"],
@@ -166,17 +166,20 @@ function ReserveDashboard() {
   return (
     <>
       {contextHolder}
-      <Row justify="space-between" align="middle">
-        <Col>
-          <h2>ประวัติการจอง</h2>
+      <Row justify="space-between" align="middle" >
+        <Col >
+        <div style={{marginLeft: 20 , marginTop: 30}}>
+        <h2> <HistoryOutlined /> ประวัติการจอง</h2>
+        </div>
+          
         </Col>
 
         <Col>
           <Space>
             <Link to="/reserve">
-              <Button type="primary" icon={<PlusOutlined />}>
-                จองเพิ่ม
-              </Button>
+              <button className="popup-button confirm" style={{marginRight: 30 , marginTop: 30}} >
+              <PlusOutlined /> จองเพิ่ม
+              </button>
             </Link>
           </Space>
         </Col>
@@ -198,37 +201,40 @@ function ReserveDashboard() {
 
       {/* Modal for showing reserve details */}
       <Modal
-        title="รายละเอียดการจอง"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        footer={[
-          <button className="popup-button confirm" style={{ marginTop: '20px' }} onClick={handleOk}>
-            <DollarOutlined /> ชำระเงิน
-          </button>,
-        ]}
-      >
-        {selectedReserve && (
-          <div>
-            <p style={{ display: 'inline', marginRight: '80px', marginTop: "100px" }}>
-              <strong>วันที่จอง:</strong> {dayjs(selectedReserve.date).format("DD/MM/YYYY")}
-            </p>
-            <p style={{ display: 'inline', marginRight: '100px' }}>
-              <strong>ร้านค้า:</strong> {selectedReserve.shop_name}
-            </p>
-            <p style={{ display: 'inline' }}>
-              <strong>ราคา:</strong> {selectedReserve.total_price}
-            </p>
-            <div style={{ marginTop: '20px', textAlign: 'center' }}>
-              {reservesDetails.map((detail, index) => (
-                <p key={index}>
-                  <strong>ล็อคที่: {index + 1}:</strong> {detail?.lock_id} - <strong>ราคา</strong> {detail?.price}
-                </p>
-              ))}
-            </div>
+      visible={isModalVisible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      footer={[
+        <button className="popup-button confirm" style={{ marginTop: '20px' }} onClick={handleOk} key="pay">
+          <DollarOutlined /> ชำระเงิน
+        </button>,
+      ]}
+    >
+      <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
+        <h2 style={{ fontSize: '24px' }}> <ContainerOutlined /> รายละเอียดการจอง</h2> {/* Reduced font size */}
+      </div>
+
+      {selectedReserve && (
+        <div style={{ marginTop: 30 }}>
+          <p style={{ display: 'inline', marginRight: '50px' }}>
+            <strong>วันที่จอง:</strong> {dayjs(selectedReserve.date).format("DD/MM/YYYY")}
+          </p>
+          <p style={{ display: 'inline', marginRight: '50px' }}>
+            <strong>ร้านค้า:</strong> {selectedReserve.shop_name}
+          </p>
+          <p style={{ display: 'inline', textAlign: "right"}}>
+            <strong>ราคา:</strong> {selectedReserve.total_price} <strong>บาท</strong> 
+          </p>
+          <div style={{ marginTop: '20px', textAlign: 'center' }}>
+            {reservesDetails.map((detail, index) => (
+              <p key={index}>
+                <strong>ล็อคที่: {index + 1}:</strong> {detail?.lock_id} - <strong>ราคา: </strong> {detail?.price} <strong>บาท</strong>
+              </p>
+            ))}
           </div>
-        )}
-      </Modal>
+        </div>
+      )}
+    </Modal>
     </>
   );
 }
