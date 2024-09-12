@@ -8,11 +8,11 @@ import (
 	"example.com/project-sa-g03/entity"
 )
 
-// POST /users
+// POST /reserveDetails
 func CreateReserveDetails(c *gin.Context) {
 	var reserveDetails entity.ReserveDetails
 
-	// bind เข้าตัวแปร Lock
+	// bind เข้าตัวแปร reserveDetails
 	if err := c.ShouldBindJSON(&reserveDetails); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -21,7 +21,7 @@ func CreateReserveDetails(c *gin.Context) {
 	db := config.DB()
 
 
-	// สร้าง Lock
+	// สร้าง reserveDetails
 	r := entity.ReserveDetails{
 		ReserveID: reserveDetails.ReserveID,
 		LockID: reserveDetails.LockID,
@@ -37,7 +37,7 @@ func CreateReserveDetails(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": r})
 }
 
-// GET /users
+// GET /reserveDetails
 func ListReservesDetails(c *gin.Context) {
 
 	// Get the ID parameter from the URL

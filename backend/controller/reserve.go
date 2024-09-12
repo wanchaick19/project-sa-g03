@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// POST /users
+// POST /reserve
 func CreateReserve(c *gin.Context) {
 	var reserve entity.Reserve
 
@@ -22,7 +22,7 @@ func CreateReserve(c *gin.Context) {
 	db := config.DB()
 
 
-	// สร้าง Lock
+	// สร้าง Reserve
 	r := entity.Reserve{
 		Date: reserve.Date, 
 		ShopID: reserve.ShopID,    
@@ -38,15 +38,8 @@ func CreateReserve(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": r})
 }
 
-// GET /user/:id
-func GetReserves(c *gin.Context) {
-		var reserves []entity.Reserve
-		db := config.DB()
-		db.Find(&reserves)
-		c.JSON(http.StatusOK, &reserves)
-}
 
-// GET /users
+// GET /reserves
 func ListReserve(c *gin.Context) {
 	// Get the ID parameter from the URL
 	ID := c.Param("id")
@@ -78,20 +71,4 @@ func ListReserve(c *gin.Context) {
 
 	// Return the results as JSON
 	c.JSON(http.StatusOK, reserves)
-}
-
-
-
-
-// DELETE /users/:id
-func DeleteReserve(c *gin.Context) {
-
-	id := c.Param("id")
-	db := config.DB()
-	if tx := db.Exec("DELETE FROM reserves WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"message": "Deleted successful"})
-
 }
