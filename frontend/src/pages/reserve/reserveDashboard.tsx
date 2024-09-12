@@ -60,7 +60,7 @@ function ReserveDashboard() {
       onCell: () => ({ style: { flex: 1, minWidth: 80, paddingLeft: 10 } }), // Adjust padding
     },
     {
-      title: "รายละเอียดการจอง",
+      title: "ชำระเงิน",
       key: "id",
       align: "center",
       render: (record) => (
@@ -69,7 +69,7 @@ function ReserveDashboard() {
           style={{ marginTop: '20px' }}
           onClick={() => showModal(record)}
         >
-          <ZoomInOutlined /> ดูรายละเอียด
+          <DollarOutlined /> ชำระเงิน
         </button>
       ),
       responsive: ["sm"],

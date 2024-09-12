@@ -11,6 +11,8 @@ import UserInfo from '../profile/Profile'; // นำเข้า UserInfo compon
 import { UsersInterface } from '../../interfaces/IUser';
 import { GetUsersById } from "../../services/https/index";
 import './Topbar.css'; // Import the CSS file
+import { ShopOutlined , HomeOutlined , LoginOutlined , HistoryOutlined, 
+    EnvironmentOutlined, CommentOutlined, ContactsOutlined, CreditCardOutlined, CodepenOutlined} from '@ant-design/icons';
 
 function Topbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -57,12 +59,12 @@ function Topbar() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/" style={{ color: 'white' }}>หน้าหลัก</Nav.Link>
-                            <Nav.Link as={Link} to="/review" style={{ color: 'white' }}>รีวิว</Nav.Link>
-                            <Nav.Link as={Link} to="/map" style={{ color: 'white' }}>แผนที่</Nav.Link>
-                            <NavDropdown title={<span style={{ color: 'white' }}>เกี่ยวกับร้านค้า</span>} id="basic-nav-dropdown">
-                                <NavDropdown.Item as={Link} to="/register" style={{ color: 'black' }}>ลงทะเบียนร้านค้า</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/reserve" style={{ color: 'black' }}>จองล็อคขายสินค้า</NavDropdown.Item>
+                            <Nav.Link as={Link} to="/" style={{ color: 'white' }}><HomeOutlined /> หน้าหลัก</Nav.Link>
+                            <Nav.Link as={Link} to="/review" style={{ color: 'white' }}><CommentOutlined /> รีวิว</Nav.Link>
+                            <Nav.Link as={Link} to="/map" style={{ color: 'white' }}><EnvironmentOutlined /> แผนที่</Nav.Link>
+                            <NavDropdown title={<span style={{ color: 'white' }}> <ShopOutlined /> เกี่ยวกับร้านค้า</span>} id="basic-nav-dropdown">
+                                <NavDropdown.Item as={Link} to="/register" style={{ color: 'black' }}><ShopOutlined /> ลงทะเบียนร้านค้า</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/reserve" style={{ color: 'black' }}><CodepenOutlined /> จองล็อคขายสินค้า</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
 
@@ -86,11 +88,11 @@ function Topbar() {
                                     align="end"
                                     style={{ color: 'white' }}
                                 >
-                                    <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}>โปรไฟล์</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}>ประวัติการจองล็อค</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/dashboard" style={{ color: 'black' }}>ประวัติการชำระเงิน</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}><ContactsOutlined /> โปรไฟล์</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}><HistoryOutlined /> ประวัติการจองล็อค</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/dashboard" style={{ color: 'black' }}><CreditCardOutlined /> ประวัติการชำระเงิน</NavDropdown.Item>
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}>ออกจากระบบ</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}><LoginOutlined /> ออกจากระบบ</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                         ) : (

@@ -59,6 +59,13 @@ func SetupDatabase() {
 		{Id: "C05", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C06", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D16", Status: "ไม่พร้อมใช้งาน", Price: 300, Size: "2x2"},
+		{Id: "D00", Status: "ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D01", Status: "ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D02", Status: "ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D03", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D04", Status: "ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D05", Status: "ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D06", Status: "ว่าง", Price: 300, Size: "2x2"},
 	}
 
 	for _, lock := range locks {

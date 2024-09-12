@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from '../../components/reservePopup/Popup';
 import ConfirmationPopup from '../../components/reservePopup/ConfirmationPopup';
-import { CheckOutlined, ClockCircleOutlined, DoubleRightOutlined, NotificationOutlined } from '@ant-design/icons';
+import { CheckOutlined, ClockCircleOutlined, CodepenOutlined, NotificationOutlined , StopOutlined} from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
 import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId } from '../../services/https/index';
 import { useNavigate } from "react-router-dom";
 import { ShopsInterface } from '../../interfaces/IShop';
 import { ReservesInterface } from '../../interfaces/IReserve';
+import { Color } from 'antd/es/color-picker';
 
 type Lock = {
   Id: string;
@@ -172,7 +173,7 @@ const Reserve: React.FC = () => {
   const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', textAlign: 'center', position: 'relative', minHeight: '100vh' }}>
+    <div style={{display: 'flex', flexDirection: 'row', textAlign: 'center', position: 'relative', minHeight: '100vh'  }}>
       {contextHolder}
       <div style={{ flex: 1, padding: '20px', marginRight: '20px' }}>
         <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '20px', color: 'black' }}>
@@ -181,46 +182,47 @@ const Reserve: React.FC = () => {
         <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'black' }}>
           <ClockCircleOutlined /> ขณะนี้: {getFormattedDateTime(currentTime)}
         </div>
-        <div style={{ marginTop: '40px' }}>
+        <div style={{ marginTop: '50px' }}>
           <h1>
-            <DoubleRightOutlined /> โปรดเลือกล็อค <span style={{ color: 'red' }}>*</span>
+          <CodepenOutlined /> โปรดเลือกล็อค <span style={{ color: 'red' }}>*</span>
           </h1>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px' }}>
-            {['A', 'B', 'C', 'D'].map((row, index) => (
-              <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '5px' }}>
-                {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
-                  <Tooltip
-                    key={lock.Id}
-                    title={`ล็อค: ${lock.Id} | ขนาด: ${lock.Size} เมตร | ราคา: ${lock.Price} บาท | สถานะ: ${lock.Status}`}
-                    placement="top"
-                  >
-                    <button
-                      onClick={() => handleLockClick(lock.Id, lock.Status)}
-                      style={{
-                        margin: '5px',
-                        width: '110px',
-                        height: '80px',
-                        maxWidth: '120px',
-                        maxHeight: '90px',
-                        backgroundColor: lock.Status === 'ว่าง' ? '#32cd32' : lock.Status === 'ไม่ว่าง' ? 'red' : 'gray',
-                        color: 'white',
-                        cursor: lock.Status === 'ว่าง' ? 'pointer' : 'not-allowed',
-                        borderRadius: '15px',
-                        fontSize: '25px',
-                        transition: 'transform 0.2s',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      className="lock-button"
-                    >
-                      {selectedLocks.includes(lock) ? <CheckOutlined /> : lock.Id}
-                    </button>
-                  </Tooltip>
-                ))}
-              </div>
-            ))}
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px', marginTop: '40px' }}>
+  {['A', 'B', 'C', 'D'].map((row, index) => (
+    <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '5px' }}>
+      {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
+        <Tooltip
+          key={lock.Id}
+          title={`ล็อค: ${lock.Id} | ขนาด: ${lock.Size} เมตร | ราคา: ${lock.Price} บาท | สถานะ: ${lock.Status}`}
+          placement="top"
+        >
+          <button
+            onClick={() => handleLockClick(lock.Id, lock.Status)}
+            style={{
+              margin: '5px',
+              width: '100px',
+              height: '80px',
+              maxWidth: '120px',
+              maxHeight: '90px',
+              backgroundColor: lock.Status === 'ว่าง' ? 'white' :'red',
+              color: 'black',
+              cursor: lock.Status === 'ว่าง' ? 'pointer' : 'not-allowed',
+              borderRadius: '15px',
+              fontSize: '24px',
+              transition: 'transform 0.2s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            className="lock-button"
+          >
+            {lock.Status !== 'ว่าง' ? <StopOutlined style={{ color: 'white' }}/> : selectedLocks.includes(lock) ? <CheckOutlined /> : lock.Id}
+          </button>
+        </Tooltip>
+      ))}
+    </div>
+  ))}
+</div>
+
         </div>
       </div>
 
