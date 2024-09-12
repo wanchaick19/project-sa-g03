@@ -39,9 +39,8 @@ const ConfirmationPopup: React.FC<ConfirmationPopupProps> = ({ onClose }) => {
         width: '300px'
       }}>
         <h3>บันทึกการจองสำเร็จ</h3>
-        <CheckCircleOutlined style={{ color: 'green', fontSize: '48px' }} />
-        <p />
-        <p>กดปุ่ม "ต่อไป" เพื่อทำรายการต่อ</p>
+        <CheckCircleOutlined style={{ color: 'darkgreen', fontSize: '48px' }} />
+        <p style={{marginTop: "40px"}}>กดปุ่ม "ต่อไป" เพื่อทำรายการต่อ</p>
         <button
           onClick={handleNext}
           className="popup-button confirm"

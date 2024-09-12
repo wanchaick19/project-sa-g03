@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { Space, Table, Button, Col, Row, Divider, message, Modal } from "antd";
-import { PlusOutlined, ZoomInOutlined, DollarOutlined , HistoryOutlined ,ContainerOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { Space, Table, Button, Col, Row, Divider, message, Modal, DatePicker } from "antd";
+import { PlusOutlined, DollarOutlined, HistoryOutlined, ContainerOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { GetReservesByShopId } from "../../services/https/index";
+import { GetReservesByShopId, GetShopByUserId, GetReservesDetailsByReserveId } from "../../services/https/index";
 import { ReservesInterface } from "../../interfaces/IReserve";
 import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { ShopsInterface } from "../../interfaces/IShop";
-import { GetShopByUserId } from "../../services/https/index";
 import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
-import { GetReservesDetailsByReserveId } from "../../services/https/index";
+import './reserveDashboard.css'; // Ensure you have the correct path to your CSS file
 
 function ReserveDashboard() {
   const navigate = useNavigate();
@@ -19,6 +18,8 @@ function ReserveDashboard() {
   const [messageApi, contextHolder] = message.useMessage();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedReserve, setSelectedReserve] = useState<ReservesInterface | null>(null);
+  const [filteredReserves, setFilteredReserves] = useState<ReservesInterface[]>([]);
+  const [searchDate, setSearchDate] = useState<string | null>(null);
   const userId = localStorage.getItem("id");
 
   const columns: ColumnsType<ReservesInterface> = [
@@ -29,7 +30,6 @@ function ReserveDashboard() {
       align: "center",
       responsive: ["sm"],
       ellipsis: true,
-      onCell: () => ({ style: { flex: 1, minWidth: 80 } }),
     },
     {
       title: "วันที่จอง",
@@ -39,7 +39,6 @@ function ReserveDashboard() {
       align: "center",
       responsive: ["sm"],
       ellipsis: true,
-      onCell: () => ({ style: { flex: 1, minWidth: 120 } }),
     },
     {
       title: "ร้านค้า",
@@ -48,7 +47,6 @@ function ReserveDashboard() {
       key: "shop_name",
       responsive: ["sm"],
       ellipsis: true,
-      onCell: () => ({ style: { flex: 1, minWidth: 100, paddingRight: 20 } }), // Adjust padding
     },
     {
       title: "ราคา",
@@ -57,7 +55,6 @@ function ReserveDashboard() {
       align: "center",
       responsive: ["sm"],
       ellipsis: true,
-      onCell: () => ({ style: { flex: 1, minWidth: 80, paddingLeft: 10 } }), // Adjust padding
     },
     {
       title: "ชำระเงิน",
@@ -74,7 +71,6 @@ function ReserveDashboard() {
       ),
       responsive: ["sm"],
       ellipsis: true,
-      onCell: () => ({ style: { flex: 1, minWidth: 150 } }),
     },
   ];
 
@@ -84,16 +80,16 @@ function ReserveDashboard() {
     try {
       const res = await GetReservesDetailsByReserveId(reserveId);
       if (res.status === 200) {
-        setReservesDetails(res.data); // Update state with fetched details
+        setReservesDetails(res.data);
       } else {
-        setReservesDetails([]); // Clear details if error
+        setReservesDetails([]);
         messageApi.open({
           type: "error",
           content: res.data.error || "Error fetching reserves details",
         });
       }
     } catch (error) {
-      setReservesDetails([]); // Clear details on error
+      setReservesDetails([]);
       messageApi.open({
         type: "error",
         content: "เกิดข้อผิดพลาดในการดึงข้อมูลรายละเอียดการจอง",
@@ -105,12 +101,12 @@ function ReserveDashboard() {
     setSelectedReserve(record);
 
     try {
-      await getReservesDetails(record.id); // Await details fetching
+      await getReservesDetails(record.id);
     } catch (error) {
       messageApi.error("เกิดข้อผิดพลาดในการดึงข้อมูลรายละเอียดการจอง");
     }
 
-    setIsModalVisible(true); // Show modal after setting details
+    setIsModalVisible(true);
   };
 
   const handleOk = () => {
@@ -141,6 +137,7 @@ function ReserveDashboard() {
       const res = await GetReservesByShopId(shopId);
       if (res.status === 200) {
         setReserves(res.data);
+        setFilteredReserves(res.data);
       } else {
         setReserves([]);
         messageApi.open({
@@ -163,22 +160,36 @@ function ReserveDashboard() {
     }
   }, [shop]);
 
+  const handleDateChange = (date: any, dateString: string) => {
+    setSearchDate(dateString);
+    handleDateSearch(dateString);
+  };
+
+  const handleDateSearch = (selectedDate: string | null) => {
+    if (!selectedDate) {
+      setFilteredReserves(reserves);
+    } else {
+      const filteredData = reserves.filter(reserve =>
+        dayjs(reserve.date).format("DD/MM/YYYY") === selectedDate
+      );
+      setFilteredReserves(filteredData);
+    }
+  };
+
   return (
     <>
       {contextHolder}
-      <Row justify="space-between" align="middle" >
-        <Col >
-        <div style={{marginLeft: 20 , marginTop: 30}}>
-        <h2> <HistoryOutlined /> ประวัติการจอง</h2>
-        </div>
-          
+      <Row justify="space-between" align="middle">
+        <Col>
+          <div style={{ marginLeft: 20, marginTop: 30 }}>
+            <h2><HistoryOutlined /> ประวัติการจอง</h2>
+          </div>
         </Col>
-
         <Col>
           <Space>
             <Link to="/reserve">
-              <button className="popup-button confirm" style={{marginRight: 30 , marginTop: 30}} >
-              <PlusOutlined /> จองเพิ่ม
+              <button className="popup-button confirm" style={{ marginRight: 30, marginTop: 30 }}>
+                <PlusOutlined /> จองเพิ่ม
               </button>
             </Link>
           </Space>
@@ -187,54 +198,68 @@ function ReserveDashboard() {
 
       <Divider />
 
+      <Row justify="center" style={{ marginBottom: 20 }}>
+        <Col>
+          <Space>
+            <DatePicker
+              format="DD/MM/YYYY"
+              onChange={handleDateChange}
+              placeholder="ค้นหาตามวันที่"
+              allowClear
+            />
+            <Button onClick={() => handleDateSearch(null)}>รีเซ็ตการค้นหา</Button>
+          </Space>
+        </Col>
+      </Row>
+
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
         <div style={{ maxWidth: '80%', width: '100%' }}>
           <Table
             rowKey="ID"
             columns={columns}
-            dataSource={reserves}
+            dataSource={filteredReserves}
             style={{ width: "100%" }}
             pagination={{ pageSize: 4 }}
+            rowClassName={(record, index) => index === 0 ? 'first-row-blue' : ''}
           />
         </div>
       </div>
 
-      {/* Modal for showing reserve details */}
       <Modal
-      visible={isModalVisible}
-      onOk={handleOk}
-      onCancel={handleCancel}
-      footer={[
-        <button className="popup-button confirm" style={{ marginTop: '20px' }} onClick={handleOk} key="pay">
-          <DollarOutlined /> ชำระเงิน
-        </button>,
-      ]}
-    >
-      <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
-        <h2 style={{ fontSize: '24px' }}> <ContainerOutlined /> รายละเอียดการจอง</h2> {/* Reduced font size */}
-      </div>
-
-      {selectedReserve && (
-        <div style={{ marginTop: 30 }}>
-          <p style={{ display: 'inline', marginRight: '50px' }}>
-            <strong>วันที่จอง:</strong> {dayjs(selectedReserve.date).format("DD/MM/YYYY")}
-          </p>
-          <p style={{ display: 'inline', marginRight: '50px' }}>
-            <strong>ร้านค้า:</strong> {selectedReserve.shop_name}
-          </p>
-          <p style={{ display: 'inline', textAlign: "right"}}>
-            <strong>ราคา:</strong> {selectedReserve.total_price} <strong>บาท</strong> 
-          </p>
-          <div style={{ marginTop: '20px', textAlign: 'center' }}>
-            {reservesDetails.map((detail, index) => (
-              <p key={index}>
-                <strong>ล็อคที่: {index + 1}:</strong> {detail?.lock_id} - <strong>ราคา: </strong> {detail?.price} <strong>บาท</strong>
-              </p>
-            ))}
-          </div>
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <button className="popup-button confirm" style={{ marginTop: '20px' }} onClick={handleOk} key="pay">
+            <DollarOutlined /> ชำระเงิน
+          </button>,
+        ]}
+      >
+        <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
+          <h2 style={{ fontSize: '24px' }}><ContainerOutlined /> รายละเอียดการจอง</h2>
         </div>
-      )}
-    </Modal>
+
+        {selectedReserve && (
+          <div style={{ marginTop: 30 }}>
+            <p style={{ display: 'inline', marginRight: '50px' }}>
+              <strong>วันที่จอง:</strong> {dayjs(selectedReserve.date).format("DD/MM/YYYY")}
+            </p>
+            <p style={{ display: 'inline', marginRight: '50px' }}>
+              <strong>ร้านค้า:</strong> {selectedReserve.shop_name}
+            </p>
+            <p style={{ display: 'inline', textAlign: "right" }}>
+              <strong>ราคา:</strong> {selectedReserve.total_price} <strong>บาท</strong>
+            </p>
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+              {reservesDetails.map((detail, index) => (
+                <p key={index}>
+                  <strong>ล็อคที่: {index + 1}:</strong> {detail?.lock_id} - <strong>ราคา: </strong> {detail?.price} <strong>บาท</strong>
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
+      </Modal>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LocksInterface } from '../interfaces/ILock';
+import {  ContainerOutlined } from "@ant-design/icons";
 
 type Locks = {
   Id: string;
@@ -32,17 +32,17 @@ const Popup: React.FC<{ selectedLocks: Locks[], dateOption: string, onClose: () 
         textAlign: 'center',
         width: '300px'
       }}>
-        <h3>รายละเอียดการจอง</h3>
+        <h3><ContainerOutlined /> รายละเอียดการจอง</h3>
         <p>วันที่: {dateOption}</p>
         <ul style={{ listStyleType: 'none', padding: 0 }}>
           {selectedLocks.map(lock => (
             <li key={lock.Id} style={{ display: 'flex', justifyContent: 'center', marginBottom: '5px', textAlign: 'center' }}>
-              <span style={{ marginRight: '10px' }}>{lock.Id}</span>
-              <span>ราคา {lock.Price} บาท</span>
+              <span style={{ marginRight: '10px' }}>{lock.Id} -</span>
+              <span>{lock.Size} เมตร - ราคา {lock.Price} บาท</span>
             </li>
           ))}
         </ul>
-        <p>ราคารวมทั้งหมด: {totalPrice} บาท</p>
+        <h5>ราคารวมทั้งหมด: {totalPrice} บาท</h5>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
           <button onClick={onClose} className="popup-button cancel">
             ยกเลิก

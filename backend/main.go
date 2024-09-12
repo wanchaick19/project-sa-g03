@@ -48,6 +48,8 @@ func main() {
 
    r.POST("/createdetails", controller.CreateReserveDetails)
 
+   r.PUT("/resetlocks", controller.ResetLock)
+
 
    router := r.Group("/")
 
@@ -71,6 +73,10 @@ func main() {
        router.GET("/reserves/:id", controller.ListReserve)
 
        router.GET("/reservesdetails/:id", controller.ListReservesDetails)
+
+       router.PUT("/updatelock/:id", controller.UpdateLock)
+
+      
 
 
    }

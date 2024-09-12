@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Popup } from '../../components/reservePopup/Popup';
 import ConfirmationPopup from '../../components/reservePopup/ConfirmationPopup';
-import { CheckOutlined, ClockCircleOutlined, CodepenOutlined, NotificationOutlined , StopOutlined} from '@ant-design/icons';
+import { CheckOutlined, ClockCircleOutlined, CodepenOutlined, NotificationOutlined , ShopOutlined
+  , CheckCircleOutlined, FileDoneOutlined , InboxOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
-import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId } from '../../services/https/index';
+import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId ,UpdateLocksById ,ResetLocks} from '../../services/https/index';
 import { useNavigate } from "react-router-dom";
 import { ShopsInterface } from '../../interfaces/IShop';
 import { ReservesInterface } from '../../interfaces/IReserve';
-import { Color } from 'antd/es/color-picker';
 
 type Lock = {
   Id: string;
@@ -142,15 +142,16 @@ const Reserve: React.FC = () => {
             LockID: lock.Id,
             Price: lock.Price,
           };
+          const data = {
+            Id: lock.Id,
+            Status: "ไม่ว่าง",
+            Price: lock.Price,
+            Size: lock.Size
+          };
           await CreateReserveDetails(reserveDetail);
+          await UpdateLocksById(lock.Id, data);
         })
       );
-
-      // Update lock status after successful booking
-      const updatedLocks = locks.map((lock) =>
-        selectedLocks.includes(lock) ? { ...lock, Status: 'ไม่ว่าง' } : lock
-      );
-      setLocks(updatedLocks); // Update locks in state
       setSelectedLocks([]); // Reset selected locks after booking
 
       setShowPopup(false);
@@ -162,7 +163,6 @@ const Reserve: React.FC = () => {
 
   const handleCloseConfirmation = () => {
     setShowConfirmation(false);
-    // Navigate or perform any other action here if needed
     navigate("/nextpage"); // Redirect to another page if required
   };
 
@@ -170,41 +170,48 @@ const Reserve: React.FC = () => {
     getLocks();
   }, []);
 
+  const handleResetLock = async () => {
+    ResetLocks();
+    window.location.reload();
+  };
+
   const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);
 
   return (
     <div style={{display: 'flex', flexDirection: 'row', textAlign: 'center', position: 'relative', minHeight: '100vh'  }}>
       {contextHolder}
       <div style={{ flex: 1, padding: '20px', marginRight: '20px' }}>
-        <div style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '20px', color: 'black' }}>
-          <NotificationOutlined /> จองสำหรับวันที่: {tomorrowOption} (พรุ่งนี้)
-        </div>
+      <div className="marquee-container">
+        <span className="marquee-text">
+          <NotificationOutlined /> จองสำหรับวันที่: {tomorrowOption} (พรุ่งนี้) 
+        </span>
+     </div>
         <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'black' }}>
           <ClockCircleOutlined /> ขณะนี้: {getFormattedDateTime(currentTime)}
         </div>
         <div style={{ marginTop: '50px' }}>
           <h1>
-          <CodepenOutlined /> โปรดเลือกล็อค <span style={{ color: 'red' }}>*</span>
+          <CodepenOutlined /> โปรดเลือกล็อค <a style={{ color: 'red' }}>*</a>
           </h1>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '30px', marginTop: '40px' }}>
-  {['A', 'B', 'C', 'D'].map((row, index) => (
-    <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '5px' }}>
-      {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '30px' }}>
+           {['A', 'B', 'C', 'D', 'E','F'].map((row, index) => (
+            <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '2px' }}>
+              {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
         <Tooltip
           key={lock.Id}
           title={`ล็อค: ${lock.Id} | ขนาด: ${lock.Size} เมตร | ราคา: ${lock.Price} บาท | สถานะ: ${lock.Status}`}
           placement="top"
         >
-          <button
+          <button 
             onClick={() => handleLockClick(lock.Id, lock.Status)}
             style={{
               margin: '5px',
-              width: '100px',
-              height: '80px',
+              width: '85px',
+              height: '70px',
               maxWidth: '120px',
               maxHeight: '90px',
-              backgroundColor: lock.Status === 'ว่าง' ? 'white' :'red',
-              color: 'black',
+              backgroundColor: lock.Status === 'ว่าง' ? 'green' :'white',
+              color: 'white',
               cursor: lock.Status === 'ว่าง' ? 'pointer' : 'not-allowed',
               borderRadius: '15px',
               fontSize: '24px',
@@ -212,37 +219,43 @@ const Reserve: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)', 
             }}
             className="lock-button"
           >
-            {lock.Status !== 'ว่าง' ? <StopOutlined style={{ color: 'white' }}/> : selectedLocks.includes(lock) ? <CheckOutlined /> : lock.Id}
+            {lock.Status !== 'ว่าง' ? <ShopOutlined style={{color: "black"}}/> : selectedLocks.includes(lock) ? <CheckOutlined /> : lock.Id}
           </button>
         </Tooltip>
       ))}
     </div>
   ))}
+  
+  <button className='reserve-button'onClick={handleResetLock}>
+    ResetLock
+  </button>
 </div>
 
         </div>
       </div>
 
       <div style={{ flex: 0.5, padding: '20px', borderLeft: '1px solid #ddd', maxHeight: '80vh', overflowY: 'auto', marginTop: '100px' }}>
-        <h3>รายการล็อคที่เลือก</h3>
+        <h3><InboxOutlined /> รายการล็อคที่เลือก</h3>
         {selectedLocks.length > 0 ? (
           <ul style={{ listStyleType: 'none', padding: '0' }}>
+            <p style={{marginTop: "20px"}}/>
             {selectedLocks.map((lock) => (
               <li key={lock.Id} style={{ marginBottom: '5px', fontSize: '18px' }}>
-                ล็อค: {lock.Id} กว้าง {lock.Size} เมตร - ราคา {lock.Price} บาท
+                <CheckCircleOutlined style={{color: "green"}}/> ล็อค: {lock.Id} กว้าง {lock.Size} เมตร - ราคา {lock.Price} บาท
               </li>
             ))}
           </ul>
         ) : (
-          <p>ยังไม่ได้เลือกล็อค</p>
+          <h5 style={{marginTop: "20x" }}><InfoCircleOutlined style={{color: "red"}}/> ยังไม่ได้เลือกล็อค</h5>
         )}
-        <h5>ราคารวม: {totalPrice} บาท</h5>
+        <h4 style={{marginTop: "20px"}}>ราคารวม: {totalPrice} บาท</h4>
         <div style={{ marginTop: '20px' }}>
           <button onClick={handleProceed} className='reserve-button'>
-            จอง
+          <FileDoneOutlined /> จอง
           </button>
         </div>
       </div>

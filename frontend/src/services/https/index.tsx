@@ -1,3 +1,4 @@
+import { LocksInterface } from "../../interfaces/ILock";
 import { ReservesInterface } from "../../interfaces/IReserve";
 import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
 import { UsersInterface } from "../../interfaces/IUser";
@@ -38,22 +39,6 @@ async function SignIn(data: SignInInterface) {
     .catch((e) => e.response);
 
 }
-
-
-
-
-async function GetUsers() {
-
-  return await axios
-
-    .get(`${apiUrl}/users`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
 
 async function GetLocks() {
   const requestOptions = {
@@ -139,19 +124,6 @@ async function UpdateUsersById(id: string, data: UsersInterface) {
 }
 
 
-async function DeleteUsersById(id: string) {
-
-  return await axios
-
-    .delete(`${apiUrl}/user/${id}`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
-
 async function CreateUser(data: UsersInterface) {
 
   return await axios
@@ -179,10 +151,37 @@ async function CreateReserveDetails(data: ReserveDetailsInterface) {
 async function CreateReserve(data: ReservesInterface) {
   return await axios
     .post(`${apiUrl}/createreserve`, data, requestOptions)
+
     .then((res) => res.data)  // คืนเฉพาะ res.data ซึ่งเป็นข้อมูลที่เราสนใจ
+
     .catch((e) => {
+
       return e.response;
     });
+}
+
+async function UpdateLocksById(id: string, data: LocksInterface) {
+
+  return await axios
+
+    .put(`${apiUrl}/updatelock/${id}`,data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function ResetLocks() {
+
+  return await axios
+
+    .put(`${apiUrl}/resetlocks`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
 }
 
 
@@ -190,13 +189,9 @@ export {
 
   SignIn,
 
-  GetUsers,
-
   GetUsersById,
 
   UpdateUsersById,
-
-  DeleteUsersById,
 
   CreateUser,
 
@@ -211,5 +206,9 @@ export {
   GetReservesByShopId,
 
   GetReservesDetailsByReserveId,
+
+  UpdateLocksById,
+
+  ResetLocks,
 
 };

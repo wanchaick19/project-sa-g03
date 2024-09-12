@@ -1,14 +1,17 @@
 import { UsersInterface } from "../../interfaces/IUser";
 import { GetUsersById } from "../../services/https/index";
+import { GetShopByUserId } from "../../services/https/index";
 import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import './profile.css';
 import { Avatar } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { EditOutlined } from '@ant-design/icons'; // Import the EditOutlined icon
+import { ShopsInterface } from "../../interfaces/IShop";
 
 function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => void }) {
     const [user, setUsers] = useState<UsersInterface>();
+    const [shop, setShops] = useState<ShopsInterface>();
     const userId = localStorage.getItem("id");
     const navigate = useNavigate();
 
@@ -19,9 +22,17 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
         }
     };
 
+    const getShops = async (userId: string) => {
+        let res = await GetShopByUserId(userId);
+        if (res) {
+            setShops(res.data);
+        }
+    };
+
     useEffect(() => {
         if (userId) {
             getUsers(userId);
+            getShops(userId);
         }
     }, [userId]);
 
@@ -75,6 +86,10 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
                             <div className="info-section">
                                 <div className="info-label">เพศ</div>
                                 <div className="info-value">{(user.GenderID === 1) ? "ชาย" : "หญิง"}</div>
+                            </div>
+                            <div className="info-section">
+                                <div className="info-label">ร้านค้า</div>
+                                <div className="info-value">{shop? "": "ยังไม่มีร้านค้า"}</div>
                             </div>
                         </div>
                     </div>

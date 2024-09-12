@@ -48,3 +48,29 @@
     color: white;
   }
   
+
+  .marquee-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: black;
+    width: 350px; /* กำหนดความกว้างของคอนเทนเนอร์ */
+    overflow: hidden; /* ซ่อนข้อความที่ล้นออกไป */
+  }
+  
+  .marquee-text {
+    display: inline-block;
+    white-space: nowrap; /* ป้องกันไม่ให้ข้อความมีการแรพ */
+    animation: marquee 8s linear infinite;
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  

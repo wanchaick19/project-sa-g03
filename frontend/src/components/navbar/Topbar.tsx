@@ -11,7 +11,7 @@ import UserInfo from '../profile/Profile'; // นำเข้า UserInfo compon
 import { UsersInterface } from '../../interfaces/IUser';
 import { GetUsersById } from "../../services/https/index";
 import './Topbar.css'; // Import the CSS file
-import { ShopOutlined , HomeOutlined , LoginOutlined , HistoryOutlined, 
+import { ShopOutlined , HomeOutlined , LoginOutlined , HistoryOutlined,  LogoutOutlined,
     EnvironmentOutlined, CommentOutlined, ContactsOutlined, CreditCardOutlined, CodepenOutlined} from '@ant-design/icons';
 
 function Topbar() {
@@ -89,10 +89,11 @@ function Topbar() {
                                     style={{ color: 'white' }}
                                 >
                                     <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}><ContactsOutlined /> โปรไฟล์</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/shop_profile" style={{ color: 'black' }}><ShopOutlined /> โปรไฟล์ร้านค้า</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}><HistoryOutlined /> ประวัติการจองล็อค</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/dashboard" style={{ color: 'black' }}><CreditCardOutlined /> ประวัติการชำระเงิน</NavDropdown.Item>
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}><LoginOutlined /> ออกจากระบบ</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}><LogoutOutlined /> ออกจากระบบ</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                         ) : (
@@ -102,7 +103,7 @@ function Topbar() {
                                 variant="outline-light"
                                 className="ms-auto login-button" // Added CSS class here
                             >
-                                เข้าสู่ระบบ
+                                <LoginOutlined /> เข้าสู่ระบบ
                             </Button>
                         )}
                     </Navbar.Collapse>

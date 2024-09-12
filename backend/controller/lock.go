@@ -8,38 +8,7 @@ import (
 	"example.com/project-sa-g03/entity"
 )
 
-// POST /users
-func CreateLock(c *gin.Context) {
-	var lock entity.Locks
-
-	// bind เข้าตัวแปร Lock
-	if err := c.ShouldBindJSON(&lock); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	db := config.DB()
-
-
-	// สร้าง Lock
-	u := entity.Locks{
-		Id: lock.Id, 
-		Status: lock.Status, 
-		Price: lock.Price,    
-		Size: lock.Size,
-
-	}
-
-	// บันทึก
-	if err := db.Create(&u).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": u})
-}
-
-// GET /user/:id
+// GET /locks
 func GetLocks(c *gin.Context) {
 		var locks []entity.Locks
 		db := config.DB()
@@ -47,56 +16,55 @@ func GetLocks(c *gin.Context) {
 		c.JSON(http.StatusOK, &locks)
 }
 
-// GET /users
-func ListLocks(c *gin.Context) {
-
-	var locks []entity.Locks
-
-	db := config.DB()
-	results := db.Preload("Id").Find(&locks)
-	if results.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, locks)
-}
-
-// DELETE /users/:id
-func DeleteLock(c *gin.Context) {
-
-	id := c.Param("id")
-	db := config.DB()
-	if tx := db.Exec("DELETE FROM lock WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"message": "Deleted successful"})
-
-}
-
 // PATCH /locks
 func UpdateLock(c *gin.Context) {
 	var lock entity.Locks
+	var updatedData entity.Locks
 
 	LockID := c.Param("id")
 
+	// เชื่อมต่อกับฐานข้อมูล
 	db := config.DB()
-	result := db.First(&lock, LockID)
+	result := db.Where("id = ?", LockID).First(&lock)
 	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "id not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "ID not found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&lock); err != nil {
+	// ตรวจสอบและเชื่อมโยงข้อมูลจาก JSON Payload
+	if err := c.ShouldBindJSON(&updatedData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request, unable to map payload"})
 		return
 	}
 
+	// อัปเดตข้อมูล
+	lock.Status = updatedData.Status
+	lock.Size = updatedData.Size
+	lock.Price = updatedData.Price
+
+	// บันทึกการเปลี่ยนแปลงไปยังฐานข้อมูล
 	result = db.Save(&lock)
 	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to update lock"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
+	c.JSON(http.StatusOK, gin.H{"message": "Updated successfully"})
 }
+
+
+func ResetLock(c *gin.Context) {
+    // เชื่อมต่อกับฐานข้อมูล
+    db := config.DB()
+
+    // ใช้ Model กับ Where("1 = 1") เพื่ออัปเดตสถานะทั้งหมด
+    result := db.Model(&entity.Locks{}).Where("Status = ?","ไม่ว่าง").Update("Status", "ว่าง")
+    if result.Error != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to reset locks status"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"message": "All locks have been reset to 'ว่าง' successfully"})
+}
+
+
