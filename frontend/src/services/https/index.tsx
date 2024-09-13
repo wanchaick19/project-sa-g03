@@ -1,6 +1,7 @@
 import { LocksInterface } from "../../interfaces/ILock";
 import { ReservesInterface } from "../../interfaces/IReserve";
 import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
+import { ShopsInterface } from "../../interfaces/IShop";
 import { UsersInterface } from "../../interfaces/IUser";
 
 import { SignInInterface } from "../../interfaces/SignIn";
@@ -184,6 +185,32 @@ async function ResetLocks() {
 
 }
 
+//ของโอ๊ตต
+
+async function CreateShop(data: ShopsInterface) {
+
+  return await axios
+
+    .post(`${apiUrl}/createshop`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetUsersByUserId(id: string) {
+
+  return await axios
+
+    .get(`${apiUrl}/users/${id}`, requestOptions)
+
+    .then((res) => res.data)
+
+    .catch((e) => e.response);
+
+}
+
 
 export {
 
@@ -210,5 +237,9 @@ export {
   UpdateLocksById,
 
   ResetLocks,
+
+  CreateShop,
+
+  GetUsersByUserId,
 
 };

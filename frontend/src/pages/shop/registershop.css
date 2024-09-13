@@ -1,0 +1,63 @@
+/* RegisterStore.css */
+
+.container1 {
+    padding: 40px;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .content-box1 {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .form-section1 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .logo-section1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+  }
+  
+  .logo-image1 {
+    width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .form-fields1 {
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .custom-submit1 {
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+  }
+  
+  .custom-cancel1 {
+    background-color: #e0e0e0;
+    color: #888;
+    border: none;
+    margin-right: 10px;
+  }
+  
+  .custom-submit:hover1 {
+    background-color: #d9363e;
+  }
+  
+  .custom-cancel:hover1 {
+    background-color: #c4c4c4;
+  }

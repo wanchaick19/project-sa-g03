@@ -30,3 +30,34 @@ func GetShopbyUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+func CreateShop(c *gin.Context) {
+	var shop entity.Shop
+
+	// bind เข้าตัวแปร Lock
+	if err := c.ShouldBindJSON(&shop); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	db := config.DB()
+
+
+	// สร้าง Reserve
+	r := entity.Shop{
+		NationalID: shop.NationalID, 
+		CategoryID: shop.CategoryID,    
+		ShopName: shop.ShopName,
+		Description: shop.Description,
+		ShopImg: shop.ShopImg,
+		UserID: shop.UserID,
+	}
+
+	// บันทึก
+	if err := db.Create(&r).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": r})
+}

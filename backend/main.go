@@ -48,6 +48,8 @@ func main() {
 
    r.POST("/createdetails", controller.CreateReserveDetails)
 
+   r.POST("/createshop", controller.CreateShop)
+
    r.PUT("/resetlocks", controller.ResetLock)
 
 
@@ -65,6 +67,8 @@ func main() {
        router.GET("/users", users.GetAll)
 
        router.GET("/user/:id", users.GetUser)
+
+       router.GET("/users/:id", users.GetUserbyUserID)
 
        router.DELETE("/user/:id", users.Delete)
 
