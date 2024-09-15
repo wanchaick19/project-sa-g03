@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-
+	"time"
 	"example.com/project-sa-g03/entity"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"log"
 )
 
 var db *gorm.DB
@@ -26,17 +27,19 @@ func ConnectionDB() {
 func SetupDatabase() {
 
 	db.AutoMigrate(
-		&entity.Locks{},
+		&entity.Lock{},
 		&entity.Gender{},
 		&entity.Users{},
 		&entity.Categories{},
 		&entity.Shop{},
 		&entity.Reserve{},
 		&entity.ReserveDetails{},
+		&entity.Review{},
+		&entity.Payment{},
 	)
 
 	// สร้างข้อมูลล็อค
-	locks := []entity.Locks{
+	locks := []entity.Lock{
 		{Id: "A00", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A01", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A02", Status: "ไม่ว่าง", Price: 200, Size: "2x2"},
@@ -101,7 +104,7 @@ func SetupDatabase() {
 	}
 
 	for _, lock := range locks {
-		db.FirstOrCreate(&lock, entity.Locks{Id: lock.Id}) // ตรวจสอบเงื่อนไขก่อนสร้างข้อมูล
+		db.FirstOrCreate(&lock, entity.Lock{Id: lock.Id}) // ตรวจสอบเงื่อนไขก่อนสร้างข้อมูล
 	}
 
 	// สร้างข้อมูลเพศ
@@ -146,10 +149,9 @@ func SetupDatabase() {
 
 	// สร้างข้อมูลหมวดหมู่
 	categories := []entity.Categories{
-		{CategoryName: "นวย1"},
-		{CategoryName: "นวย2"},
-		{CategoryName: "นวย3"},
-		{CategoryName: "นวย4"},
+		{CategoryName: "ร้านอาหาร"},
+		{CategoryName: "ร้านขายสินค้า"},
+		{CategoryName: "ร้านบริกาาร"},
 	}
 
 	for _, category := range categories {
@@ -159,17 +161,87 @@ func SetupDatabase() {
 	// สร้างข้อมูลร้านค้า
 	shops := []entity.Shop{
 		{
-			NationalID: "123456789", CategoryID: 1, ShopName: "nuay",
-			Description: "nuayqqqq", ShopImg: "https://th.bing.com/th/id/OIP.arl_DZPqNL6ZTs9u_OAdYwAAAA?rs=1&pid=ImgDetMain", UserID: 1,
+			NationalID: "123456789", CategoryID: 1, ShopName: "ร้านไก่ย่าง",
+			Description: "ขายไก่", ShopImg: "https://img.kapook.com/u/2018/pattra/patsep2018/kaiyang01.jpg", UserID: 1,
 		},
 		{
-			NationalID: "12345678922", CategoryID: 1, ShopName: "nuayeiei",
-			Description: "nuayqqqq", ShopImg: "https://th.bing.com/th/id/OIP.arl_DZPqNL6ZTs9u_OAdYwAAAA?rs=1&pid=ImgDetMain", UserID: 2,
+			NationalID: "12345678922", CategoryID: 1, ShopName: "ร้านส้มตำ",
+			Description: "ส้มตำ", ShopImg: "https://th.bing.com/th/id/OIP.-xG4PRkO64cJrcpoj4wn6gHaEu?rs=1&pid=ImgDetMain", UserID: 2,
 		},
 	}
 
 	for _, shop := range shops {
 		db.FirstOrCreate(&shop, entity.Shop{NationalID: shop.NationalID})
 	}
+	
+dateFormat := "2006-01-02"
+
+reserve := []entity.Reserve{
+    {
+        Date: func() time.Time {
+            date, err := time.Parse(dateFormat, "2024-09-15")
+            if err != nil {
+                log.Fatalf("Error parsing date: %v", err)
+            }
+            return date
+        }(),
+        ShopID: 1, TotalPrice: 600, Status: "ชำระเงินแล้ว",
+    },
+    {
+        Date: func() time.Time {
+            date, err := time.Parse(dateFormat, "2024-09-16")
+            if err != nil {
+                log.Fatalf("Error parsing date: %v", err)
+            }
+            return date
+        }(),
+        ShopID: 2, TotalPrice: 600 , Status: "ชำระเงินแล้ว",
+    },
 }
 
+	for _, reserves := range reserve {
+		db.FirstOrCreate(&reserves, entity.Reserve{ShopID: reserves.ShopID, Date: reserves.Date})
+	}
+
+
+	reserveDetails := []entity.ReserveDetails{
+		{ReserveID: 1, LockID: "A00"}, {ReserveID: 1, LockID: "A01"}, {ReserveID: 1, LockID: "A02"},
+		{ReserveID: 2, LockID: "B00"}, {ReserveID: 2, LockID: "B01"}, {ReserveID: 2, LockID: "B02"},
+	}
+
+	for _, details := range reserveDetails {
+		db.FirstOrCreate(&details, entity.ReserveDetails{ReserveID: details.ReserveID, LockID: details.LockID})
+	}
+
+	for _, reserves := range reserve {
+		db.FirstOrCreate(&reserves, entity.Reserve{ShopID: reserves.ShopID, Date: reserves.Date})
+	}
+	
+	
+	payments := []entity.Payment{
+		{DateTime: func() time.Time {
+            date, err := time.Parse(dateFormat, "2024-09-15")
+            if err != nil {
+                log.Fatalf("Error parsing date: %v", err)
+            }
+            return date
+        }(), TotalPrice: 900, ReserveID: 1,},
+
+		{DateTime: func() time.Time {
+            date, err := time.Parse(dateFormat, "2024-09-15")
+            if err != nil {
+                log.Fatalf("Error parsing date: %v", err)
+            }
+            return date
+        }(), TotalPrice: 900, ReserveID: 2,},
+		
+	}
+	
+	for _, payment := range payments {
+		db.FirstOrCreate(&payment, entity.Payment{
+			ReserveID: payment.ReserveID,
+			DateTime:  payment.DateTime,
+		})
+	}
+
+}

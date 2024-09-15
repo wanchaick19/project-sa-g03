@@ -14,7 +14,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { CreateUser } from "../../services/https/index";
 import { UsersInterface } from "../../interfaces/IUser";
-import logo from "../../assets/4.png";
+import logo from "../../assets/biglogo.png";
 import "./index.css";
 
 function SignUpPages() {

@@ -13,4 +13,6 @@ type Shop struct {
 
 	UserID uint
 	Reserve []Reserve `gorm:"foreignKey:ShopID"`
+
+	Review []Review `gorm:"foreignKey:ShopID"`
 }

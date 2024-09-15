@@ -61,3 +61,30 @@ func CreateShop(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{"message": "Created success", "data": r})
 }
+
+func GetShops(c *gin.Context) {
+	var shops []entity.Shop
+	db := config.DB()
+	db.Find(&shops)
+	c.JSON(http.StatusOK, &shops)
+}
+
+func GetShopByID(c *gin.Context) {
+    ID := c.Param("id") // Get the shop ID from the URL parameter
+    var shop entity.Shop
+
+    db := config.DB()
+
+    // Query the shop by shop ID
+    results := db.Where("id = ?", ID).First(&shop) // Adjust this line to query by shop ID
+    if results.Error != nil {
+        if errors.Is(results.Error, gorm.ErrRecordNotFound) {
+            c.JSON(http.StatusNotFound, gin.H{"error": "Shop not found"})
+        } else {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
+        }
+        return
+    }
+
+    c.JSON(http.StatusOK, shop)
+}

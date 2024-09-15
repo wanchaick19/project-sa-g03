@@ -52,6 +52,8 @@ func main() {
 
    r.PUT("/resetlocks", controller.ResetLock)
 
+   r.POST("/createreview", controller.CreateReview)
+
 
    router := r.Group("/")
 
@@ -80,8 +82,9 @@ func main() {
 
        router.PUT("/updatelock/:id", controller.UpdateLock)
 
-      
+       router.PUT("/cancelLock/:id", controller.CancelLock)
 
+       router.PUT("/cancelReserve/:id", controller.CancelReserve)
 
    }
 
@@ -89,6 +92,12 @@ func main() {
    r.GET("/genders", genders.GetAll)
 
    r.GET("/locks",controller.GetLocks)
+
+   r.GET("/categories",controller.GetCategories)
+
+   r.GET("/getshops",controller.GetShops)
+
+   r.GET("/shop/:id",controller.GetShopByID)
 
 
    r.GET("/", func(c *gin.Context) {

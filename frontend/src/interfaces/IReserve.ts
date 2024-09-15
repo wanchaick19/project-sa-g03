@@ -3,4 +3,5 @@ export interface ReservesInterface {
     Date?: string;
     ShopID?: number;
     TotalPrice?: number;
+    Status?: string
   }

@@ -173,6 +173,30 @@ async function UpdateLocksById(id: string, data: LocksInterface) {
 
 }
 
+async function CancelLockById(id: string, data: LocksInterface) {
+
+  return await axios
+
+    .put(`${apiUrl}/cancelLock/${id}`,data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function cancelReserveById(id: number, data: ReservesInterface) {
+
+  return await axios
+
+    .put(`${apiUrl}/cancelReserve/${id}`,data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
 async function ResetLocks() {
 
   return await axios
@@ -211,6 +235,71 @@ async function GetUsersByUserId(id: string) {
 
 }
 
+// jibbb
+
+async function GetShops() {
+
+  return await axios
+
+    .get(`${apiUrl}/getshops`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetCategories() {
+
+  return await axios
+
+    .get(`${apiUrl}/categories`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetReviewsByShopId(id: string) {
+
+  return await axios
+
+    .get(`${apiUrl}/review/${id}`, requestOptions)
+
+    .then((res) => res.data)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetShopById(id: string) {
+
+  return await axios
+
+    .get(`${apiUrl}/shop/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function CreateReview(data: ShopsInterface) {
+
+  return await axios
+
+    .post(`${apiUrl}/createreview`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+
+
+
 
 export {
 
@@ -236,10 +325,24 @@ export {
 
   UpdateLocksById,
 
+  cancelReserveById,
+  
+  CancelLockById,
+
   ResetLocks,
 
   CreateShop,
 
   GetUsersByUserId,
+
+  GetShops,
+
+  GetCategories,
+
+  GetReviewsByShopId,
+
+  GetShopById,
+
+  CreateReview,
 
 };

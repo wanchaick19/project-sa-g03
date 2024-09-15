@@ -25,7 +25,6 @@ func CreateReserveDetails(c *gin.Context) {
 	r := entity.ReserveDetails{
 		ReserveID: reserveDetails.ReserveID,
 		LockID: reserveDetails.LockID,
-		Price: reserveDetails.Price,
 	}
 
 	// บันทึก
@@ -54,8 +53,9 @@ func ListReservesDetails(c *gin.Context) {
 
 	// Query to join reserves and shops tables, select the required fields, and order by date in descending order
 	results := db.Table("reserve_details").
-		Select("reserve_details.lock_id, reserve_details.price").
+		Select("reserve_details.lock_id, locks.price").
 		Joins("left join reserves on reserve_details.reserve_id = reserves.id").
+		Joins("left join locks on reserve_details.lock_id = locks.id").
 		Where("reserves.id = ?", ID). // Filter by shop ID matching the parameter received
 		Order("reserve_details.lock_id "). // Order by Date in descending order
 		Scan(&reservesdetails) // Scan the results into the reserves struct

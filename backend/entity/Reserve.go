@@ -7,10 +7,14 @@ type Reserve struct {
 	gorm.Model
 	Date time.Time
 	
-	ShopID *uint
+	ShopID uint
 	Shop Shop `gorm:"foreignKey:ShopID"`
 
 	TotalPrice float32
+
+	Status string
 	
 	ReserveDetails []ReserveDetails `gorm:"foreignKey:ReserveID"`
+
+	Payment []Payment `gorm:"foreignKey:ReserveID"`
 }

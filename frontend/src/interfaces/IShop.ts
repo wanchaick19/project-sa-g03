@@ -1,9 +1,9 @@
 export interface ShopsInterface {
     ID?: number;
     NationalID?: string;
-    Categories?: number;
+    CategoryID?: number;
     ShopName?: string;
     Description?: string;
-    ShopImg?: number;
+    ShopImg?: string;
     UserID?: string;
   }

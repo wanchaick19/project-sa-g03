@@ -1,0 +1,28 @@
+.review-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shop-info-card {
+    margin-bottom: 20px;
+  }
+  
+  .shop-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .review-container .ant-form-item {
+    margin-bottom: 16px;
+  }
+  

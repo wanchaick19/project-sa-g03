@@ -1,0 +1,56 @@
+.shop-container {
+    padding: 20px;
+}
+  
+.ant-typography {
+    text-align: center;
+}
+  
+.ant-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 270px; 
+    width: 250px;
+}
+  
+.ant-card-body {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    text-align: center;
+}
+  
+.ant-card-cover img {
+    height: 180px; 
+    object-fit: cover;
+    width: 100%;
+}
+  
+.ant-card-meta {
+    text-align: center;
+    margin-top: 10px;
+}
+  
+.star {
+    color: #ffcc00;
+    margin-right: 5px;
+}
+.info-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: black;
+    height: 40px;
+    width: 170px;
+    font-size: 15px;
+    color: white;
+    display: flex; /* ใช้ Flexbox */
+    align-items: center; /* จัดแนวตัวหนังสือในแนวตั้ง */
+    justify-content: center; /* จัดแนวตัวหนังสือในแนวนอน */
+    text-align: center; /* จัดการจัดตำแหน่งข้อความภายใน */
+
+}

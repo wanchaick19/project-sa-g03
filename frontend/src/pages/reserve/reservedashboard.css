@@ -1,4 +1,29 @@
 .first-row-blue {
     color: blue !important;
   }
+
+  .details-button{
+    padding:10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease-in-out; /* เพิ่ม transition */
+    flex: 1; 
+  }
+
+  .details-button:hover {
+    transform: translateY(-5px); /* ขยับขึ้นเล็กน้อยเมื่อ hover */
+  }
+
+  .details-button.cancel {
+    background-color: transparent;
+    color: rgb(255, 0, 0);
+    border: 2px solid rgb(255, 0, 0);
+  }
   
+  .details-button.finish {
+    background-color: transparent;
+    color: rgb(0, 120, 8);
+    border: 2px solid rgb(0, 120, 8);
+  }

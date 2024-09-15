@@ -13,5 +13,5 @@ type Users struct {
 	GenderID uint
 
 	Shops []Shop `gorm:"foreignKey:UserID"`
-	
+	Review []Review `gorm:"foreignKey:UserID"`
 }

@@ -1,6 +1,6 @@
 package entity
 
-type Locks struct {
+type Lock struct {
 	Id     string `gorm:"PrimaryKey`
 	Status string
 	Price  float32

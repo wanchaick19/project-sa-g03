@@ -5,11 +5,9 @@ import "gorm.io/gorm"
 type ReserveDetails struct {
 	gorm.Model
 
-	ReserveID *uint
+	ReserveID uint
 	Reserve Reserve `gorm:"foreignKey:ReserveID"`
 
-	LockID *string
-	Locks Locks `gorm:"foreignKey:LockID"`
-
-	Price float32
+	LockID string
+	Locks Lock `gorm:"foreignKey:LockID"`
 }

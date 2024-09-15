@@ -18,7 +18,6 @@ type Lock = {
 };
 
 const Reserve: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [locks, setLocks] = useState<Lock[]>([]);
   const [selectedLocks, setSelectedLocks] = useState<Lock[]>([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -31,11 +30,11 @@ const Reserve: React.FC = () => {
 
   useEffect(() => {
     const loginStatus = localStorage.getItem('isLogin') === 'true';
-    setIsLoggedIn(loginStatus);
     if (!loginStatus) {
+      sessionStorage.setItem('showLoginMessage', 'true');
       window.location.href = '/login';
     }
-  }, []);
+}, []);
 
   const getLocks = async () => {
     try {
@@ -140,13 +139,8 @@ const Reserve: React.FC = () => {
           const reserveDetail = {
             ReserveID: createdReserve.ID,
             LockID: lock.Id,
-            Price: lock.Price,
           };
           const data = {
-            Id: lock.Id,
-            Status: "ไม่ว่าง",
-            Price: lock.Price,
-            Size: lock.Size
           };
           await CreateReserveDetails(reserveDetail);
           await UpdateLocksById(lock.Id, data);
