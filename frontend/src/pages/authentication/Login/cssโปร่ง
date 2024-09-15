@@ -1,0 +1,85 @@
+/* LoginPage.css */
+.login-page22 {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    background-image: url('../../../assets/login.JPG'); /* Add background image */
+    background-size: cover; /* Cover the entire area */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-position: center; /* Center the image */
+}
+
+.login-container22 {
+    display: flex;
+    background-color: #000000b7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 80%; /* Adjust this value to make the container wider or narrower */
+    max-width: 900px; /* Ensure the container doesn't get too wide */
+    overflow: hidden;
+}
+
+.login-left22,
+.login-right22 {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-left22 {
+    border-right: 1px solid #e0e0e0;
+    flex: 1;
+}
+
+.logo22 {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+    opacity: 1;
+}
+
+.profile_null_user {
+    width: 100px; /* กำหนดความกว้าง */
+    height: 100px; /* กำหนดความสูง */
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    object-fit: cover; /* ป้องกันรูปภาพบิดเบี้ยว */
+}
+
+.login-right22 {
+    flex: 1;
+}
+
+.login-right22 h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white; /* Make heading text white */
+}
+
+.login-right22 .ant-form-item-label > label {
+    color: white; /* Make form labels white */
+}
+
+.login-right22 .ant-input,
+.login-right22 .ant-input-password {
+    background-color: #333; /* Dark background for input fields */
+    color: white; /* White text color */
+    border: 1px solid #555; /* Light border for input fields */
+}
+
+.login-button22 {
+    background-color: #ff4d4f;
+    border-color: #ff4d4f;
+    color: white; /* Make button text white */
+    width: 100%;
+}
+
+.register-link22 {
+    color: #ff4d4f;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}

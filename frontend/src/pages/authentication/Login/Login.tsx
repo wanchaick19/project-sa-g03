@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { SignIn } from '../../../services/https/index';
 import { SignInInterface } from '../../../interfaces/SignIn';
 import logo from '../../../assets/biglogo.png';
-import user from '../../../assets/4.png';
+import user from '../../../assets/userlogin.png';
 import './login.css';
+import { Color } from 'antd/es/color-picker';
 
 const SignInPages: React.FC = () => {
   useEffect(() => {
@@ -56,7 +57,7 @@ const SignInPages: React.FC = () => {
             >
               <Input type="email" />
             </Form.Item>
-            <Form.Item
+            <Form.Item 
               label="Password"
               name="password"
               rules={[{ required: true, message: 'Please input your password!' }]}

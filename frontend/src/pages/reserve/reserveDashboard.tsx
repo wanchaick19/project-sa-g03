@@ -365,9 +365,8 @@ function ReserveDashboard() {
       >
 
 <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
-          <h2 style={{ fontSize: '24px' }}><ContainerOutlined /> รายละเอียดการจอง</h2>
+          <h2 style={{ fontSize: '24px' , color: "red"}}><ContainerOutlined /> ยกเลิกการจอง</h2>
         </div>
-        <p>คุณต้องการยกเลิกการจองนี้หรือไม่?</p>
         {selectedReserve && (
           <div style={{ marginTop: 30 }}>
             <p style={{ display: 'inline', marginRight: '50px' }}>
