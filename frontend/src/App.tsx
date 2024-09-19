@@ -10,6 +10,7 @@ import LoadingComponent from './components/loading/LoadingComponent';
 import UserEdit from './pages/users/edit';
 import ReserveDashboard from './pages/reserve/reserveDashboard';
 import Registershop from './pages/shop/RegisterShop';
+import Map from './pages/map/Map';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,7 @@ function App() {
           <Route path="/edit-profile" element={<UserEdit />} />
           <Route path="/reserve_dashboard" element={<ReserveDashboard />} />
           <Route path="/register" element={<Registershop />} />
+          <Route path="/map" element={<Map />} />
         </Routes>
       )}
     </>

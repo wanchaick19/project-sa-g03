@@ -18,8 +18,8 @@
 
   .details-button.cancel {
     background-color: transparent;
-    color: rgb(255, 0, 0);
-    border: 2px solid rgb(255, 0, 0);
+    color: rgb(157,157,157);
+    border: 2px solid rgb(157,157,157);
   }
   
   .details-button.finish {

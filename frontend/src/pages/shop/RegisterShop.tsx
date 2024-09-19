@@ -10,7 +10,6 @@ import { UsersInterface } from '../../interfaces/IUser';
 
 const Registershop = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const [user, setUer] = useState<UsersInterface>();
   const navigate = useNavigate();
   const userId = localStorage.getItem("id");
   const [profileImageUrl, setProfileImageUrl] = useState<string>("");

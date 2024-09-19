@@ -203,10 +203,6 @@ function ReserveDashboard() {
     setIsModalVisible1(true);
   };
 
-  const handlecancelOk = () => {
-    setIsModalVisible1(false);
-  };
-
   const handlecancelCancel = () => {
     setIsModalVisible1(false);
   };
@@ -309,16 +305,16 @@ function ReserveDashboard() {
 
       <Modal
         visible={isModalVisible}
-        onOk={handleOk}
         onCancel={handleCancel}
         footer={[ 
           (selectedReserve?.status === "ยังไม่ชำระเงิน") ? (
         <button
+        onClick={handleOk}
           className="popup-button confirm"
           style={{ marginTop: '20px' }}
         >
           <DollarOutlined /> ชำระเงิน
-        </button> ) : (selectedReserve?.status === "ชำระเงินแล้ว") ? "ชำระเงินแล้ว" : "ยกเลิกแล้ว",
+        </button> ) : (selectedReserve?.status === "ชำระเงินแล้ว") ? <p style={{color: "green"}}>ชำระเงินแล้ว</p> : <p style={{color: "red"}}>ยกเลิกแล้ว</p>,
         ]}
       >
         <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
@@ -349,7 +345,6 @@ function ReserveDashboard() {
 
       <Modal
         open={isModalVisible1}
-        onOk={handlecancelOk}
         onCancel={handlecancelCancel}
         footer={[ 
           

@@ -1,0 +1,32 @@
+.map-container {
+    display: grid;
+    grid-template-columns: 30px repeat(10, 1fr);
+    gap: 20px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    width: 10rem; /* Adjust width to fit more cards */
+    margin: auto;
+  }
+
+  /* ShopTitle.css */
+.map-title {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+
+  

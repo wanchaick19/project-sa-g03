@@ -161,7 +161,7 @@ async function CreateReserve(data: ReservesInterface) {
     });
 }
 
-async function UpdateLocksById(id: string, data: LocksInterface) {
+async function UpdateLocksById(id: string | undefined, data: LocksInterface) {
 
   return await axios
 
@@ -202,6 +202,18 @@ async function ResetLocks() {
   return await axios
 
     .put(`${apiUrl}/resetlocks`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetMaps() {
+
+  return await axios
+
+    .get(`${apiUrl}/getmaps`, requestOptions)
 
     .then((res) => res)
 
@@ -303,33 +315,32 @@ async function CreateReview(data: ShopsInterface) {
 
 export {
 
+  //users
   SignIn,
-
   GetUsersById,
-
   UpdateUsersById,
-
   CreateUser,
 
+
+  //shop
   GetShopByUserId,
 
+
+  //Reserve
   CreateReserve,
-
   CreateReserveDetails,
-
-  GetLocks,
-
   GetReservesByShopId,
-
   GetReservesDetailsByReserveId,
-
-  UpdateLocksById,
-
   cancelReserveById,
-  
-  CancelLockById,
 
+  //Lock
+  GetLocks,
+  UpdateLocksById,
+  CancelLockById,
   ResetLocks,
+
+  //Map
+  GetMaps,
 
   CreateShop,
 

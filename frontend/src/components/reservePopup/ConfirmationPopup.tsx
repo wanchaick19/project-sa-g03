@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircleOutlined } from '@ant-design/icons';
+import { ContainerOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 interface ConfirmationPopupProps {
@@ -38,8 +38,8 @@ const ConfirmationPopup: React.FC<ConfirmationPopupProps> = ({ onClose }) => {
         textAlign: 'center',
         width: '300px'
       }}>
-        <h3>บันทึกการจองสำเร็จ</h3>
-        <CheckCircleOutlined style={{ color: 'darkgreen', fontSize: '48px' }} />
+        <h3><ContainerOutlined /> จองสำเร็จ</h3>
+        
         <p style={{marginTop: "40px"}}>กดปุ่ม "ต่อไป" เพื่อทำรายการต่อ</p>
         <button
           onClick={handleNext}
