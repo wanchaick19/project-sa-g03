@@ -74,6 +74,40 @@ func ListReserve(c *gin.Context) {
 	c.JSON(http.StatusOK, reserves)
 }
 
+// GET /map ที่จ่ายเงินแล้ว
+func ListMap(c *gin.Context) {
+
+	// Define a struct to hold the result set
+	var maps []struct {
+		LockID       string `json:"lock_id"`        
+		ShopName   string    `json:"shop_name"`   
+		Description string   `json:"description"` 
+		ShopImg    string      `json:"shop_img"`
+		Rating    float32      `json:"rating"`
+		Date     time.Time    `json:"date"`
+	}
+
+	db := config.DB()
+
+	today := time.Now().Format("2006-01-02")
+
+	results := db.Table("reserves").
+		Select("reserve_details.lock_id, shops.shop_name, shops.description, shops.shop_img,reserves.date").
+		Joins("left join shops on reserves.shop_id = shops.id").
+		Joins("left join reserve_details on reserves.id = reserve_details.reserve_id").
+		Where("reserves.status = ? AND DATE(reserves.date) = ?", "ชำระเงินแล้ว", today) .
+		Scan(&maps)              
+
+	// Check for errors in the query
+	if results.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
+		return
+	}
+
+	// Return the results as JSON
+	c.JSON(http.StatusOK, maps)
+}
+
 func CancelReserve(c *gin.Context) {
 	// เชื่อมต่อกับฐานข้อมูล
 	db := config.DB()

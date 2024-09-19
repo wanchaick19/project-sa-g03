@@ -99,6 +99,8 @@ func main() {
 
    r.GET("/shop/:id",controller.GetShopByID)
 
+   r.GET("/getmaps",controller.ListMap)
+
 
    r.GET("/", func(c *gin.Context) {
 
