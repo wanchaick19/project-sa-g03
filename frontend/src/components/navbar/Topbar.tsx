@@ -61,8 +61,8 @@ function Topbar() {
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/" style={{ color: 'white' }}><HomeOutlined /> หน้าหลัก</Nav.Link>
                             <Nav.Link as={Link} to="/review" style={{ color: 'white' }}><CommentOutlined /> รีวิว</Nav.Link>
-                            <Nav.Link as={Link} to="/map" style={{ color: 'white' }}><EnvironmentOutlined /> แผนที่</Nav.Link>
-                            <NavDropdown title={<span style={{ color: 'white' }}> <ShopOutlined /> เกี่ยวกับร้านค้า</span>} id="basic-nav-dropdown">
+                            <Nav.Link as={Link} to="/map" style={{ color: 'white' }}><EnvironmentOutlined /> ร้านค้าในตลาด</Nav.Link>
+                            <NavDropdown title={<span style={{ color: 'white' }}> <ShopOutlined /> สำหรับร้านขายสินค้า</span>} id="basic-nav-dropdown">
                                 <NavDropdown.Item as={Link} to="/register" style={{ color: 'black' }}><ShopOutlined /> ลงทะเบียนร้านค้า</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/reserve" style={{ color: 'black' }}><CodepenOutlined /> จองล็อคขายสินค้า</NavDropdown.Item>
                             </NavDropdown>
