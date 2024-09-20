@@ -91,7 +91,7 @@ function Topbar() {
                                     <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}><ContactsOutlined /> โปรไฟล์</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/shop_profile" style={{ color: 'black' }}><ShopOutlined /> โปรไฟล์ร้านค้า</NavDropdown.Item>
                                     <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}><HistoryOutlined /> ประวัติการจองล็อค</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/dashboard" style={{ color: 'black' }}><CreditCardOutlined /> ประวัติการชำระเงิน</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/payment_dashboard" style={{ color: 'black' }}><CreditCardOutlined /> ประวัติการชำระเงิน</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}><LogoutOutlined /> ออกจากระบบ</NavDropdown.Item>
                                 </NavDropdown>

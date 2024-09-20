@@ -11,6 +11,9 @@ import UserEdit from './pages/users/edit';
 import ReserveDashboard from './pages/reserve/reserveDashboard';
 import Registershop from './pages/shop/RegisterShop';
 import Map from './pages/map/Map';
+import PaymentDashboard from './pages/payment/PaymentDashboard';
+import PaymentC from './pages/payment/PaymentC';
+import Payments from './pages/payment/Payment';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -38,6 +41,9 @@ function App() {
           <Route path="/reserve_dashboard" element={<ReserveDashboard />} />
           <Route path="/register" element={<Registershop />} />
           <Route path="/map" element={<Map />} />
+          <Route path="/Payments" element={<Payments />} />
+          <Route path="/PaymentC" element={<PaymentC />} />
+          <Route path="/payment_dashboard" element={<PaymentDashboard />} />
         </Routes>
       )}
     </>

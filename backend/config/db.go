@@ -42,62 +42,62 @@ func SetupDatabase() {
 	locks := []entity.Lock{
 		{Id: "A00", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A01", Status: "ว่าง", Price: 200, Size: "2x2"},
-		{Id: "A02", Status: "ไม่ว่าง", Price: 200, Size: "2x2"},
+		{Id: "A02", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A03", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A04", Status: "ว่าง", Price: 200, Size: "2x2"},
-		{Id: "A05", Status: "ไม่ว่าง", Price: 200, Size: "2x2"},
+		{Id: "A05", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A06", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A07", Status: "ว่าง", Price: 200, Size: "2x2"},
 		{Id: "A08", Status: "ว่าง", Price: 200, Size: "2x2"},
-		{Id: "A09", Status: "ไม่ว่าง", Price: 200, Size: "2x2"},
-		{Id: "B00", Status: "ไม่ว่าง", Price: 250, Size: "2x2"},
+		{Id: "A09", Status: "ว่าง", Price: 200, Size: "2x2"},
+		{Id: "B00", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B01", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B02", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B03", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B04", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B05", Status: "ว่าง", Price: 250, Size: "2x2"},
-		{Id: "B06", Status: "ไม่ว่าง", Price: 250, Size: "2x2"},
+		{Id: "B06", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B07", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B08", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "B09", Status: "ว่าง", Price: 250, Size: "2x2"},
 		{Id: "C00", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C01", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C02", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "C03", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "C03", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C04", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C05", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C06", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "C07", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "C07", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C08", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "C09", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D00", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D01", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D02", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "D03", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D03", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D04", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D05", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D06", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "D07", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "D07", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D08", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "D09", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E00", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E01", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E02", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "E03", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "E03", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E04", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E05", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E06", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "E07", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "E07", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E08", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "E09", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F00", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F01", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F02", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "F03", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "F03", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F04", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F05", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F06", Status: "ว่าง", Price: 300, Size: "2x2"},
-		{Id: "F07", Status: "ไม่ว่าง", Price: 300, Size: "2x2"},
+		{Id: "F07", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F08", Status: "ว่าง", Price: 300, Size: "2x2"},
 		{Id: "F09", Status: "ว่าง", Price: 300, Size: "2x2"},
 
@@ -219,7 +219,7 @@ reserve := []entity.Reserve{
 	
 	
 	payments := []entity.Payment{
-		{DateTime: func() time.Time {
+		{Date: func() time.Time {
             date, err := time.Parse(dateFormat, "2024-09-15")
             if err != nil {
                 log.Fatalf("Error parsing date: %v", err)
@@ -227,7 +227,7 @@ reserve := []entity.Reserve{
             return date
         }(), TotalPrice: 900, ReserveID: 1,},
 
-		{DateTime: func() time.Time {
+		{Date: func() time.Time {
             date, err := time.Parse(dateFormat, "2024-09-15")
             if err != nil {
                 log.Fatalf("Error parsing date: %v", err)
@@ -240,7 +240,7 @@ reserve := []entity.Reserve{
 	for _, payment := range payments {
 		db.FirstOrCreate(&payment, entity.Payment{
 			ReserveID: payment.ReserveID,
-			DateTime:  payment.DateTime,
+			Date:  payment.Date,
 		})
 	}
 

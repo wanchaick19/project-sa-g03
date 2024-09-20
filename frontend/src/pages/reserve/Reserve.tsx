@@ -78,9 +78,7 @@ const Reserve: React.FC = () => {
   };
 
   const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-  const tomorrowOption = getFormattedDate(tomorrow);
+  const todayoption = getFormattedDate(today);
 
 
   //handleสำหรับการคลิ๊กที่ล็อค
@@ -185,7 +183,7 @@ const Reserve: React.FC = () => {
       <div style={{ flex: 1, padding: '20px', marginRight: '20px' }}>
       <div className="marquee-container">
         <span className="marquee-text">
-          <NotificationOutlined /> จองสำหรับวันที่: {tomorrowOption} (พรุ่งนี้) 
+          <NotificationOutlined /> จองสำหรับวันที่: {todayoption} (เวลา: 18:00 - 24:00 น.) 
         </span>
      </div>
         <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '20px', color: 'black' }}>
@@ -247,9 +245,9 @@ const Reserve: React.FC = () => {
       {showPopup && (
         <Popup
           selectedLocks={selectedLocks}
-          dateOption={tomorrowOption}
+          dateOption={todayoption}
           onClose={handleClosePopup}
-          onConfirm={() => handleConfirmBooking(tomorrow)}
+          onConfirm={() => handleConfirmBooking(today)}
         />
       )}
       {showConfirmation && <ConfirmationPopup onClose={handleCloseConfirmation} />}

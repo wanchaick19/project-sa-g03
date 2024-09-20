@@ -4,7 +4,7 @@ import { PlusOutlined, DollarOutlined, HistoryOutlined, ContainerOutlined, ZoomI
 import type { ColumnsType } from "antd/es/table";
 import { GetReservesByShopId, GetShopByUserId, GetReservesDetailsByReserveId, CancelLockById } from "../../services/https/index";
 import { ReservesInterface } from "../../interfaces/IReserve";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { ShopsInterface } from "../../interfaces/IShop";
 import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
@@ -22,6 +22,7 @@ function ReserveDashboard() {
   const [filteredReserves, setFilteredReserves] = useState<ReservesInterface[]>([]);
   const [searchDate, setSearchDate] = useState<string | null>(null);
   const userId = localStorage.getItem("id");
+  const navigate = useNavigate();
   
   const columns: ColumnsType<ReservesInterface> = [
     {
@@ -184,7 +185,7 @@ function ReserveDashboard() {
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    navigate(`/Payments?reserveId=${selectedReserve.id}`);
   };
 
   const handleCancel = () => {

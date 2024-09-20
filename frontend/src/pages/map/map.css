@@ -1,21 +1,74 @@
 .map-container {
-    display: grid;
-    grid-template-columns: 30px repeat(10, 1fr);
-    gap: 20px;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-  
-  .cell {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .card {
-    width: 10rem; /* Adjust width to fit more cards */
-    margin: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-image: url(''); /* เปลี่ยนเป็นพาธของภาพที่คุณต้องการ */
+  background-size: cover; /* ปรับภาพให้เต็มพื้นที่ */
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px; /* เพิ่ม padding เพื่อไม่ให้แถวชิดกับขอบ */
+}
+
+.map-row-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* เพิ่มระยะห่างระหว่างแต่ละแถว */
+}
+
+.map-row {
+  display: flex;
+  overflow-x: hidden;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.cell {
+  flex: 0 0 auto;
+  width: 150px;
+  margin-right: 10px;
+}
+
+.scroll-button {
+  background-color: #000000;
+  border: none;
+  border-radius: 48px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* เพิ่มเอฟเฟกต์ transition */
+}
+
+.scroll-button.left {
+  position: absolute;
+  left: 0;
+  z-index: 1;
+}
+
+.scroll-button.right {
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+/* สไตล์เมื่อ hover */
+.scroll-button:hover {
+  transform: scale(1.3); /* ขยายปุ่มเล็กน้อย */
+}
+
+
+.row-header {
+  margin-right: 10px;
+  min-width: 100px; /* ขยายพื้นที่ให้มากขึ้นเพื่อให้มีพื้นที่พอสำหรับคำว่า "โซน" */
+  text-align: center;
+}
+
+
+.row-header {
+  margin-right: 10px;
+  min-width: 60px;
+  text-align: center;
+}
+
 
   /* ShopTitle.css */
 .map-title {
@@ -25,7 +78,7 @@
     font-weight: bold;
     margin: 20px 0;
     padding: 10px;
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.727);
     border-radius: 8px;
 }
 

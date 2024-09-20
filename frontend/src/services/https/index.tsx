@@ -3,7 +3,7 @@ import { ReservesInterface } from "../../interfaces/IReserve";
 import { ReserveDetailsInterface } from "../../interfaces/IReserveDetails";
 import { ShopsInterface } from "../../interfaces/IShop";
 import { UsersInterface } from "../../interfaces/IUser";
-
+import { PaymentInterface } from "../../interfaces/IPayment";
 import { SignInInterface } from "../../interfaces/SignIn";
 
 
@@ -41,24 +41,18 @@ async function SignIn(data: SignInInterface) {
 
 }
 
+
+
 async function GetLocks() {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 
-  let res = await fetch(`${apiUrl}/locks`, requestOptions)
-    .then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else {
-        return false;
-      }
-    });
+  return await axios
 
-  return res;
+    .get(`${apiUrl}/locks`, requestOptions)
+
+    .then((res) => res.data)
+
+    .catch((e) => e.response);
+
 }
 
 
@@ -309,6 +303,55 @@ async function CreateReview(data: ShopsInterface) {
 
 }
 
+//payment
+
+async function CreatePayment(data: PaymentInterface) {
+
+  return await axios
+
+    .post(`${apiUrl}/payments`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetPaymentByShopId(id: number) {
+
+  return await axios
+
+    .get(`${apiUrl}/payments/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function GetReservesByReseveId(id: string) {
+
+  return await axios
+
+    .get(`${apiUrl}/reserve/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
+
+async function UpdateReserveStatus(id: string, data: string) {
+
+  return await axios
+
+    .put(`${apiUrl}/reserve/${id}`,data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+
+}
 
 
 
@@ -341,6 +384,12 @@ export {
 
   //Map
   GetMaps,
+
+  //Payment
+  CreatePayment,
+  GetPaymentByShopId,
+  GetReservesByReseveId,
+  UpdateReserveStatus,
 
   CreateShop,
 

@@ -34,7 +34,7 @@ function SignUpPages() {
           content: res.data.message,
         });
         setTimeout(() => {
-          navigate("/");
+          navigate("/login");
         }, 2000);
       } else {
         messageApi.open({
@@ -67,14 +67,14 @@ function SignUpPages() {
   return (
     <>
       {contextHolder}
-      <Row justify="center" align="middle" className="login">
-        <Card className="card-login" style={{ width: 600 }}>
+      <Row justify="center" align="middle" className="register">
+        <Card className="card-register" style={{ width: 600 }}>
           <Row align="middle" justify="center">
             <Col xs={24} sm={24} md={24} lg={10} xl={10}>
-              <img alt="logo" src={logo} className="images-logo" />
+              <img alt="logo" src={logo} className="images-logo-register" />
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <h2 className="header">สมัครบัญชีผู้ใช้</h2>
+              <h2 className="header-register">สมัครบัญชีผู้ใช้</h2>
               <Form name="basic" layout="vertical" onFinish={onFinish} autoComplete="off">
                 <Row gutter={[16, 0]}>
                   <Col xs={24}>
@@ -175,13 +175,13 @@ function SignUpPages() {
                       <Button
                         type="primary"
                         htmlType="submit"
-                        className="login-form-button"
+                        className="login-button22"
                         style={{ marginBottom: 20 }}
                       >
                         ลงทะเบียน
                       </Button>
-                      หรือ{" "}
-                      <a className= "register-link" onClick={() => navigate("/login")}>มีบัญชีอยู่แล้ว? !</a>
+                    
+                      <a className= "register-link22" onClick={() => navigate("/login")}>มีบัญชีอยู่แล้ว? !</a>
                     </Form.Item>
                   </Col>
                 </Row>
