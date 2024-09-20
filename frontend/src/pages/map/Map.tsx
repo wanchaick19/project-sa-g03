@@ -111,7 +111,7 @@ const Map: React.FC = () => {
                             <Card.Title>{shop.shop_name}</Card.Title>
                             <Card.Text>คะแนน: {shop.rating} <StarOutlined /></Card.Text>
                             <button className='details-button cancel' onClick={() => handleShow(shop)}>
-                              <ZoomInOutlined />
+                              <ZoomInOutlined /> เพิ่มเติม
                             </button>
                           </Card.Body>
                         </Card>
@@ -154,7 +154,6 @@ const Map: React.FC = () => {
               />
               <p>{selectedShop.description}</p>
               <p>คะแนนร้านค้า: {selectedShop.rating}</p>
-              <p>คะแนนร้านค้า: {selectedShop.lock_id}</p>
             </>
           )}
         </Offcanvas.Body>
