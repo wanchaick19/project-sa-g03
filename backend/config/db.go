@@ -111,8 +111,8 @@ func SetupDatabase() {
 	genders := []entity.Gender{
 		{GenderName: "Male"},
 		{GenderName: "Female"},
-		{GenderName: "Ohter.."},
 		{GenderName: "Not specified"},
+		{GenderName: "Ohter.."},
 	}
 
 	for _, gender := range genders {
