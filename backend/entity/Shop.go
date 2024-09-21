@@ -10,7 +10,6 @@ type Shop struct {
 	ShopName string
 	Description string
 	ShopImg string
-	Rating float32
 
 	UserID uint
 	Reserve []Reserve `gorm:"foreignKey:ShopID"`

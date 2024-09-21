@@ -55,8 +55,7 @@ func main() {
    r.POST("/createreview", controller.CreateReview)
 
    r.POST("/payments", controller.CreatePayment)
-
-
+   
    router := r.Group("/")
 
    {
@@ -92,6 +91,9 @@ func main() {
 
        router.PUT("reserve/:id",controller.UpdateReserveStatus)
 
+       router.GET("/shop/:id/review", controller.GetReviewsByShopId)
+
+
    }
 
 
@@ -99,15 +101,15 @@ func main() {
 
    r.GET("/locks",controller.GetLocks)
 
-   r.GET("/categories",controller.GetCategories)
-
-   r.GET("/getshops",controller.GetShops)
-
-   r.GET("/shop/:id",controller.GetShopByID)
-
    r.GET("/getmaps",controller.ListMap)
 
    r.GET("/payments/:id", controller.ListPayment)
+
+   //jib
+    r.GET("/categories",controller.GetCategories)
+     r.GET("/getshops",controller.GetShops)
+     r.GET("/shop/:id",controller.GetShopByID)
+
 
 
    r.GET("/", func(c *gin.Context) {

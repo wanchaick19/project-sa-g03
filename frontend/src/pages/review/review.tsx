@@ -1,108 +1,170 @@
 import "./review.css";
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Button, Form, Input, message, Card, Rate, Descriptions } from 'antd';
-import { GetShopById, CreateReview } from "../../services/https"; // Import the function to fetch shop details and create a review
-import { ShopsInterface } from '../../interfaces/IShop'; // Ensure this interface includes necessary fields
-
+import { Button, Form, Input, message, Card, Rate, Modal, Col, Row } from 'antd';
+import { GetShopById, CreateReview, GetReviewsByShopId, GetUsersById } from
+"../../services/https"; 
+import { ShopsInterface } from '../../interfaces/IShop';
+import { ReviewInterface } from '../../interfaces/IReview';
 const { TextArea } = Input;
-
 const Review: React.FC = () => {
-  const { shopId } = useParams<{ shopId: string }>(); // Retrieve shop ID from the route
-  const [shop, setShop] = useState<ShopsInterface | null>(null);
-  const [messageApi, contextHolder] = message.useMessage();
-  const [form] = Form.useForm();
-
-  // Dummy userId - replace with actual logic to fetch the logged-in user ID
-  const userId = "123"; // Replace with actual user ID fetching logic (e.g., from auth context)
-
-  // Fetch shop details by shop ID
-  useEffect(() => {
-    const fetchShopDetails = async () => {
-      try {
-        if (shopId) {
-          const response = await GetShopById(shopId);
-          if (response?.status === 200) {
-            setShop(response.data);
-          } else {
-            messageApi.error('Error fetching shop details');
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching shop details:', error);
-        messageApi.error('Error fetching shop details. Please try again.');
-      }
-    };
-
-    fetchShopDetails();
-  }, [shopId, messageApi]);
-
-  const onFinish = async (values: { review: string; rating: number }) => {
-    try {
-      const reviewData = {
-        Score: values.rating,
-        Description: values.review,
-        DATEIME: new Date().toISOString(), // Current timestamp
-        ShopID: 1, // Shop ID from URL parameters
-        UserID:  1, // User ID from the logged-in user context
-      };
-
-      const response = await CreateReview(reviewData); // Call the API to create a review
-
-      if (response?.status === 201) {
-        messageApi.success('Review submitted successfully!');
-        form.resetFields();
-      } else {
-        messageApi.error('Failed to submit the review. Please try again.');
-      }
-
-    } catch (error) {
-      console.error('Error submitting review:', error);
-      messageApi.error('Error submitting review. Please try again.');
-    }
-  };
-
-  return (
-    <div className="review-container">
-      {contextHolder}
-      {shop ? (
-        <div>
-          <Card
-            className="shop-info-card"
-            cover={<img src={shop.ShopImg} alt={shop.ShopName} className="shop-image" />}
-          >
-            <Card.Meta
-              title={<h2>{shop.ShopName}</h2>}
-              description={shop.Description}
-            />
-          </Card>
-          <Form form={form} onFinish={onFinish} layout="vertical">
-            <Form.Item
-              label="Rating"
-              name="rating"
-              rules={[{ required: true, message: 'Please select your rating' }]}
-            >
-              <Rate allowHalf defaultValue={0} />
-            </Form.Item>
-            <Form.Item
-              label="เขียนรีวิว"
-              name="review"
-              rules={[{ required: true, message: 'Please enter your review' }]}
-            >
-              <TextArea rows={4} placeholder="Write your review here..." />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                ส่งรีวิว
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      ) : (
-        <p>Loading shop details...</p>
-      )}
-    </div>
-  );
+ const { shopId } = useParams<{ shopId: string }>(); // Retrieve shop ID from the route
+ const [shop, setShop] = useState<ShopsInterface | null>(null);
+ const [reviews, setReviews] = useState<ReviewInterface[]>([]);
+ const [messageApi, contextHolder] = message.useMessage();
+ const [form] = Form.useForm();
+ const [isModalOpen, setIsModalOpen] = useState(false);
+ const shopIdNumber = Number(shopId);
+ const userId = Number(localStorage.getItem("id"));
+ // Fetch shop details and reviews by shop ID
+ useEffect(() => {
+ const fetchShopDetails = async () => {
+ try {
+ if (shopId) {
+ const shopResponse = await GetShopById(shopId);
+ const reviewsResponse = await GetReviewsByShopId(shopId);
+ if (shopResponse?.status === 200) {
+ setShop(shopResponse.data);
+ } else {
+ messageApi.error('Error fetching shop details');
+ }
+ if (reviewsResponse) {
+ const updatedReviews = await Promise.all(
+ reviewsResponse.data.map(async (review: ReviewInterface) => {
+ if (review.UserID) {
+ const userResponse = await GetUsersById(review.UserID); // Fetch user details
+ review.User = userResponse?.data; // Add user data to the 
+review
+ }
+ return review;
+ })
+ );
+ setReviews(updatedReviews);
+ } else {
+ messageApi.error('Error fetching reviews');
+ }
+ }
+ } catch (error) {
+ console.error('Error fetching shop details or reviews:', error);
+ messageApi.error('Error fetching shop details or reviews. Please try again.');
+ }
+ };
+ fetchShopDetails();
+ }, [shopId, messageApi]);
+ const onFinish = async (values: { description: string; score: number }) => {
+ try {
+ const localDateTime = new Date(); 
+ const utcDateTime = new Date(localDateTime.toUTCString());
+ const reviewData = {
+ Score: values.score,
+ Description: values.description,
+ DATETIME: utcDateTime.toISOString(), 
+ ShopID: shopIdNumber,
+ UserID: userId,
+ };
+ const response = await CreateReview(reviewData);
+ if (response?.status === 201) {
+ messageApi.success('ส่งรีวิวแล้ว!');
+ form.resetFields();
+ // Refresh reviews after a successful submission
+ const updatedReviewsResponse = await GetReviewsByShopId(shopId);
+ setReviews(updatedReviewsResponse.data);
+ } else {
+ messageApi.error('Failed to submit the review. Please try again.');
+ }
+ } catch (error) {
+ console.error('Error submitting review:', error);
+ messageApi.error('Error submitting review. Please try again.');
+ }
+ };
+ const showModal = () => {
+ setIsModalOpen(true);
+ };
+ const handleCancel = () => {
+ setIsModalOpen(false);
+ };
+ return (
+ <div>
+ {contextHolder}
+ {shop ? (
+ <div>
+ <Row gutter={16} className="card-container">
+ <Col span={12}>
+ <Card className="shop-card1">
+ <img src={shop.ShopImg} className="image1" alt="Shop" />
+ </Card>
+ </Col>
+ <Col span={12}>
+ <Card className="shop-card">
+ <Card.Meta
+ title={<h2>{shop.ShopName}</h2>}
+ description={shop.Description}
+ />
+ <Button
+ type="primary"
+ onClick={showModal}
+ style={{ backgroundColor: 'red', borderColor: 'red', marginTop:
+'16px', width: '80px', display: 'block', marginLeft: 'auto', marginRight: 'auto'
+}}
+ >
+ เขียนรีวิว
+ </Button>
+ </Card>
+ </Col>
+ </Row>
+ {/* Reviews */}
+ <div className="reviewtext">
+ Reviews
+ </div>
+ <Row gutter={[16, 16]}>
+ {reviews.map((review) => (
+ <Col span={8} key={review.ID}> {/* 3-column */}
+ <Card className="review2" style={{ width: '300px', height: '150px'
+}}>
+ <div className="profile-name-container">
+ <img src={review.User?.Profile} className="user-profile" />
+ <p className="user-name">{review.User?.FirstName}</p>
+ </div>
+ <Rate disabled value={review.Score} allowHalf />
+ <p>{review.Description}</p>
+ </Card>
+ </Col>
+ ))}
+ </Row>
+ <Modal
+ title="เขียนรีวิว"
+ open={isModalOpen}
+ onCancel={handleCancel}
+ footer={null}
+ >
+ <Form form={form} onFinish={onFinish} layout="vertical">
+ <Form.Item
+ label="ให้คะแนนร้านค้า"
+ name="score"
+ rules={[{ required: true, message: 'Please select your rating'
+}]}
+ >
+ <Rate allowHalf />
+ </Form.Item>
+ <Form.Item
+ label="เขียนรีวิว"
+ name="description"
+ rules={[{ required: true, message: 'Please enter your review' }]}
+ >
+ <TextArea rows={4} placeholder="เขียนรีวิวที่นี่....." />
+ </Form.Item>
+ <Form.Item>
+ <Button type="primary" htmlType="submit">
+ ส่งรีวิว
+ </Button>
+ </Form.Item>
+ </Form>
+ </Modal>
+ </div>
+ ) : (
+ <p>Loading shop details...</p>
+ )}
+ </div>
+ );
 };
-
 export default Review;

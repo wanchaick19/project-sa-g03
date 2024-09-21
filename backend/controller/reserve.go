@@ -83,7 +83,6 @@ func ListMap(c *gin.Context) {
 		ShopName   string    `json:"shop_name"`   
 		Description string   `json:"description"` 
 		ShopImg    string      `json:"shop_img"`
-		Rating    float32      `json:"rating"`
 		Date     time.Time    `json:"date"`
 	}
 

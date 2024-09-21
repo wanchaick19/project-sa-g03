@@ -5,6 +5,7 @@ import { ShopsInterface } from "../../interfaces/IShop";
 import { UsersInterface } from "../../interfaces/IUser";
 import { PaymentInterface } from "../../interfaces/IPayment";
 import { SignInInterface } from "../../interfaces/SignIn";
+import { ReviewInterface } from "../../interfaces/IReview";
 
 
 import axios from "axios";
@@ -244,64 +245,35 @@ async function GetUsersByUserId(id: string) {
 // jibbb
 
 async function GetShops() {
-
   return await axios
-
-    .get(`${apiUrl}/getshops`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
-async function GetCategories() {
-
+  .get(`${apiUrl}/getshops`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+ }
+ async function GetCategories() {
   return await axios
-
-    .get(`${apiUrl}/categories`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
-async function GetReviewsByShopId(id: string) {
-
+  .get(`${apiUrl}/categories`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+ }
+ async function GetReviewsByShopId(id: string | undefined ) {
   return await axios
-
-    .get(`${apiUrl}/review/${id}`, requestOptions)
-
-    .then((res) => res.data)
-
-    .catch((e) => e.response);
-
-}
-
-async function GetShopById(id: string) {
-
+  .get(`${apiUrl}/shop/${id}/review`, requestOptions)
+  .then((res) => res.data)
+  .catch((e) => e.response);
+ }
+ async function GetShopById(id: string) {
   return await axios
-
-    .get(`${apiUrl}/shop/${id}`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
-async function CreateReview(data: ShopsInterface) {
-
+  .get(`${apiUrl}/shop/${id}`, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+ }
+ async function CreateReview(data: ReviewInterface) {
   return await axios
-
-    .post(`${apiUrl}/createreview`, data, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
+  .post(`${apiUrl}/createreview`, data, requestOptions)
+  .then((res) => res)
+  .catch((e) => e.response);
+ } 
 
 //payment
 
@@ -396,13 +368,10 @@ export {
   GetUsersByUserId,
 
   GetShops,
+ GetCategories,
+ GetReviewsByShopId,
+ GetShopById,
+ CreateReview,
 
-  GetCategories,
-
-  GetReviewsByShopId,
-
-  GetShopById,
-
-  CreateReview,
 
 };

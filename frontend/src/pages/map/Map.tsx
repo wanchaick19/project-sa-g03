@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Offcanvas, Card } from 'react-bootstrap';
 import Logo from './../../assets/biglogoz.png';
-import { ZoomInOutlined, ShopOutlined, ArrowRightOutlined, StarOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { ZoomInOutlined, ShopOutlined, ArrowRightOutlined, StarOutlined, LeftOutlined, RightOutlined ,NotificationOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { GetMaps } from '../../services/https';
 import { message } from "antd";
@@ -14,6 +14,14 @@ interface Map {
   description: string;
   rating: number;
 }
+
+ //สร้างวันที่
+ const getFormattedDate = (date: Date): string => {
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = (date.getFullYear() + 543).toString();
+  return `${day}-${month}-${year}`;
+};
 
 // จำนวนแถวและคอลัมน์
 const ROWS = 6;

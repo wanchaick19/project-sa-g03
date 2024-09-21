@@ -1,56 +1,38 @@
-.shop-container {
-    padding: 20px;
-}
-  
-.ant-typography {
-    text-align: center;
-}
-  
-.ant-card {
+.shop1-card {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 270px; 
+    height: 290px; 
     width: 250px;
-}
-  
-.ant-card-body {
+   }
+   .shop1-card-body {
     flex-grow: 1; 
     display: flex;
     flex-direction: column;
     justify-content: center; 
     text-align: center;
-}
-  
-.ant-card-cover img {
-    height: 180px; 
-    object-fit: cover;
+   }
+   .shop1-card-cover img {
+    height: 100px; 
     width: 100%;
-}
-  
-.ant-card-meta {
+   }
+   .shop1-card-meta {
     text-align: center;
     margin-top: 10px;
-}
-  
-.star {
-    color: #ffcc00;
-    margin-right: 5px;
-}
-.info-card {
-    margin-bottom: 20px;
+   }
+   .review1 {
+    margin-bottom: 30px;
     padding: 15px;
     background: black;
-    height: 40px;
-    width: 170px;
+    height: 38px; 
+    width: 165px; 
     font-size: 15px;
     color: white;
-    display: flex; /* ใช้ Flexbox */
-    align-items: center; /* จัดแนวตัวหนังสือในแนวตั้ง */
-    justify-content: center; /* จัดแนวตัวหนังสือในแนวนอน */
-    text-align: center; /* จัดการจัดตำแหน่งข้อความภายใน */
-
-}
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+   }

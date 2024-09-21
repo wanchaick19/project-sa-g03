@@ -1,17 +1,15 @@
+
+
 package entity
-
 import(
-	"time"
-	"gorm.io/gorm"
+ "time"
+ "gorm.io/gorm"
 )
-
 type Review struct {
-	gorm.Model		
-	Score		uint		
-	Description	string 		
-	DATETIME	time.Time
-
-	ShopID	 	uint	
-	UserID		uint
-	
-}
+ gorm.Model 
+ Score float64 `gorm:"not null"`
+ Description string `gorm:"type:text"`
+ DATETIME time.Time `gorm:"not null"` 
+ ShopID uint `gorm:"not null"`
+ UserID uint `gorm:"not null"`
+} 

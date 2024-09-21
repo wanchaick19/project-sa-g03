@@ -244,4 +244,19 @@ reserve := []entity.Reserve{
 		})
 	}
 
+	reviews := []entity.Review{
+		{
+		Score: 5, Description: "อร่อยมาก", DATETIME: time.Now(),
+		ShopID: 1 , UserID: 1,
+		},
+		{
+		Score: 4, Description: "ดีมาก", DATETIME: time.Now(),
+		ShopID: 2 , UserID: 2,
+		},
+	}
+
+	for _, review := range reviews {
+		db.FirstOrCreate(&review, entity.Review{Description: review.Description})
+		}
+
 }

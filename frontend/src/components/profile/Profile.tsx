@@ -85,11 +85,12 @@ function UserInfo({ show, handleClose }: { show: boolean; handleClose: () => voi
                         <div className="row">
                             <div className="info-section">
                                 <div className="info-label">เพศ</div>
-                                <div className="info-value">{(user.GenderID === 1) ? "ชาย" : "หญิง"}</div>
+                                <div className="info-value">{(user.GenderID === 1) ? "ชาย" : (user.GenderID === 1) ? "หญิง": 
+                                    (user.GenderID === 3) ? "ไม่ระบุ": "อื่นๆ"}</div>
                             </div>
                             <div className="info-section">
                                 <div className="info-label">ร้านค้า</div>
-                                <div className="info-value">{shop? "": "ยังไม่มีร้านค้า"}</div>
+                                <div className="info-value">{(!shop || !shop.ID) ? "ยังไม่มีร้านค้า": shop.ShopName}</div>
                             </div>
                         </div>
                     </div>

@@ -14,6 +14,8 @@ import Map from './pages/map/Map';
 import PaymentDashboard from './pages/payment/PaymentDashboard';
 import PaymentC from './pages/payment/PaymentC';
 import Payments from './pages/payment/Payment';
+import Review from './pages/review/review';
+import Shop from './pages/review/shop';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,8 @@ function App() {
           <Route path="/Payments" element={<Payments />} />
           <Route path="/PaymentC" element={<PaymentC />} />
           <Route path="/payment_dashboard" element={<PaymentDashboard />} />
+          <Route path="/review" element={<Shop />} />
+          <Route path="/review/:shopId" element={<Review />} />
         </Routes>
       )}
     </>
