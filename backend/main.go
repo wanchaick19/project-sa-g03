@@ -40,20 +40,22 @@ func main() {
 
    // Auth Route
 
+   //users
    r.POST("/signup", users.SignUp)
-
    r.POST("/signin", users.SignIn)
 
+   //reserve
    r.POST("/createreserve", controller.CreateReserve)
-
    r.POST("/createdetails", controller.CreateReserveDetails)
 
+
+   //shop
    r.POST("/createshop", controller.CreateShop)
 
-   r.PUT("/resetlocks", controller.ResetLock)
-
+   //review
    r.POST("/createreview", controller.CreateReview)
 
+   //payment
    r.POST("/payments", controller.CreatePayment)
    
    router := r.Group("/")
@@ -65,50 +67,44 @@ func main() {
 
        // User Route
 
+       //users
        router.PUT("/user/:id", users.Update)
-
        router.GET("/users", users.GetAll)
-
        router.GET("/user/:id", users.GetUser)
 
-       router.GET("/users/:id", users.GetUserbyUserID)
-
-       router.DELETE("/user/:id", users.Delete)
-
+       //reserve
        router.GET("/shopbyuser/:id", controller.GetShopbyUser)
-
        router.GET("/reserves/:id", controller.ListReserve)
-
        router.GET("/reservesdetails/:id", controller.ListReservesDetails)
-
        router.PUT("/updatelock/:id", controller.UpdateLock)
-
        router.PUT("/cancelLock/:id", controller.CancelLock)
-
        router.PUT("/cancelReserve/:id", controller.CancelReserve)
 
+       //payment
        router.GET("/reserve/:id", controller.GetReserveById)
-
        router.PUT("reserve/:id",controller.UpdateReserveStatus)
 
+       //review
        router.GET("/shop/:id/review", controller.GetReviewsByShopId)
-
 
    }
 
-
+   //gender
    r.GET("/genders", genders.GetAll)
 
+   //locks
    r.GET("/locks",controller.GetLocks)
 
+   //map
    r.GET("/getmaps",controller.ListMap)
 
+   //payment
    r.GET("/payments/:id", controller.ListPayment)
 
-   //jib
+   //review
     r.GET("/categories",controller.GetCategories)
-     r.GET("/getshops",controller.GetShops)
-     r.GET("/shop/:id",controller.GetShopByID)
+    r.GET("/getshops",controller.GetShops)
+    r.GET("/shop/:id",controller.GetShopByID)
 
 
 
@@ -121,9 +117,7 @@ func main() {
 
    // Run the server
 
-
    r.Run("localhost:" + PORT)
-
 
 }
 

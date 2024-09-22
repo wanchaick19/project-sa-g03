@@ -192,18 +192,6 @@ async function cancelReserveById(id: number, data: ReservesInterface) {
 
 }
 
-async function ResetLocks() {
-
-  return await axios
-
-    .put(`${apiUrl}/resetlocks`, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
-
-}
-
 async function GetMaps() {
 
   return await axios
@@ -230,17 +218,6 @@ async function CreateShop(data: ShopsInterface) {
 
 }
 
-async function GetUsersByUserId(id: string) {
-
-  return await axios
-
-    .get(`${apiUrl}/users/${id}`, requestOptions)
-
-    .then((res) => res.data)
-
-    .catch((e) => e.response);
-
-}
 
 // jibbb
 
@@ -352,7 +329,7 @@ export {
   GetLocks,
   UpdateLocksById,
   CancelLockById,
-  ResetLocks,
+  //ResetLocks,
 
   //Map
   GetMaps,
@@ -363,15 +340,15 @@ export {
   GetReservesByReseveId,
   UpdateReserveStatus,
 
+  //shop
   CreateShop,
 
-  GetUsersByUserId,
-
+  //review
   GetShops,
- GetCategories,
- GetReviewsByShopId,
- GetShopById,
- CreateReview,
+  GetCategories,
+  GetReviewsByShopId,
+  GetShopById,
+  CreateReview,
 
 
 };

@@ -5,22 +5,33 @@ import { CheckOutlined, ClockCircleOutlined, CodepenOutlined, NotificationOutlin
   , CheckCircleOutlined, FileDoneOutlined , InboxOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
-import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId ,UpdateLocksById ,ResetLocks} from '../../services/https/index';
-import { useNavigate } from "react-router-dom";
+import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId ,UpdateLocksById} from '../../services/https/index';
 import { ShopsInterface } from '../../interfaces/IShop';
 import { ReservesInterface } from '../../interfaces/IReserve';
 import { LocksInterface } from '../../interfaces/ILock';
 
 
 const Reserve: React.FC = () => {
+  //สำหรับเก็บข้อมูล็อค
   const [locks, setLocks] = useState<LocksInterface[]>([]);
+
+  //สำหรับเก็บข้อมูลล็อคที่เลือก
   const [selectedLocks, setSelectedLocks] = useState<LocksInterface[]>([]);
+
+  //สำหรับจัดการการแสดงป๊อปอัพ
   const [showPopup, setShowPopup] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  //สำหรับเก็บเวลาขณะนี้
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  //สำหรับเก็บข้อมูลร้าน
   const [shop, setShop] = useState<ShopsInterface>();
+
+  //สำหรับแสดงข้อความ
   const [messageApi, contextHolder] = message.useMessage();
-  const navigate = useNavigate();
+
+  //id user ที่กำลังล็อคอินอยู่
   const userId = localStorage.getItem("id");
 
   //เช็คว่าล็อคอินแล้วหรือยัง
@@ -77,6 +88,7 @@ const Reserve: React.FC = () => {
     return `${day}-${month}-${year}`;
   };
 
+  //วันที่ของวันนี้
   const today = new Date();
   const todayoption = getFormattedDate(today);
 
@@ -168,12 +180,6 @@ const Reserve: React.FC = () => {
     setShowConfirmation(false);
   };
 
-  //Demoสำหรับรีเซ็ทล็อค
-  const handleResetLock = async () => {
-    ResetLocks();
-    window.location.reload();
-  };
-
   //คำนวณราคาล็อคที่เลือก
   const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock?.Price, 0);
 
@@ -197,6 +203,8 @@ const Reserve: React.FC = () => {
            {['A', 'B', 'C', 'D', 'E','F'].map((row, index) => (
             <div key={index} style={{ margin: '10px', display: 'flex', justifyContent: 'center', gap: '2px' }}>
               {locks.filter((lock) => lock.Id.startsWith(row)).map((lock) => (
+                
+    //สำหรับแสดงข้อมูลเวลาเอาเมาส์ไปจ่อที่ล็อค
         <Tooltip
           key={lock.Id}
           title={`ล็อค: ${lock.Id} | ขนาด: ${lock.Size} เมตร | ราคา: ${lock.Price} บาท | สถานะ: ${lock.Status}`}
@@ -213,11 +221,7 @@ const Reserve: React.FC = () => {
     </div>
   ))}
   
-  <button className='reserve-button'onClick={handleResetLock}>
-    ResetLock
-  </button>
 </div>
-
         </div>
       </div>
       <div style={{ flex: 0.5, padding: '20px', borderLeft: '1px solid #ddd', maxHeight: '80vh', overflowY: 'auto', marginTop: '100px' }}>
@@ -242,6 +246,7 @@ const Reserve: React.FC = () => {
         </div>
       </div>
 
+      {/* สำหรับแสดงป็อปอัพ */}
       {showPopup && (
         <Popup
           selectedLocks={selectedLocks}

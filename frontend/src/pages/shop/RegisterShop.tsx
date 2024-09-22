@@ -5,7 +5,7 @@ import React, { useState , useEffect } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { ShopsInterface } from '../../interfaces/IShop';
-import { CreateShop, GetUsersByUserId } from '../../services/https';
+import { CreateShop, GetUsersById } from '../../services/https';
 import { UsersInterface } from '../../interfaces/IUser';
 
 const Registershop = () => {
@@ -22,8 +22,8 @@ const Registershop = () => {
   }, []);
 
   const onFinish = async (values: ShopsInterface) => {
-    let res = await GetUsersByUserId(userId)
-    const data = res
+    let res = await GetUsersById(userId)
+    const data = res.data
 
     try {
       // Structure the form values correctly including the profile image and user ID

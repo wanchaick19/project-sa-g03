@@ -12,18 +12,40 @@ import { cancelReserveById } from "../../services/https/index";
 import './reserveDashboard.css'; 
 
 function ReserveDashboard() {
+
+  //สำหรับเก็บข้อมูลการจอง
   const [reserves, setReserves] = useState<ReservesInterface[]>([]);
+
+  //สำหรับเก็บรายละเอียดของแต่ละการจอง
   const [reservesDetails, setReservesDetails] = useState<ReserveDetailsInterface[]>([]);
+
+  //สำหรับเก็บข้อมูลร้านค้า
   const [shop, setShop] = useState<ShopsInterface>();
+
+  //สำหรับแสดงข้อความ
   const [messageApi, contextHolder] = message.useMessage();
+
+  //สำหรับจัดการการแสดงป๊อปอัพ
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisible1, setIsModalVisible1] = useState(false);
+  
+  //สำหรับเก็บข้อมูลการจองที่เลือก
   const [selectedReserve, setSelectedReserve] = useState<ReservesInterface | null>(null);
+
+  //สำหรับเก็บข้อมูลที่ต้องการเฉพาะส่วน
   const [filteredReserves, setFilteredReserves] = useState<ReservesInterface[]>([]);
+
+  //สำหรับเก็บวันที่สำหรับค้นหา
   const [searchDate, setSearchDate] = useState<string | null>(null);
+
+  //สำหรับเก็บ id user  ที่ล็อคอินอยู่
   const userId = localStorage.getItem("id");
+
+  //สำหรับ nav ไปหน้าอื่น
   const navigate = useNavigate();
   
+
+  //กำหนด column ของตาราง
   const columns: ColumnsType<ReservesInterface> = [
     {
       title: "ลำดับ",
@@ -126,29 +148,34 @@ function ReserveDashboard() {
     },
   ];
 
-  const handleDelete = async (reserveId: number | undefined) => {
+
+  //สำหรับยกเลิกการจอง
+  const handelCancelReserve = async (reserveId: number | undefined) => {
     if (!reserveId) return; // Check if reserveId is valid
 
     try {
       const data = {};
       await cancelReserveById(reserveId, data);
       await getReservesDetails(reserveId); // Fetch the reserve details
-      await Promise.all(
-        reservesDetails.map((reserveDetail) => 
-          CancelLockById(reserveDetail?.lock_id, data)
-        )
-      );
+
+      reservesDetails.map((reserveDetail) => 
+        CancelLockById(reserveDetail?.lock_id, data)
+      )
+
       message.success("ยกเลิกการจองสำเร็จ");
       setIsModalVisible1(false); // Close modal on success
 
       setTimeout(() => {
         window.location.reload();
       }, 500);
+
     } catch (error) {
       message.error("เกิดข้อผิดพลาดในการยกเลิกการจอง");
     }
   };
 
+
+  //สำหรับดึงรายละเอียดของแต่ละการจอง
   const getReservesDetails = async (reserveId: number) => {
     if (!reserveId) return;
 
@@ -172,6 +199,8 @@ function ReserveDashboard() {
     }
   };
 
+
+  //สำหรับแสดงป๊อปอัพรายละเอียดการจอง
   const showModal = async (record: ReservesInterface) => {
     setSelectedReserve(record);
 
@@ -180,18 +209,20 @@ function ReserveDashboard() {
     } catch (error) {
       messageApi.error("เกิดข้อผิดพลาดในการดึงข้อมูลรายละเอียดการจอง");
     }
-
     setIsModalVisible(true);
   };
 
+  //สำหรับการกดชำระเงิน
   const handleOk = () => {
     navigate(`/Payments?reserveId=${selectedReserve.id}`);
   };
 
+  //สำหรับปิดหน้ารายละเอียดการจองสำหรับชำระเงิน
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
+  //สำหรับแสดงป๊อปอัพสำหรับการยกเลิกการจอง
   const showModalcancel = async (record: ReservesInterface) => {
     setSelectedReserve(record);
 
@@ -204,10 +235,12 @@ function ReserveDashboard() {
     setIsModalVisible1(true);
   };
 
+  //สำหรับปิดป๊อปอัพหน้ารายละเอียดยกเลิกการจอง
   const handlecancelCancel = () => {
     setIsModalVisible1(false);
   };
 
+  //สำหรับดึงข้อมูลร้าน
   const getShop = async (userId: string) => {
     let res = await GetShopByUserId(userId);
     if (res) {
@@ -221,6 +254,7 @@ function ReserveDashboard() {
     }
   }, [userId]);
 
+  //สำหรับดึงข้อมูลการจอง
   const getReserves = async (shopId: number) => {
     if (!shopId) return;
 
@@ -251,11 +285,14 @@ function ReserveDashboard() {
     }
   }, [shop]);
 
+
+  //สำหรับการเลือกวันที่
   const handleDateChange = (date: any, dateString: string) => {
     setSearchDate(dateString);
     handleDateSearch(dateString);
   };
 
+  //สำหรับค้นหาตามวันที่
   const handleDateSearch = (selectedDate: string | null) => {
     if (!selectedDate) {
       setFilteredReserves(reserves);
@@ -289,6 +326,7 @@ function ReserveDashboard() {
 
       <Divider />
 
+      {/*สำหรับใส่วันที่ในการค้นหา*/}
       <Row justify="center" style={{ marginBottom: 20 }}>
         <Col>
           <Space>
@@ -307,6 +345,8 @@ function ReserveDashboard() {
       <Modal
         visible={isModalVisible}
         onCancel={handleCancel}
+
+        //footer
         footer={[ 
           (selectedReserve?.status === "ยังไม่ชำระเงิน") ? (
         <button
@@ -318,6 +358,8 @@ function ReserveDashboard() {
         </button> ) : (selectedReserve?.status === "ชำระเงินแล้ว") ? <p style={{color: "green"}}>ชำระเงินแล้ว</p> : <p style={{color: "red"}}>ยกเลิกแล้ว</p>,
         ]}
       >
+
+        {/*header */}
         <div className="modal-header" style={{ paddingBottom: '10px', borderBottom: '1px solid #f0f0f0' }}>
           <h2 style={{ fontSize: '24px' }}><ContainerOutlined /> รายละเอียดการจอง</h2>
         </div>
@@ -352,7 +394,7 @@ function ReserveDashboard() {
         <button
           className="popup-button confirm"
           style={{ marginTop: '20px' }}
-          onClick={() => handleDelete(selectedReserve?.id)}
+          onClick={() => handelCancelReserve(selectedReserve?.id)}
         >
           <CloseCircleOutlined /> ยกเลิกการจอง
         </button>  ,

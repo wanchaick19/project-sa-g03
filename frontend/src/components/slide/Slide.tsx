@@ -1,43 +1,51 @@
-import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import './Slide.css'; // Import the CSS file
+import { Link } from 'react-router-dom'; 
+import './Slide.css'; 
 
 function Slide() {
   return (
     <div className="carousel-container">
       <Carousel className="carousel">
         <Carousel.Item interval={1000}>
-          <img
-            id="pic"
-            src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3>หน้าที่หนึ่ง</h3>
-            <p>อิอิ</p>
-          </Carousel.Caption>
+          <Link to="/reserve"> 
+            <img 
+              id="pic"
+              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
+              alt="First slide"
+            />
+            <Carousel.Caption>
+              <h3>จองล็อคขายสินค้า</h3>
+              <p>คลิ๊กเลย</p>
+            </Carousel.Caption>
+          </Link>
         </Carousel.Item>
+
         <Carousel.Item interval={500}>
-          <img
-            id="pic"
-            src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-            alt="Second slide"
-          />
-          <Carousel.Caption>
-            <h3>หน้าทีสอง</h3>
-            <p>อิอิ.</p>
-          </Carousel.Caption>
+          <Link to="/map">
+            <img
+              id="pic"
+              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
+              alt="Second slide"
+            />
+            <Carousel.Caption>
+              <h3>ดูร้านค้าทั้งหมดในตลาด</h3>
+              <p>คลิ๊กเลย</p>
+            </Carousel.Caption>
+          </Link>
         </Carousel.Item>
+
         <Carousel.Item>
-          <img
-            id="pic"
-            src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-            alt="Third slide"
-          />
-          <Carousel.Caption>
-            <h3>หน้าที่สาม</h3>
-            <p>อิอิ.</p>
-          </Carousel.Caption>
+          <Link to="/review">
+            <img
+              id="pic"
+              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
+              alt="Third slide"
+            />
+            <Carousel.Caption>
+              <h3>ดูรีวิวร้านค้าของตลาดทั้งหมด</h3>
+              <p>คลิ๊กเลย</p>
+            </Carousel.Caption>
+          </Link>
         </Carousel.Item>
       </Carousel>
     </div>

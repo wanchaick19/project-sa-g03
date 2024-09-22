@@ -1,16 +1,10 @@
 import React from 'react';
 import {  ContainerOutlined } from "@ant-design/icons";
-
-type Locks = {
-  Id: string;
-  Status: string;
-  Price: number;
-  Size: string;
-};
+import { LocksInterface } from '../../interfaces/ILock';
 
 export 
 
-const Popup: React.FC<{ selectedLocks: Locks[], dateOption: string, onClose: () => void, onConfirm: () => void }> = ({ selectedLocks, dateOption, onClose, onConfirm }) => {
+const Popup: React.FC<{ selectedLocks: LocksInterface[], dateOption: string, onClose: () => void, onConfirm: () => void }> = ({ selectedLocks, dateOption, onClose, onConfirm }) => {
   const totalPrice = selectedLocks.reduce((sum, lock) => sum + lock.Price, 0);
 
   return (

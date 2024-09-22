@@ -75,8 +75,8 @@ function Topbar() {
                                         <Image
                                             src={user?.Profile} // Replace with actual avatar URL
                                             roundedCircle
-                                            height="30"
-                                            width="30" // Set both height and width to fit the image
+                                            height="50"
+                                            width="50" // Set both height and width to fit the image
                                             alt="Profile"
                                             style={{ 
                                                 border: '2px solid white', 

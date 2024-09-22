@@ -14,7 +14,7 @@ import (
 func CreateReserve(c *gin.Context) {
 	var reserve entity.Reserve
 
-	// bind เข้าตัวแปร Lock
+	// bind เข้าตัวแปร reserve
 	if err := c.ShouldBindJSON(&reserve); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Offcanvas, Card } from 'react-bootstrap';
 import Logo from './../../assets/biglogoz.png';
+import MapImage from './../../assets/map.png'; // นำเข้ารูปแผนผังตลาด
 import { ZoomInOutlined, ShopOutlined, ArrowRightOutlined, StarOutlined, LeftOutlined, RightOutlined ,NotificationOutlined} from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { GetMaps } from '../../services/https';
-import { message } from "antd";
+import { message, Modal, Button } from "antd"; // ใช้ Modal และ Button จาก Ant Design
 import './map.css';
 
 interface Map {
@@ -15,8 +16,8 @@ interface Map {
   rating: number;
 }
 
- //สร้างวันที่
- const getFormattedDate = (date: Date): string => {
+//สร้างวันที่
+const getFormattedDate = (date: Date): string => {
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = (date.getFullYear() + 543).toString();
@@ -35,7 +36,6 @@ const generateLockId = (rowIndex: number, colIndex: number) => {
 };
 
 const Map: React.FC = () => {
-
   const navigate = useNavigate();
 
   const handleReserveClick = () => {
@@ -44,7 +44,8 @@ const Map: React.FC = () => {
 
   const [show, setShow] = useState(false);
   const [selectedShop, setSelectedShop] = useState<Map | null>(null);
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
+  const [mapModalVisible, setMapModalVisible] = useState(false); // สถานะการแสดง Modal
 
   const handleClose = () => setShow(false);
   const handleShow = (shop: Map) => {
@@ -87,17 +88,42 @@ const Map: React.FC = () => {
     }
   };
 
+  // ฟังก์ชันเปิดป๊อปอัพแผนผังตลาด
+  const showMarketMap = () => {
+    setMapModalVisible(true);
+  };
+
+  const handleMapModalClose = () => {
+    setMapModalVisible(false);
+  };
+
   return (
     <>
       <div className="map-container">
-      <h2 className="map-title">
-        <ShopOutlined /> แผนผังร้านค้าในตลาด
-      </h2>
+      <div className="marquee-container" style={{marginTop: "80px"}}>
+        <span className="marquee-text">
+          <NotificationOutlined /> อัพเดตล่าสุดวันที่: {getFormattedDate(new Date())} (ตลาดเปิดเวลา: 18:00 - 24:00 น.) 
+        </span>
+     </div>
+        <h2 className="map-title">
+          <ShopOutlined /> แผนผังร้านค้าในตลาด
+        </h2>
+
+        {/* ปุ่มดูแผนผังตลาดที่มุมขวา */}
+        <Button 
+          type="primary" 
+          icon={<NotificationOutlined />} 
+          className="market-map-button" 
+          style={{ position: 'absolute', top: '100px', right: '10px' }}
+          onClick={showMarketMap}
+        >
+          ดูแผนผังตลาด
+        </Button>
+
         {Array.from({ length: ROWS }).map((_, rowIndex) => {
           const rowRef = useRef<HTMLDivElement>(null); // ใช้ useRef สำหรับการเลื่อนในแต่ละแถว
 
           return (
-            
             <div key={rowIndex} className="map-row-container">
               <div className="row-header" style={{ textAlign: 'center', fontWeight: 'bold', alignSelf: 'center' }}>
                 โซน: {String.fromCharCode(65 + rowIndex)}
@@ -166,6 +192,21 @@ const Map: React.FC = () => {
           )}
         </Offcanvas.Body>
       </Offcanvas>
+
+      {/* Modal แสดงแผนผังตลาด */}
+      <Modal
+        title="แผนผังตลาด"
+        visible={mapModalVisible}
+        footer={null}
+        onCancel={handleMapModalClose}
+        width={800}
+      >
+        <img
+          src={MapImage} 
+          alt="Market Map" 
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </Modal>
     </>
   );
 };

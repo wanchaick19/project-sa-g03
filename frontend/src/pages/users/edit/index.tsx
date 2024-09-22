@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Space,
   Button,
@@ -30,12 +30,11 @@ function UserEdit() {
       const res = await GetUsersById(id);
       if (res.status === 200) {
         form.setFieldsValue({
-          email: res.data.email,
-          first_name: res.data.first_name,
-          last_name: res.data.last_name,
-          tel: res.data.tel,
-          gender_id: res.data.gender?.ID,
-          profile: res.data.profile,
+          email: res.data.Email,
+          first_name: res.data.FirstName,
+          last_name: res.data.LastName,
+          tel: res.data.Tel,
+          gender_id: res.data.GenderID,
         });
       } else {
         messageApi.open({
@@ -54,33 +53,27 @@ function UserEdit() {
     }
   };
 
-  
-
   const onFinish = async (values: UsersInterface) => {
-    try { 
-
-    const reserveDetail = {
-      
-    };
+    try {
       if (userId) {
-      const res = await UpdateUsersById(userId, values);
+        const res = await UpdateUsersById(userId, values);  // ส่งข้อมูลฟอร์มไปที่ API
 
-      if (res.status === 200) {
-        messageApi.open({
-          type: "success",
-          content: res.data.message,
-        });
-        setTimeout(() => {
-          navigate("/edit-profile");
-        }, 2000);
-      } else {
-        messageApi.open({
-          type: "error",
-          content: res.data.error,
-        });
+        if (res.status === 200) {
+          messageApi.open({
+            type: "success",
+            content: res.data.message,
+          });
+          setTimeout(() => {
+            navigate("/edit-profile");
+          }, 2000);
+        } else {
+          messageApi.open({
+            type: "error",
+            content: res.data.error,
+          });
+        }
+        window.location.reload();
       }
-      window.location.reload();
-    }
     } catch (error) {
       messageApi.open({
         type: "error",

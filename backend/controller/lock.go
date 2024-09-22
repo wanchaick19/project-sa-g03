@@ -69,18 +69,3 @@ func CancelLock(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "cancel locks successfully"})
 }
 
-
-func ResetLock(c *gin.Context) {
-    // เชื่อมต่อกับฐานข้อมูล
-    db := config.DB()
-
-    result := db.Model(&entity.Lock{}).Where("Status = ?","ไม่ว่าง").Update("Status", "ว่าง")
-    if result.Error != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to reset locks status"})
-        return
-    }
-
-    c.JSON(http.StatusOK, gin.H{"message": "All locks have been reset to 'ว่าง' successfully"})
-}
-
-
