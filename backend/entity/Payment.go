@@ -1,15 +1,13 @@
-
 package entity
 
 import (
-	"gorm.io/gorm"
 	"time"
-	
+
+	"gorm.io/gorm"
 )
 
 type Payment struct {
 	gorm.Model
-	Name      string
 	Date      time.Time
 	TotalPrice float32
 	Slip      string `gorm:"type:longtext"` // Corrected struct tag syntax

@@ -1,0 +1,32 @@
+.createlockform {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 20px; /* เพิ่ม padding เพื่อให้ฟอร์มดูสบายตา */
+    width: 100%; /* ปรับขนาดฟอร์มให้เข้ากับ modal */
+    max-width: 500px; /* กำหนดขนาดสูงสุด */
+    margin: auto;
+}
+
+.create-input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px; /* เพิ่มช่องว่างระหว่าง input */
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.buttoncreate{
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin: 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: #BF0000; 
+    width: 40%;
+    font-size: 16px;
+}
+
+

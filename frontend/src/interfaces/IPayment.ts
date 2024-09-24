@@ -3,6 +3,5 @@ export interface PaymentInterface {
     Name?: string;
     Date?: Date;
     TotalPice?: number;
-    Slip?: string; 
     ReserveID?: number; 
 }

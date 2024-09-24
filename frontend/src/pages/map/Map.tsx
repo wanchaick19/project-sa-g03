@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Offcanvas, Card } from 'react-bootstrap';
-import Logo from './../../assets/biglogoz.png';
-import MapImage from './../../assets/map.png'; // นำเข้ารูปแผนผังตลาด
-import { ZoomInOutlined, ShopOutlined, ArrowRightOutlined, StarOutlined, LeftOutlined, RightOutlined ,NotificationOutlined} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
+import Logo from './../../assets/biglogo.png';
+import MapImage from './../../assets/map.png';
+import { ZoomInOutlined, ShopOutlined, ArrowRightOutlined,  LeftOutlined, RightOutlined ,NotificationOutlined} from '@ant-design/icons';
+import { useNavigate, Link } from 'react-router-dom';
 import { GetMaps } from '../../services/https';
-import { message, Modal, Button } from "antd"; // ใช้ Modal และ Button จาก Ant Design
+import { message, Modal, Button, Rate } from "antd";
 import './map.css';
+import { ReviewInterface } from '../../interfaces/IReview';
+import { GetReviewsByShopId } from '../../services/https/index';
 
 interface Map {
+  shop_id: number;
   lock_id: string;
   shop_name: string;
   shop_img: string;
@@ -28,7 +31,6 @@ const getFormattedDate = (date: Date): string => {
 const ROWS = 6;
 const COLS = 10;
 
-// ฟังก์ชันสร้าง lock_id
 const generateLockId = (rowIndex: number, colIndex: number) => {
   const rowLetter = String.fromCharCode(65 + rowIndex);
   const columnNumber = colIndex.toString().padStart(2, '0');
@@ -45,7 +47,37 @@ const Map: React.FC = () => {
   const [show, setShow] = useState(false);
   const [selectedShop, setSelectedShop] = useState<Map | null>(null);
   const [messageApi] = message.useMessage();
-  const [mapModalVisible, setMapModalVisible] = useState(false); // สถานะการแสดง Modal
+  const [mapModalVisible, setMapModalVisible] = useState(false);
+
+
+  const [ratings, setRatings] = useState<{ [key: number]: number }>({});
+
+  const calculateAverageRating = async (shopId: number) => {
+    try {
+      const reviewResponse = await GetReviewsByShopId(shopId.toString());
+      const reviews: ReviewInterface[] = reviewResponse.data;
+
+      if (reviews.length === 0) return 0;
+
+      const totalScore = reviews.reduce((acc, review) => acc + (review.Score ?? 0), 0);
+      return totalScore / reviews.length;
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      return 0;
+    }
+  };
+
+  const fetchRatingsForShops = async () => {
+    const ratingsData: { [key: number]: number } = {};
+
+    for (const shop of map) {
+      if (shop.shop_id !== undefined) {
+        const averageRating = await calculateAverageRating(shop.shop_id);
+        ratingsData[shop.shop_id] = averageRating;
+      }
+    }
+    setRatings(ratingsData);
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = (shop: Map) => {
@@ -77,10 +109,20 @@ const Map: React.FC = () => {
   };
 
   useEffect(() => {
-    getMap();
+    const fetchData = async () => {
+      await getMap();
+    };
+  
+    fetchData();
   }, []);
+  
+  // Run fetchRatingsForShops whenever `map` updates
+  useEffect(() => {
+    if (map.length > 0) {
+      fetchRatingsForShops();
+    }
+  }, [map]);
 
-  // ฟังก์ชันเลื่อน
   const scrollRow = (rowRef: React.RefObject<HTMLDivElement>, direction: string) => {
     if (rowRef.current) {
       const scrollAmount = direction === 'left' ? -300 : 300;
@@ -88,7 +130,6 @@ const Map: React.FC = () => {
     }
   };
 
-  // ฟังก์ชันเปิดป๊อปอัพแผนผังตลาด
   const showMarketMap = () => {
     setMapModalVisible(true);
   };
@@ -100,16 +141,15 @@ const Map: React.FC = () => {
   return (
     <>
       <div className="map-container">
-      <div className="marquee-container" style={{marginTop: "80px"}}>
-        <span className="marquee-text">
-          <NotificationOutlined /> อัพเดตล่าสุดวันที่: {getFormattedDate(new Date())} (ตลาดเปิดเวลา: 18:00 - 24:00 น.) 
-        </span>
-     </div>
+        <div className="marquee-container" style={{marginTop: "80px"}}>
+          <span className="marquee-text">
+            <NotificationOutlined /> อัพเดตล่าสุดวันที่: {getFormattedDate(new Date())} (ตลาดเปิดเวลา: 18:00 - 24:00 น.) 
+          </span>
+        </div>
         <h2 className="map-title">
           <ShopOutlined /> แผนผังร้านค้าในตลาด
         </h2>
 
-        {/* ปุ่มดูแผนผังตลาดที่มุมขวา */}
         <Button 
           type="primary" 
           icon={<NotificationOutlined />} 
@@ -121,7 +161,7 @@ const Map: React.FC = () => {
         </Button>
 
         {Array.from({ length: ROWS }).map((_, rowIndex) => {
-          const rowRef = useRef<HTMLDivElement>(null); // ใช้ useRef สำหรับการเลื่อนในแต่ละแถว
+          const rowRef = useRef<HTMLDivElement>(null);
 
           return (
             <div key={rowIndex} className="map-row-container">
@@ -143,7 +183,8 @@ const Map: React.FC = () => {
                           <Card.Img variant="top" src={shop.shop_img} alt={shop.shop_name} style={{ height: '100px', objectFit: 'cover' }} />
                           <Card.Body>
                             <Card.Title>{shop.shop_name}</Card.Title>
-                            <Card.Text>คะแนน: {shop.rating} <StarOutlined /></Card.Text>
+                            <Card.Text> <Rate disabled value={ratings[shop.shop_id] || 0} allowHalf />
+                            <p>({ratings[shop.shop_id]?.toFixed(1) || '0'} stars)</p></Card.Text>
                             <button className='details-button cancel' onClick={() => handleShow(shop)}>
                               <ZoomInOutlined /> เพิ่มเติม
                             </button>
@@ -178,22 +219,30 @@ const Map: React.FC = () => {
           <Offcanvas.Title>{selectedShop?.shop_name}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          {selectedShop && (
-            <>
-              <img
-                id="pic"
-                src={selectedShop.shop_img}
-                alt={selectedShop.shop_name}
-                style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
-              />
-              <p>{selectedShop.description}</p>
-              <p>คะแนนร้านค้า: {selectedShop.rating}</p>
-            </>
-          )}
-        </Offcanvas.Body>
+  {selectedShop && (
+    <>
+      <img
+        id="pic"
+        src={selectedShop.shop_img}
+        alt={selectedShop.shop_name}
+        style={{ width: '100%', height: 'auto', marginBottom: '10px' }}
+      />
+      <p>{selectedShop.description}</p>
+
+      {/* Display shop rating */}
+      <Rate disabled value={ratings[selectedShop.shop_id] || 0} allowHalf />
+      <p>({ratings[selectedShop.shop_id]?.toFixed(1) || '0'} stars)</p>
+      <Link to={`/review/${selectedShop.shop_id}`}>
+      <button className='reserve-button' >
+        ดูรีวิว
+      </button>
+      </Link>
+    </>
+  )}
+</Offcanvas.Body>
+
       </Offcanvas>
 
-      {/* Modal แสดงแผนผังตลาด */}
       <Modal
         title="แผนผังตลาด"
         visible={mapModalVisible}

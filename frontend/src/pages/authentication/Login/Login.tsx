@@ -6,7 +6,6 @@ import { SignInInterface } from '../../../interfaces/SignIn';
 import logo from '../../../assets/biglogo.png';
 import user from '../../../assets/userlogin.png';
 import './login.css';
-import { Color } from 'antd/es/color-picker';
 
 const SignInPages: React.FC = () => {
   useEffect(() => {

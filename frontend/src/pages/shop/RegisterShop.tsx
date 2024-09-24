@@ -1,12 +1,12 @@
 import { Row, Col, Form, Input, Button, Select, Upload, message } from 'antd';
 import './registershop.css'; // Import the CSS file
 import logo from '/src/assets/biglogo.png';
-import React, { useState , useEffect } from "react";
+import  { useState , useEffect } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 import { ShopsInterface } from '../../interfaces/IShop';
 import { CreateShop, GetUsersById } from '../../services/https';
-import { UsersInterface } from '../../interfaces/IUser';
+
 
 const Registershop = () => {
   const [messageApi, contextHolder] = message.useMessage();
@@ -166,12 +166,15 @@ const Registershop = () => {
                 </Form.Item>
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Link  to={`/`}>
                   <Button className="custom-cancel1" htmlType="button">
                     ยกเลิก
                   </Button>
+                  </Link>
                   <Button className="custom-submit1" type="primary" htmlType="submit">
-                    ต่อไป
+                    ยืนยัน
                   </Button>
+                  
                 </div>
               </Form>
             </div>

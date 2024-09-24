@@ -158,7 +158,12 @@ function PaymentC() {
                                             ยกเลิก
                                         </Button>
                                     </Link>
-                                    <Button type="primary" htmlType="submit" icon={<PlusOutlined />}>
+                                    <Button type="primary" htmlType="submit" icon={<PlusOutlined />}
+                                        style={{
+                                            backgroundColor: 'red',
+                                            borderColor: 'red',
+                                            color: 'white',
+                                        }}>
                                         ยืนยัน
                                     </Button>
                                 </Space>

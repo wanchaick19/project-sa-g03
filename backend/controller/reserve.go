@@ -10,6 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//lock
+// GET /locks
+func GetLocks(c *gin.Context) {
+	var locks []entity.Lock
+	db := config.DB()
+	db.Find(&locks)
+	c.JSON(http.StatusOK, &locks)
+}
+
+
 // POST /reserve
 func CreateReserve(c *gin.Context) {
 	var reserve entity.Reserve
@@ -79,6 +89,7 @@ func ListMap(c *gin.Context) {
 
 	// Define a struct to hold the result set
 	var maps []struct {
+		ShopID uint `json:"shop_id"`
 		LockID       string `json:"lock_id"`        
 		ShopName   string    `json:"shop_name"`   
 		Description string   `json:"description"` 
@@ -91,7 +102,7 @@ func ListMap(c *gin.Context) {
 	today := time.Now().Format("2006-01-02")
 
 	results := db.Table("reserves").
-		Select("reserve_details.lock_id, shops.shop_name, shops.description, shops.shop_img,reserves.date").
+		Select("reserves.shop_id,reserve_details.lock_id, shops.shop_name, shops.description, shops.shop_img,reserves.date").
 		Joins("left join shops on reserves.shop_id = shops.id").
 		Joins("left join reserve_details on reserves.id = reserve_details.reserve_id").
 		Where("reserves.status = ? AND DATE(reserves.date) = ?", "ชำระเงินแล้ว", today) .
@@ -120,4 +131,58 @@ func CancelReserve(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Reservation has been canceled successfully"})
+}
+
+
+// PATCH /locks
+func ReserveLock(c *gin.Context) {
+	var lock entity.Lock
+
+	LockID := c.Param("id")
+
+	// เชื่อมต่อกับฐานข้อมูล
+	db := config.DB()
+	result := db.Where("id = ?", LockID).First(&lock)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "ID not found"})
+	return
+	}
+
+	// อัปเดตข้อมูล
+	lock.Status = "ไม่ว่าง"
+
+	// บันทึกการเปลี่ยนแปลงไปยังฐานข้อมูล
+	result = db.Save(&lock)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to update lock"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Updated successfully"})
+}
+
+func CancelLock(c *gin.Context) {
+	var lock entity.Lock
+
+	LockID := c.Param("id")
+
+	// เชื่อมต่อกับฐานข้อมูล
+	db := config.DB()
+	result := db.Where("id = ?", LockID).First(&lock)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "ID not found"})
+		return
+	}
+
+	// อัปเดตข้อมูล
+	lock.Status = "ว่าง"
+
+	// บันทึกการเปลี่ยนแปลงไปยังฐานข้อมูล
+	result = db.Save(&lock)
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to update lock"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "cancel locks successfully"})
 }

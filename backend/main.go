@@ -57,6 +57,19 @@ func main() {
 
    //payment
    r.POST("/payments", controller.CreatePayment)
+
+   //managelocks
+    r.PATCH("/locks", controller.ClearStatus)
+	r.POST("/locks", controller.CreateLock)
+	r.GET("/locks/:id", controller.GetLockById)
+	r.PUT("/locks/:id", controller.UpdateLock)
+	r.PUT("/locks/:id/update", controller.UpdateLockStatus)
+	r.POST("/clear-status", controller.ClearStatus)
+	r.GET("/api/count-shops", controller.CountShops)
+	r.GET("/api/count-users", controller.CountUsers)
+	r.GET("/api/sum-reservations", controller.CountReservations)
+	r.GET("/api/dashboard", controller.GetDashboardData)
+	r.DELETE("/locks/:id", controller.DeleteLock)
    
    router := r.Group("/")
 
@@ -70,13 +83,12 @@ func main() {
        //users
        router.PUT("/user/:id", users.Update)
        router.GET("/users", users.GetAll)
-       router.GET("/user/:id", users.GetUser)
 
        //reserve
        router.GET("/shopbyuser/:id", controller.GetShopbyUser)
        router.GET("/reserves/:id", controller.ListReserve)
        router.GET("/reservesdetails/:id", controller.ListReservesDetails)
-       router.PUT("/updatelock/:id", controller.UpdateLock)
+       router.PUT("/updatelock/:id", controller.ReserveLock)
        router.PUT("/cancelLock/:id", controller.CancelLock)
        router.PUT("/cancelReserve/:id", controller.CancelReserve)
 
@@ -84,10 +96,12 @@ func main() {
        router.GET("/reserve/:id", controller.GetReserveById)
        router.PUT("reserve/:id",controller.UpdateReserveStatus)
 
-       //review
-       router.GET("/shop/:id/review", controller.GetReviewsByShopId)
+       
 
    }
+
+   //
+   r.GET("/user/:id", users.GetUser)
 
    //gender
    r.GET("/genders", genders.GetAll)
@@ -105,6 +119,7 @@ func main() {
     r.GET("/categories",controller.GetCategories)
     r.GET("/getshops",controller.GetShops)
     r.GET("/shop/:id",controller.GetShopByID)
+    r.GET("/shop/:id/review", controller.GetReviewsByShopId)
 
 
 

@@ -26,10 +26,8 @@ func CreatePayment(c *gin.Context) {
 
 	// Create new payment entry
 	p := entity.Payment{
-		Name:       payments.Name,
 		Date:       payments.Date,
 		TotalPrice: payments.TotalPrice,
-		Slip:       payments.Slip,
 		ReserveID:  payments.ReserveID, // Ensure ReserveID is correctly bound
 	}
 

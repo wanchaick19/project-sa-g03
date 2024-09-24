@@ -5,7 +5,7 @@ import { CheckOutlined, ClockCircleOutlined, CodepenOutlined, NotificationOutlin
   , CheckCircleOutlined, FileDoneOutlined , InboxOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import './reserve.css';
 import { Tooltip, message } from 'antd';
-import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId ,UpdateLocksById} from '../../services/https/index';
+import { GetLocks, CreateReserve, CreateReserveDetails, GetShopByUserId ,UpdateLockById} from '../../services/https/index';
 import { ShopsInterface } from '../../interfaces/IShop';
 import { ReservesInterface } from '../../interfaces/IReserve';
 import { LocksInterface } from '../../interfaces/ILock';
@@ -166,7 +166,7 @@ const Reserve: React.FC = () => {
           const data = {
           };
           await CreateReserveDetails(reserveDetail);
-          await UpdateLocksById(lock.Id, data);
+          await UpdateLockById(lock.Id, data);
       })
       setSelectedLocks([]);
       setShowPopup(false);
@@ -197,7 +197,7 @@ const Reserve: React.FC = () => {
         </div>
         <div style={{ marginTop: '50px' }}>
           <h1>
-          <CodepenOutlined /> โปรดเลือกล็อค <a style={{ color: 'red' }}>*</a>
+          <CodepenOutlined /> เลือกล็อคที่ต้องการ <a style={{ color: 'red' }}>*</a>
           </h1>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', marginTop: '30px' }}>
            {['A', 'B', 'C', 'D', 'E','F'].map((row, index) => (

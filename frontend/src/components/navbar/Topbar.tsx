@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -12,7 +12,7 @@ import { UsersInterface } from '../../interfaces/IUser';
 import { GetUsersById } from "../../services/https/index";
 import './Topbar.css'; // Import the CSS file
 import { ShopOutlined , HomeOutlined , LoginOutlined , HistoryOutlined,  LogoutOutlined,
-    EnvironmentOutlined, CommentOutlined, ContactsOutlined, CreditCardOutlined, CodepenOutlined} from '@ant-design/icons';
+    EnvironmentOutlined, CommentOutlined, ContactsOutlined, CreditCardOutlined, CodepenOutlined , BugOutlined} from '@ant-design/icons';
 
 function Topbar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -88,12 +88,30 @@ function Topbar() {
                                     align="end"
                                     style={{ color: 'white' }}
                                 >
-                                    <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}><ContactsOutlined /> โปรไฟล์</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/shop_profile" style={{ color: 'black' }}><ShopOutlined /> โปรไฟล์ร้านค้า</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}><HistoryOutlined /> ประวัติการจองล็อค</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/payment_dashboard" style={{ color: 'black' }}><CreditCardOutlined /> ประวัติการชำระเงิน</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleShowProfile} style={{ color: 'black' }}>
+                                        <ContactsOutlined /> โปรไฟล์
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/shop_profile" style={{ color: 'black' }}>
+                                        <ShopOutlined /> โปรไฟล์ร้านค้า
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/reserve_dashboard" style={{ color: 'black' }}>
+                                        <HistoryOutlined /> ประวัติการจองล็อค
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/payment_dashboard" style={{ color: 'black' }}>
+                                        <CreditCardOutlined /> ประวัติการชำระเงิน
+                                    </NavDropdown.Item>
+                                    
+                                    {/* Conditionally show the button if the userId is 1 */}
+                                    {userId === '1' && (
+                                        <NavDropdown.Item as={Link} to="/locks" style={{ color: 'black' }}>
+                                            <BugOutlined /> จัดการล็อค
+                                        </NavDropdown.Item>
+                                    )}
+                                    
                                     <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}><LogoutOutlined /> ออกจากระบบ</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={handleLogout} style={{ color: 'black' }}>
+                                        <LogoutOutlined /> ออกจากระบบ
+                                    </NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                         ) : (
@@ -101,11 +119,12 @@ function Topbar() {
                                 as={Link}
                                 to="/login"
                                 variant="outline-light"
-                                className="ms-auto login-button" // Added CSS class here
+                                className="ms-auto login-button"
                             >
                                 <LoginOutlined /> เข้าสู่ระบบ
                             </Button>
                         )}
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

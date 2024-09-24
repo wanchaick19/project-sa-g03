@@ -1,0 +1,41 @@
+
+.status {
+  display: flex;
+  align-items: center;
+}
+
+.status-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-available {
+  background-color: green;
+}
+
+.status-unavailable {
+  background-color: orange;
+}
+
+.status-not-ready {
+  background-color: red;
+}
+
+.lock-data {
+  padding: 20px;
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.action-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+  

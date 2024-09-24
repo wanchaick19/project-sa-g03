@@ -12,10 +12,13 @@ import ReserveDashboard from './pages/reserve/reserveDashboard';
 import Registershop from './pages/shop/RegisterShop';
 import Map from './pages/map/Map';
 import PaymentDashboard from './pages/payment/PaymentDashboard';
-import PaymentC from './pages/payment/PaymentC';
-import Payments from './pages/payment/Payment';
+import Payments from './pages/payment/Payments';
 import Review from './pages/review/review';
 import Shop from './pages/review/shop';
+import Locks from './pages/locks/Locks';
+import EditProfileShop from './pages/profileshop/editprofiles/EditProfileShop';
+import ShopProfile from './pages/profileshop/ShopProfile';
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -44,10 +47,13 @@ function App() {
           <Route path="/register" element={<Registershop />} />
           <Route path="/map" element={<Map />} />
           <Route path="/Payments" element={<Payments />} />
-          <Route path="/PaymentC" element={<PaymentC />} />
           <Route path="/payment_dashboard" element={<PaymentDashboard />} />
           <Route path="/review" element={<Shop />} />
           <Route path="/review/:shopId" element={<Review />} />
+          <Route path="/locks" element={<Locks />} />
+          <Route path="/shop_profile" element={<ShopProfile />} />
+          <Route path="/edit-profile-shop" element={<EditProfileShop />} />
+          
         </Routes>
       )}
     </>

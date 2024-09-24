@@ -1,0 +1,42 @@
+
+  
+  
+
+  /* โครงสร้างหลักของหน้า */
+  .locks-page {
+    display: flex;
+    flex-direction: column; /* วาง Flex Direction เป็นคอลัมน์ */
+    gap: 20px; /* เพิ่มระยะห่างระหว่างส่วนต่างๆ */
+    padding: 20px;
+    height: 100vh; /* ความสูงเต็มหน้าจอ */
+  }
+  
+  /* ส่วนของ LockData และปุ่มต่างๆ */
+  .lock-management-section {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1; /* ให้ส่วนนี้ขยายเต็มที่ได้ */
+  }
+  
+  .create-button {
+    margin-bottom: 20px;
+    margin-right: 40px;
+    font-size: 16px;
+    padding: 10px 0px;
+    width: 200px;
+    height: 50px;
+    background-color: #BF0000;
+  }
+  
+  
+  .clear-status-button {
+    margin-bottom: 10px;
+    width: 200px;
+    height: 50px;
+    padding: auto;
+  }
+  
+  
+  

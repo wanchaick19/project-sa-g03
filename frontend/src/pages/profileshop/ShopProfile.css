@@ -1,0 +1,95 @@
+/* ShopProfile.css */
+
+.shop-profile-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.shop-profile-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.shop-profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.shop-profile-left .avatar {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.shop-rating {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.shop-rating p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: gold;
+    font-size: 24px;
+}
+
+.shop-profile-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 55%;
+}
+
+.shop-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+
+.info-label {
+    width: 35%;
+    font-weight: 600;
+    color: #333;
+}
+
+.info-value {
+    width: 65%;
+    color: #666;
+}
+
+.edit-shop-button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+}
+
+.edit-shop-button:hover {
+    background-color: #d9363e;
+}
+
+h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 30px;
+}

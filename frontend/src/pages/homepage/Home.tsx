@@ -8,8 +8,6 @@ function Home() {
   return (
     <div className="home-background"> {/* Apply the background class */}
       <Slide />
-      <Card />
-      <Footer />
     </div>
   );
 }

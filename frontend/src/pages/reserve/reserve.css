@@ -88,6 +88,7 @@
     display: inline-block;
     white-space: nowrap; /* ป้องกันไม่ให้ข้อความมีการแรพ */
     animation: marquee 10s linear infinite;
+    background-color: aquamarine;
   }
   
   @keyframes marquee {
