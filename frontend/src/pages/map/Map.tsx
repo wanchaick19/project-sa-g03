@@ -154,7 +154,7 @@ const Map: React.FC = () => {
           type="primary" 
           icon={<NotificationOutlined />} 
           className="market-map-button" 
-          style={{ position: 'absolute', top: '100px', right: '10px' }}
+          style={{ position: 'absolute', top: '86px', right: '10px' }}
           onClick={showMarketMap}
         >
           ดูแผนผังตลาด
@@ -244,12 +244,12 @@ const Map: React.FC = () => {
       </Offcanvas>
 
       <Modal
-        title="แผนผังตลาด"
         visible={mapModalVisible}
         footer={null}
         onCancel={handleMapModalClose}
         width={800}
       >
+        <h3>แผนผังตลาด</h3>
         <img
           src={MapImage} 
           alt="Market Map" 

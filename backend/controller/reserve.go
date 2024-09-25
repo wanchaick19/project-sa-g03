@@ -99,13 +99,13 @@ func ListMap(c *gin.Context) {
 
 	db := config.DB()
 
-	today := time.Now().Format("2006-01-02")
+	//today := time.Now().Format("2006-01-02")
 
 	results := db.Table("reserves").
 		Select("reserves.shop_id,reserve_details.lock_id, shops.shop_name, shops.description, shops.shop_img,reserves.date").
 		Joins("left join shops on reserves.shop_id = shops.id").
 		Joins("left join reserve_details on reserves.id = reserve_details.reserve_id").
-		Where("reserves.status = ? AND DATE(reserves.date) = ?", "ชำระเงินแล้ว", today) .
+		Where("reserves.status = ? AND DATE(reserves.date) = ?", "ชำระเงินแล้ว", "2024-09-28") .
 		Scan(&maps)              
 
 	// Check for errors in the query

@@ -3,20 +3,18 @@ import { ContainerOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 
 interface ConfirmationPopupProps {
-  onClose: () => void; // Optional onClose handler for additional actions
+  onClose: () => void; 
 }
 
 const ConfirmationPopup: React.FC<ConfirmationPopupProps> = ({ onClose }) => {
   const navigate = useNavigate();
 
   const handleNext = () => {
-    // Close the popup if there's any cleanup needed
     if (onClose) {
       onClose();
     }
 
-    // Navigate to the desired page, e.g., "/nextpage"
-    navigate('/reserve_dashboard'); // Replace '/nextpage' with your target path
+    navigate('/reserve_dashboard'); 
   };
 
   return (

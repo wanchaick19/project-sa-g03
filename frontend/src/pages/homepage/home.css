@@ -1,11 +1,39 @@
 .home-background {
-    min-height: 100vh; /* Ensures the background covers the entire viewport height */
-    background-image: url('../../assets/1.jpg'); /* Adjust the path to your image */
-    background-size: cover; /* Make the background cover the entire area */
-    background-position: center; /* Center the background image */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    display: flex; /* Optional: Flex display to center content */
-    flex-direction: column; /* Stack elements vertically */
-    justify-content: space-between; /* Distribute space between elements */
-  }
-  
+  min-height: 100vh; /* Ensures the background covers the entire viewport height */
+  background-image: url('../../assets/1.jpg'); /* Adjust the path to your image */
+  background-size: cover; /* Make the background cover the entire area */
+  background-color: #e5e5e5;
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  display: flex; /* Optional: Flex display to center content */
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: space-between; /* Distribute space between elements */
+}
+
+.street-food-section {
+  background-color: #f8f9fa; /* สีพื้นหลัง */
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  color: darkred; /* สีหลัก */
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 1.2rem;
+  color: #333;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+/* Emoji styling */
+.description span {
+  font-size: 1.5rem; /* ขนาดใหญ่ขึ้นสำหรับ emoji */
+}

@@ -1,0 +1,42 @@
+.zone-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .zone-item {
+    margin-bottom: 60px; /* เพิ่ม margin-bottom เพื่อให้โซนห่างกันมากขึ้น */
+    display: flex;
+    align-items: center;
+    padding: 20px; /* เพิ่ม padding ภายในกล่อง */
+    background-color: #fff; /* เพิ่มพื้นหลังขาว */
+    border-radius: 10px; /* ทำให้มุมกล่องโค้งมน */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้กล่องดูนูนขึ้น */
+    border: 1px solid #e0e0e0; /* เพิ่มขอบกล่องสีเทาอ่อน */
+}
+
+  
+  .zone-img {
+    width: 100%; /* ปรับให้แคบลง เช่น 70% ของพื้นที่ */
+    max-width: 400px; /* กำหนดขนาดสูงสุด */
+    height: auto; /* ให้ความสูงปรับตามสัดส่วน */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+}
+  
+  .zone-text {
+    padding: 20px;
+    text-align: left;
+  }
+  
+
+  .red-button {
+    background-color: red; /* เปลี่ยนพื้นหลังเป็นสีแดง */
+    border-color: red; /* เปลี่ยนสีขอบเป็นสีแดง */
+  }
+  
+  .red-button:hover {
+    background-color: darkred; /* เปลี่ยนสีเมื่อ hover */
+    border-color: darkred;
+  }
+  

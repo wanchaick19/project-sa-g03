@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, FormControlLabel, RadioGroup, Radio, Paper } from '@mui/material';
 import QRCode from 'react-qr-code';
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, CheckOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import qr from "../../assets/qr.png";
 import visa from "../../assets/visa.png";
@@ -54,116 +54,68 @@ const Payments: React.FC = () => {
         }
     }, [reserveId]);
 
-const getReserves = async (reserveId: string) => {
-    try {
-        const res = await GetReservesByReseveId(reserveId);
-        setReserve(res.data);
-    } catch (error) {
-        messageApi.error('Error fetching shop data');
-    }  
-};
-
-useEffect(() => {
-    if (reserveId) {
-        getReserves(reserveId);
-    }
-}, [reserveId]);
-
-// const handleConfirm1 = async () => {
-//     if (!reserve) {
-//         messageApi.error("Reserve data is not available.");
-//         return;
-//     }
-
-//     const valuesWithReserveId = {
-//         Date: reserve.Date, // Assuming the 'date' is a field in your reserve data
-//         TotalPrice: totalPrice, // Use totalPrice from the state
-//         ReserveID: reserve.ID, // Use the reserve ID from the state
-        
-//     };
-
-//     console.log(valuesWithReserveId);
-//     try {
-//         // Create payment first
-//         const res = await CreatePayment(valuesWithReserveId);
-
-//         if (res.status === 201) {
-//             // Update reserve status after successful payment
-//             if (reserve?.ID) {
-//                 await UpdateReserveStatus(reserve.ID.toString(), "ชำระเงินแล้ว");
-//             }
-
-//             // Show success message
-//             messageApi.open({
-//                 type: "success",
-//                 content: res.data.message,
-//             });
-
-//             // Navigate to reserve dashboard after 2 seconds
-//             setTimeout(() => {
-//                 navigate("/reserve_dashboard");
-//             }, 2000);
-//         } else {
-//             messageApi.open({
-//                 type: "error",
-//                 content: res.data.error,
-//             });
-//         }
-//     } catch (error) {
-//         messageApi.open({
-//             type: "error",
-//             content: "เกิดข้อผิดพลาดในการสร้างการชำระเงิน",
-//         });
-//     }
-// };
-
-
-const handleConfirm2 = async () => {
-    if (!reserve) {
-        messageApi.error("Reserve data is not available.");
-        return;
-    }
-
-    const valuesWithReserveId = {
-        Date: reserve.Date, // Assuming the 'date' is a field in your reserve data
-        TotalPrice: reserve.TotalPrice, // Assuming 'total_price' is also a field in your reserve data
-        ReserveID: reserve.ID // Use the reserve ID from the state
+    const getReserves = async (reserveId: string) => {
+        try {
+            const res = await GetReservesByReseveId(reserveId);
+            setReserve(res.data);
+        } catch (error) {
+            messageApi.error('Error fetching shop data');
+        }
     };
 
-    console.log(valuesWithReserveId);
-    try {
-        // Create payment first
-        const res = await CreatePayment(valuesWithReserveId);
+    useEffect(() => {
+        if (reserveId) {
+            getReserves(reserveId);
+        }
+    }, [reserveId]);
 
-        if (res.status === 201) {
-            // Update reserve status after successful payment
-            if (reserve?.ID) {
-                await UpdateReserveStatus(reserve.ID.toString(), "ชำระเงินแล้ว");
+
+    const handleConfirm2 = async () => {
+        if (!reserve) {
+            messageApi.error("Reserve data is not available.");
+            return;
+        }
+        const today = new Date();
+
+        const valuesWithReserveId = {
+            Date: today, // Assuming the 'date' is a field in your reserve data
+            TotalPrice: reserve.TotalPrice, // Assuming 'total_price' is also a field in your reserve data
+            ReserveID: reserve.ID // Use the reserve ID from the state
+        };
+
+        try {
+            // Create payment first
+            const res = await CreatePayment(valuesWithReserveId);
+
+            if (res.status === 201) {
+                // Update reserve status after successful payment
+                if (reserve?.ID) {
+                    await UpdateReserveStatus(reserve.ID.toString(), "ชำระเงินแล้ว");
+                }
+
+                // Show success message
+                messageApi.open({
+                    type: "success",
+                    content: res.data.message,
+                });
+
+                // Navigate to reserve dashboard after 2 seconds
+                setTimeout(() => {
+                    navigate("/reserve_dashboard");
+                }, 2000);
+            } else {
+                messageApi.open({
+                    type: "error",
+                    content: res.data.error,
+                });
             }
-
-            // Show success message
-            messageApi.open({
-                type: "success",
-                content: res.data.message,
-            });
-
-            // Navigate to reserve dashboard after 2 seconds
-            setTimeout(() => {
-                navigate("/reserve_dashboard");
-            }, 2000);
-        } else {
+        } catch (error) {
             messageApi.open({
                 type: "error",
-                content: res.data.error,
+                content: "เกิดข้อผิดพลาดในการสร้างการชำระเงิน",
             });
         }
-    } catch (error) {
-        messageApi.open({
-            type: "error",
-            content: "เกิดข้อผิดพลาดในการสร้างการชำระเงิน",
-        });
-    }
-};
+    };
 
 
     const showModal = () => {
@@ -238,15 +190,36 @@ const handleConfirm2 = async () => {
                                                     </Button>
 
                                                     {/* Modal สำหรับยืนยันการชำระเงิน */}
+
+
                                                     <Modal
-                                                        title="ยืนยันการชำระเงิน"
-                                                        visible={isConfirmModalVisible} // ควบคุมการแสดง modal ด้วย state
-                                                        onOk={handleConfirm2} // เมื่อกดยืนยันใน modal จะเรียกฟังก์ชัน handleConfirm2
-                                                        onCancel={handleCancelConfirm} // เมื่อกดยกเลิกใน modal
+                                                        title={
+                                                            <Box display="flex" alignItems="center">
+                                                                <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />
+                                                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                                                    ยืนยันการชำระเงิน
+                                                                </Typography>
+                                                            </Box>
+                                                        }
+                                                        visible={isConfirmModalVisible}
+                                                        onOk={handleConfirm2}
+                                                        onCancel={handleCancelConfirm}
+                                                        centered
                                                         okText="ยืนยัน"
                                                         cancelText="ยกเลิก"
+                                                        okButtonProps={{
+                                                            style: { backgroundColor: 'red', borderColor: 'red', color: '#fff' },
+                                                        }}
+                                                        cancelButtonProps={{
+                                                            style: { color: '#ff4d4f', borderColor: '#ff4d4f' },
+                                                        }}
                                                     >
-                                                        <p>คุณแน่ใจหรือไม่ว่าต้องการยืนยันการชำระเงินแล้ว?</p>
+                                                        <Box textAlign="center" py={3}>
+                                                            <Typography variant="body1" display="flex" justifyContent="center" alignItems="center">
+                                                                <CheckOutlined style={{ marginRight: 8, color: '#52c41a', fontSize: '24px' }} />
+                                                                คุณแน่ใจหรือไม่ว่าต้องการยืนยันการชำระเงิน?
+                                                            </Typography>
+                                                        </Box>
                                                     </Modal>
                                                 </Space>
                                             </Form.Item>
@@ -272,12 +245,12 @@ const handleConfirm2 = async () => {
                         </RadioGroup>
 
                         {paymentMethod === 'creditcard' && (
-                            
-                                    <Button type="primary" danger onClick={showModal}>
-                                        เพิ่มบัตร
-                                    </Button>
-                                
-                            
+
+                            <Button type="primary" danger onClick={showModal}>
+                                เพิ่มบัตร
+                            </Button>
+
+
                         )}
                     </Paper>
                 </Box>
@@ -294,31 +267,49 @@ const handleConfirm2 = async () => {
 
             </div>
 
-            <Modal title="เพิ่มบัตรเครดิต" visible={isModalVisible} onCancel={handleCancel} onOk={handleConfirm2} >
+            <Modal
+                title="เพิ่มบัตรเครดิต"
+                visible={isModalVisible}
+                onCancel={handleCancel}
+                onOk={showConfirmModal}
+                okButtonProps={{
+                    style: { backgroundColor: 'red', borderColor: '#red', color: '#fff' }, // Change the color here
+                }}
+            >
                 <Form layout="vertical">
                     <Form.Item
                         label="ชื่อบัตรเครดิต"
                         name="name"
                         rules={[{ required: true, message: "กรุณากรอกชื่อบัตรเครดิต !" }]}
                     >
-                        <Input />
+                        <Input placeholder="Nand Gate"
+                        />
                     </Form.Item>
 
-                    <Form.Item label="หมายเลขบัตร">
+                    <Form.Item
+                        label="หมายเลขบัตร"
+                        name="card"
+                        rules={[{ required: true, message: "กรุณากรอกหมายเลขบัตรเครดิต !" }]}>
                         <Input
                             placeholder="1234 5678 9012 3456"
                         />
                     </Form.Item>
                     <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item label="วันหมดอายุ">
+                            <Form.Item
+                                label="วันหมดอายุ"
+                                name="Exp"
+                                rules={[{ required: true, message: "กรุณากรอกวันที่บัตรหมดอายุ !" }]}>
                                 <Input
                                     placeholder="MM/YY"
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
-                            <Form.Item label="CVV">
+                            <Form.Item 
+                            label="CVV"
+                            name="cvv"
+                            rules={[{ required: true, message: "กรุณากรอก !" }]}>
                                 <Input
                                     placeholder="123"
                                 />
@@ -326,7 +317,39 @@ const handleConfirm2 = async () => {
                         </Col>
                     </Row>
                 </Form>
+
+                {/* Inner Confirm Modal */}
+                <Modal
+                    title={
+                        <Box display="flex" alignItems="center">
+                            <ExclamationCircleOutlined style={{ color: '#faad14', marginRight: '8px' }} />
+                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                ยืนยันการชำระเงิน
+                            </Typography>
+                        </Box>
+                    }
+                    visible={isConfirmModalVisible}
+                    onOk={handleConfirm2}
+                    onCancel={handleCancelConfirm}
+                    centered
+                    okText="ยืนยัน"
+                    cancelText="ยกเลิก"
+                    okButtonProps={{
+                        style: { backgroundColor: 'red', borderColor: 'red', color: '#fff' },
+                    }}
+                    cancelButtonProps={{
+                        style: { color: '#ff4d4f', borderColor: '#ff4d4f' },
+                    }}
+                >
+                    <Box textAlign="center" py={3}>
+                        <Typography variant="body1" display="flex" justifyContent="center" alignItems="center">
+                            <CheckOutlined style={{ marginRight: 8, color: '#52c41a', fontSize: '24px' }} />
+                            คุณแน่ใจหรือไม่ว่าต้องการยืนยันการชำระเงิน?
+                        </Typography>
+                    </Box>
+                </Modal>
             </Modal>
+
         </div>
     );
 };

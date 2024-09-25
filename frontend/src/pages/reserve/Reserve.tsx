@@ -95,15 +95,15 @@ const Reserve: React.FC = () => {
 
   //handleสำหรับการคลิ๊กที่ล็อค
   const handleLockClick = (lockId: string, status: string) => {
-    if (status !== 'ว่าง') return; //หากไม่ว่างจะกดไม่ได้
+    if (status !== 'ว่าง') return; //หากไม่ว่างจะกดแล้วจะไม่นับ
 
     const selectedLock = locks.find((lock) => lock.Id === lockId);
     if (!selectedLock) return;
 
     setSelectedLocks((prev) =>
       prev.includes(selectedLock)
-        ? prev.filter((lock) => lock.Id !== lockId)
-        : [...prev, selectedLock]
+        ? prev.filter((lock) => lock.Id !== lockId) //เอาออก
+        : [...prev, selectedLock] //เพิ่มเข้า
     );
   };
 

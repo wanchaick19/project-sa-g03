@@ -53,7 +53,6 @@ function App() {
           <Route path="/locks" element={<Locks />} />
           <Route path="/shop_profile" element={<ShopProfile />} />
           <Route path="/edit-profile-shop" element={<EditProfileShop />} />
-          
         </Routes>
       )}
     </>

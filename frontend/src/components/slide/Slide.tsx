@@ -1,51 +1,43 @@
+import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import { Link } from 'react-router-dom'; 
-import './Slide.css'; 
+import './Slide.css'; // Import the CSS file
 
 function Slide() {
   return (
     <div className="carousel-container">
       <Carousel className="carousel">
         <Carousel.Item interval={1000}>
-          <Link to="/reserve"> 
-            <img 
-              id="pic"
-              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-              alt="First slide"
-            />
-            <Carousel.Caption>
-              <h3>จองล็อคขายสินค้า</h3>
-              <p>คลิ๊กเลย</p>
-            </Carousel.Caption>
-          </Link>
+          <img
+            id="pic"
+            src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
+            alt="First slide"
+          />
+          <Carousel.Caption>
+            <h3>โซนของใช้</h3>
+            <p>มีของใช้หลากหลายเหมาะกับทุกเทศกาล</p>
+          </Carousel.Caption>
         </Carousel.Item>
-
         <Carousel.Item interval={500}>
-          <Link to="/map">
-            <img
-              id="pic"
-              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-              alt="Second slide"
-            />
-            <Carousel.Caption>
-              <h3>ดูร้านค้าทั้งหมดในตลาด</h3>
-              <p>คลิ๊กเลย</p>
-            </Carousel.Caption>
-          </Link>
+          <img
+            id="pic"
+            src="https://edtprod1.edtguide.com/edtguide/assets/SAVEONE-GO-2.jpg"
+            alt="Second slide"
+          />
+          <Carousel.Caption>
+            <h3>โซนอาหาร</h3>
+            <p>มีของกินมากมายให้เลือกช็อป</p>
+          </Carousel.Caption>
         </Carousel.Item>
-
         <Carousel.Item>
-          <Link to="/review">
-            <img
-              id="pic"
-              src="https://tatapi.tourismthailand.org/tatfs/Image/CustomPOI/Picture/P03018129_1.jpeg"
-              alt="Third slide"
-            />
-            <Carousel.Caption>
-              <h3>ดูรีวิวร้านค้าของตลาดทั้งหมด</h3>
-              <p>คลิ๊กเลย</p>
-            </Carousel.Caption>
-          </Link>
+          <img
+            id="pic"
+            src="https://edtprod1.edtguide.com/edtguide/assets/DSC09277_2023-11-02-105603_jocu.jpg"
+            alt="Third slide"
+          />
+          <Carousel.Caption>
+            <h3>โซนที่นั่ง</h3>
+            <p>มีทีา่นั่งรองรับมากมาย</p>
+          </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
     </div>
