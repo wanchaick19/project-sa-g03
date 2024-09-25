@@ -105,7 +105,10 @@ const Registershop = () => {
                     <Form.Item
                       label="เลขบัตรประจำตัวประชาชน"
                       name="national_id"
-                      rules={[{ required: true, message: 'กรุณากรอกเลขบัตรประจำตัวประชาชน' }]}
+                      rules={[{ required: true, message: 'กรุณากรอกเลขบัตรประจำตัวประชาชน' },
+                        { pattern: /^\d{13}$/, message: "กรุณากรอกเลขบัตรประจำตัวให้ครบ 13 หลัก" }
+                      ]}
+                      
                     >
                       <Input />
                     </Form.Item>

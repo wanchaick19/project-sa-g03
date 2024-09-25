@@ -124,13 +124,17 @@ function SignUpPages() {
 
                 <Row gutter={[16, 0]}>
                   <Col xs={12}>
-                    <Form.Item
-                      label="เบอร์"
-                      name="tel"
-                      rules={[{ required: true, message: "กรุณากรอกเบอร์โทรศัพท์ !" }]}
-                    >
-                      <Input />
-                    </Form.Item>
+                  <Form.Item
+                        label="เบอร์"
+                        name="tel"
+                        rules={[
+                          { required: true, message: "กรุณากรอกเบอร์โทรศัพท์!" },
+                          { pattern: /^\d{10}$/, message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ 10 หลัก" }
+                        ]}
+                      >
+                        <Input/>
+                      </Form.Item>
+
                   </Col>
                   <Col xs={12}>
                     <Form.Item

@@ -469,7 +469,7 @@ reserve := []entity.Reserve{
 		},
 		{
 		Score: 4.5, Description: "รสชาติดีมาก", DATETIME: time.Now(),
-		ShopID: 2 , UserID:31,
+		ShopID: 2 , UserID: 3,
 		},
 		{
 		Score: 3, Description: "รอนานนิดหน่อยแต่อร่อย", DATETIME: time.Now(),
@@ -492,69 +492,70 @@ reserve := []entity.Reserve{
 		ShopID: 4 , UserID: 8,
 		},
 		{
-		Score: 5, Description: "สวยมาก บริการดี", DATETIME: time.Now(),
+		Score: 5, Description: "กระเป๋าสวยมากกก", DATETIME: time.Now(),
 		ShopID: 5 , UserID: 9,
 		},
 		{
-		Score: 4.5, Description: "ดีค่ะ ช่างมือเบามาก", DATETIME: time.Now(),
+		Score: 5, Description: "สวยมาก ราคาก็ดี", DATETIME: time.Now(),
 		ShopID: 5 , UserID: 10,
 		},
 		{
-		Score: 5, Description: "ตัดสวยมาก ถูกใจ", DATETIME: time.Now(),
+		Score: 5, Description: "มือสองแต่สภาพดีมาก", DATETIME: time.Now(),
 		ShopID: 6 , UserID: 11,
 		},
 		{
-		Score: 4.5, Description: "บริการดีมาก", DATETIME: time.Now(),
+		Score: 4.5, Description: "สวยมากค่าาา", DATETIME: time.Now(),
 		ShopID: 6 , UserID: 12,
 		},
 		{
-		Score: 5, Description: "ถูกใจ สวยมาก", DATETIME: time.Now(),
-		ShopID: 7 , UserID: 1,
-		},
-		{
-		Score: 4.5, Description: "ชอบมาก บริการดี", DATETIME: time.Now(),
-		ShopID: 7 , UserID: 2,
-		},
-		{
-		Score: 5, Description: "นวดดีมาก ถูกใจ", DATETIME: time.Now(),
-		ShopID: 8 , UserID: 3,
-		},
-		{
-		Score: 4.5, Description: "ดีค่ะ ชอบมาก", DATETIME: time.Now(),
-		ShopID: 8 , UserID: 4,
-		},
-		{
-		Score: 5, Description: "กระเป๋าสวยมากกก", DATETIME: time.Now(),
-		ShopID: 9 , UserID: 5,
-		},
-		{
-		Score: 5, Description: "สวยมาก ราคาก็ดี", DATETIME: time.Now(),
-		ShopID: 9 , UserID: 6,
-		},
-		{
-		Score: 5, Description: "มือสองแต่สภาพดีมาก", DATETIME: time.Now(),
-		ShopID: 10 , UserID: 7,
-		},
-		{
-		Score: 4.5, Description: "สวยมากค่าาา", DATETIME: time.Now(),
-		ShopID: 10 , UserID: 8,
-		},
-			{
 		Score: 5, Description: "สินค้าดีมากกกก", DATETIME: time.Now(),
-		ShopID:11 , UserID: 9,
+		ShopID: 7, UserID: 1,
 		},
 		{
 		Score: 4.5, Description: "ถูกใจมากกกกกก", DATETIME: time.Now(),
-		ShopID: 11 , UserID: 10,
+		ShopID: 7 , UserID: 2,
 		},
-			{
+		{
 		Score: 5, Description: "ลวดลายถูกใจมากค่ะ", DATETIME: time.Now(),
-		ShopID: 12 , UserID: 11,
+		ShopID: 8 , UserID: 3,
 		},
 		{
 		Score: 4.5, Description: "สวยมากก", DATETIME: time.Now(),
+		ShopID: 8 , UserID: 4,
+		},
+		{
+		Score: 5, Description: "สวยมาก บริการดี", DATETIME: time.Now(),
+		ShopID: 9 , UserID: 5,
+		},
+		{
+		Score: 4.5, Description: "ดีค่ะ ช่างมือเบามาก", DATETIME: time.Now(),
+		ShopID: 9 , UserID: 6,
+		},
+		{
+		Score: 5, Description: "ตัดสวยมาก ถูกใจ", DATETIME: time.Now(),
+		ShopID: 10 , UserID: 7,
+		},
+		{
+		Score: 4.5, Description: "บริการดีมาก", DATETIME: time.Now(),
+		ShopID: 10 , UserID: 8,
+		},
+		{
+		Score: 5, Description: "ถูกใจ สวยมาก", DATETIME: time.Now(),
+		ShopID: 11 , UserID: 9,
+		},
+		{
+		Score: 4.5, Description: "ชอบมาก บริการดี", DATETIME: time.Now(),
+		ShopID: 11 , UserID: 10,
+		},
+		{
+		Score: 5, Description: "นวดดีมาก ถูกใจ", DATETIME: time.Now(),
+		ShopID: 12 , UserID: 11,
+		},
+		{
+		Score: 4.5, Description: "ดีค่ะ ชอบมาก", DATETIME: time.Now(),
 		ShopID: 12 , UserID: 12,
 		},
+
 	}
 
 	for _, review := range reviews {
